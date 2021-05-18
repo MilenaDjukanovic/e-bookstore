@@ -1,0 +1,23 @@
+### Spring Configuration ###
+spring:
+  datasource:
+    url: jdbc:h2:file:./dev_data/ebookstore
+    username: root
+    password: root
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+### eBookstore Configuration
+ebookstore:
+  security:
+    jwt:
+      secret: 27DSeTRClfwAP+m1fipeneGfFdWtVZny
+      issuer: ebookstore.com

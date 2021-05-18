@@ -1,0 +1,11 @@
+{
+  "properties": [{
+      "name": "ebookstore.security.jwt.secret",
+      "type": "java.lang.String",
+      "description": "Secret for JWT tokens."
+    },{
+      "name": "ebookstore.security.jwt.issuer",
+      "type": "java.lang.String",
+      "description": "Issuer for JWT tokens."
+    }]
+}

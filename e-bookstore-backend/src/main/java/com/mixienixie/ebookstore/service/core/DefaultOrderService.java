@@ -6,7 +6,11 @@ import com.mixienixie.ebookstore.repo.core.entity.OrderDto;
 import com.mixienixie.ebookstore.repo.core.entity.OrderEntity;
 import com.mixienixie.ebookstore.service.OrderService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * {@inheritDoc}
@@ -37,5 +41,12 @@ public class DefaultOrderService implements OrderService {
         orderEntity = this.orderRepository.save(orderEntity);
 
         return this.orderViewMapper.toDto(orderEntity);
+    }
+
+    @Override
+    public Page<OrderDto> findAll(Pageable pageable) {
+        Objects.requireNonNull(pageable);
+
+        return this.orderRepository.findAll(pageable).map(this.orderViewMapper::toDto);
     }
 }

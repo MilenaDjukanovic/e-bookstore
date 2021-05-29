@@ -6,7 +6,11 @@ import com.mixienixie.ebookstore.repo.core.entity.CategoryDto;
 import com.mixienixie.ebookstore.repo.core.entity.CategoryEntity;
 import com.mixienixie.ebookstore.service.CategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * {@inheritDoc}
@@ -37,5 +41,12 @@ public class DefaultCategoryService implements CategoryService {
         categoryEntity = this.categoryRepository.save(categoryEntity);
 
         return this.categoryViewMapper.toDto(categoryEntity);
+    }
+
+    @Override
+    public Page<CategoryDto> findAll(Pageable pageable) {
+        Objects.requireNonNull(pageable);
+
+        return this.categoryRepository.findAll(pageable).map(this.categoryViewMapper::toDto);
     }
 }

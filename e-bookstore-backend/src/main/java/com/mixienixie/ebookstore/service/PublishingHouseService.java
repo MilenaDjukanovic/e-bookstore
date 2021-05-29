@@ -2,6 +2,8 @@ package com.mixienixie.ebookstore.service;
 
 import com.mixienixie.ebookstore.core.requests.CreatePublishingHouseRequest;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service for Publishing house related operations
@@ -16,4 +18,6 @@ public interface PublishingHouseService {
      * @return PublishingHouse object for viewing if successful
      */
     PublishingHouseDto create(CreatePublishingHouseRequest createPublishingHouseRequest);
+
+    Page<PublishingHouseDto> findAll(Pageable pageable);
 }

@@ -2,6 +2,8 @@ package com.mixienixie.ebookstore.service;
 
 import com.mixienixie.ebookstore.core.requests.CreateOrderRequest;
 import com.mixienixie.ebookstore.repo.core.entity.OrderDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service for Order related operations
@@ -16,4 +18,6 @@ public interface OrderService {
      * @return Order object for viewing if successful
      */
     OrderDto create(CreateOrderRequest createOrderRequest);
+
+    Page<OrderDto> findAll(Pageable pageable);
 }

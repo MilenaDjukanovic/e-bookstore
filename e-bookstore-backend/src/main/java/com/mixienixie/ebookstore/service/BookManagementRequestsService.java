@@ -2,6 +2,8 @@ package com.mixienixie.ebookstore.service;
 
 import com.mixienixie.ebookstore.core.requests.CreateBookManagementRequestsRequest;
 import com.mixienixie.ebookstore.repo.core.entity.BookManagementRequestsDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service for BookManagementRequests related operations
@@ -16,4 +18,7 @@ public interface BookManagementRequestsService {
      * @return Book management requests object for viewing if successful
      */
     BookManagementRequestsDto create(CreateBookManagementRequestsRequest bookManagementRequestsRequest);
+
+    Page<BookManagementRequestsDto> findAll(Pageable pageable);
+
 }

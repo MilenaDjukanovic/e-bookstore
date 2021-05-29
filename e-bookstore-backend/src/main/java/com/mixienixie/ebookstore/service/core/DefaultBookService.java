@@ -6,7 +6,11 @@ import com.mixienixie.ebookstore.repo.core.entity.BookDto;
 import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
 import com.mixienixie.ebookstore.service.BookService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * {@inheritDoc}
@@ -37,5 +41,12 @@ public class DefaultBookService implements BookService {
         bookEntity = this.bookRepository.save(bookEntity);
 
         return this.bookViewMapper.toDto(bookEntity);
+    }
+
+    @Override
+    public Page<BookDto> findAll(Pageable pageable) {
+        Objects.requireNonNull(pageable);
+
+        return this.bookRepository.findAll(pageable).map(this.bookViewMapper::toDto);
     }
 }

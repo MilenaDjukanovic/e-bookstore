@@ -6,7 +6,11 @@ import com.mixienixie.ebookstore.repo.core.entity.ReviewsDto;
 import com.mixienixie.ebookstore.repo.core.entity.ReviewsEntity;
 import com.mixienixie.ebookstore.service.ReviewsService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * {@inheritDoc}
@@ -37,5 +41,12 @@ public class DefaultReviewsService implements ReviewsService {
         reviewsEntity = this.reviewsRepository.save(reviewsEntity);
 
         return this.reviewsViewMapper.toDto(reviewsEntity);
+    }
+
+    @Override
+    public Page<ReviewsDto> findAll(Pageable pageable) {
+        Objects.requireNonNull(pageable);
+
+        return this.reviewsRepository.findAll(pageable).map(this.reviewsViewMapper::toDto);
     }
 }

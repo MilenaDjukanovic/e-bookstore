@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author mdjukanovic
  */
 public interface AuthorRepository extends JpaRepository<AuthorEntity, Long> {
+    
 
     /**
      * Finds authors by first name

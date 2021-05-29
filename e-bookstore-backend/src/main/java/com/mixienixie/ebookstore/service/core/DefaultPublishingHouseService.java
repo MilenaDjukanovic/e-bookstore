@@ -6,7 +6,11 @@ import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseDto;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
 import com.mixienixie.ebookstore.service.PublishingHouseService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * {@inheritDoc}
@@ -37,5 +41,12 @@ public class DefaultPublishingHouseService implements PublishingHouseService {
         publishingHouseEntity = this.publishingHouseRepository.save(publishingHouseEntity);
 
         return this.publishingHouseViewMapper.toDto(publishingHouseEntity);
+    }
+
+    @Override
+    public Page<PublishingHouseDto> findAll(Pageable pageable) {
+        Objects.requireNonNull(pageable);
+
+        return this.publishingHouseRepository.findAll(pageable).map(this.publishingHouseViewMapper::toDto);
     }
 }

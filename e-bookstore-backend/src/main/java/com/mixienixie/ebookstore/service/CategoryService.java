@@ -2,6 +2,8 @@ package com.mixienixie.ebookstore.service;
 
 import com.mixienixie.ebookstore.core.requests.CreateCategoryRequest;
 import com.mixienixie.ebookstore.repo.core.entity.CategoryDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service for Category related operations
@@ -16,4 +18,6 @@ public interface CategoryService {
      * @return Category object for viewing if successful
      */
     CategoryDto create(CreateCategoryRequest createCategoryRequest);
+
+    Page<CategoryDto> findAll(Pageable pageable);
 }

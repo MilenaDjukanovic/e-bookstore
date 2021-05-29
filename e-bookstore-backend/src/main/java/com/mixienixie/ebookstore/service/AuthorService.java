@@ -2,6 +2,8 @@ package com.mixienixie.ebookstore.service;
 
 import com.mixienixie.ebookstore.core.requests.CreateAuthorRequest;
 import com.mixienixie.ebookstore.repo.core.entity.AuthorDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service for Author related operations
@@ -16,4 +18,6 @@ public interface AuthorService {
      * @return Author object for viewing if successful
      */
     AuthorDto create(CreateAuthorRequest createAuthorRequest);
+
+    Page<AuthorDto> findAll(Pageable pageable);
 }

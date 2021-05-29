@@ -1,0 +1,52 @@
+<div class="card-wrapper" fxLayout="column" fxLayoutAlign="center center">
+  <mat-card class="card">
+    <div class="header">
+      <mat-card-title>E-bookstore</mat-card-title>
+    </div>
+    <div class="card-content">
+      <mat-card-content class="content">
+        <form [formGroup]="this.registerForm" (ngSubmit)="this.onSubmit()">
+          <h2>Register</h2>
+          <p>
+            <mat-form-field class="form-field">
+              <input type="text" matInput placeholder="firstName" formControlName="firstName">
+              <mat-error>
+                Firstname not valid
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form-field">
+              <input type="text" matInput placeholder="lastName" formControlName="lastName">
+              <mat-error>
+                Lastname not valid
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form-field">
+              <input type="email" matInput placeholder="email" formControlName="email">
+              <mat-error>
+                Email not valid
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form-field">
+              <input type="password" matInput placeholder="password" formControlName="password">
+              <mat-error>
+                Password not valid
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form-field">
+              <input type="password" matInput placeholder="rePassword" formControlName="rePassword">
+              <mat-error>
+                Password not valid
+              </mat-error>
+            </mat-form-field>
+          <mat-error *ngIf="this.error">
+            {{this.error}}
+          </mat-error>
+          <div class="actions" fxLayout="row" fxLayoutAlign="space-between stretch" >
+            <button mat-flat-button color="primary" class="login-button" type="submit">Register</button>
+            <a class="register-link" (click)="this.redirectToLogin()">Back to login</a>
+          </div>
+        </form>
+      </mat-card-content>
+    </div>
+  </mat-card>
+</div>

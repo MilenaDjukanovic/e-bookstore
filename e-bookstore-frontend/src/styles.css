@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.demo-full-width {
+  width: 100%;
+}
+.margin-top {
+  margin-top: 15px;
+}
+.margin-left {
+  margin-left: 10px;
+}
+.radio-label-padding {
+  padding-right: 10px;
+  color: grey;
+}
+.form {
+  margin-left: 10px;
+  width: 600px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px 5px grey;
+  padding: 20px;
+  margin-top: 10px;
+}

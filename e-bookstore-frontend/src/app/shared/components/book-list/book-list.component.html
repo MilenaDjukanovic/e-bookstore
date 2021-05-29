@@ -1,0 +1,16 @@
+<div fxLayout="column" fxLayoutAlign="space-around " class="wrapper">
+  <div class="books-wrapper" fxLayout="row" fxLayoutAlign="center center">
+
+    <div *ngFor="let book of this.books">
+      <app-book-card [book]="book"></app-book-card>
+    </div>
+
+  </div>
+  <mat-paginator class="paginator"
+                 [length]="this.totalBooks"
+                 [pageSize]="this.pageSize"
+                 [showFirstLastButtons]="true"
+                 (page)="this.onPageChanged($event)">
+  </mat-paginator>
+</div>
+

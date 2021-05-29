@@ -1,0 +1,5 @@
+<app-book-list [books]="this.books"
+               [totalBooks]="this.numberOfItems"
+               [pageSize]="this.pageSize"
+                (pageChangedEvent)="this.loadBooks($event)"
+></app-book-list>

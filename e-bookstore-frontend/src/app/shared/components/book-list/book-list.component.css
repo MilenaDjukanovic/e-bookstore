@@ -1,0 +1,14 @@
+.wrapper{
+  min-height: 100vh;
+}
+
+.books-wrapper{
+  flex-wrap: wrap;
+}
+
+.paginator {
+  bottom: 0;
+  position: sticky;
+  margin-top: auto;
+}
+

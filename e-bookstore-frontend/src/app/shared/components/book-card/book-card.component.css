@@ -1,0 +1,133 @@
+.container {
+  border-radius: 5px;
+  margin: 3em;
+  max-width: 400px;
+  min-width: 250px;
+}
+
+.content{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}
+
+.book-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  float: left;
+  padding: 10px;
+}
+
+.title {
+  font-family: serif;
+  font-size: 34px;
+  margin: 0;
+}
+
+.hint-star {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5em;
+  color: gold;
+  width: 50%;
+}
+
+img{
+  padding-top: 10px;
+  width: 100px;
+  height: 100px;
+}
+
+mat-card-content > p {
+  font-family: serif;
+  font-size: 14px;
+}
+
+.quantity-buttons{
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.controls-button {
+  transform: translateY(0px);
+  transition: 0.3s linear;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  color: #eee;
+  padding: 0;
+  margin: 0;
+}
+
+.controls-button:hover {
+  transform: translateY(-4px);
+}
+
+.controls-button span {
+  font-family: 'Farsan', cursive;
+  transition: transform 0.3s;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1.1em;
+  margin: 0;
+}
+
+.controls-button .price, .shopping-cart {
+  background: #333;
+  border: 0;
+  margin: 0;
+}
+
+.controls-button .price {
+  transform: translateX(-10%);
+  padding-right: 15px;
+}
+
+.controls-button .shopping-cart {
+  transform: translateX(-100%);
+  position: absolute;
+  background: #333;
+  z-index: 1;
+  left: 0;
+  right: 0;
+}
+
+.controls-button .buy {
+  z-index: 3;
+  font-weight: bolder;
+}
+
+.controls-button:hover .price {
+  transform: translateX(-110%);
+}
+
+.controls-button:hover .shopping-cart {
+  transform: translateX(-0%);
+}
+
+.controls-button:focus .shopping-cart{
+  background-color: green;
+}
+
+.controls-button:focus .price{
+  background-color: green;
+}
+
+.quantity-control{
+  font-weight: bolder;
+  padding: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    max-width: 300px;
+  }
+}

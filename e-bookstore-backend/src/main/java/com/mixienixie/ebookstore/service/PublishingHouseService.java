@@ -2,6 +2,7 @@ package com.mixienixie.ebookstore.service;
 
 import com.mixienixie.ebookstore.core.requests.CreatePublishingHouseRequest;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseDto;
+import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,5 +20,17 @@ public interface PublishingHouseService {
      */
     PublishingHouseDto create(CreatePublishingHouseRequest createPublishingHouseRequest);
 
+    /**
+     * Finds all publishing houses based on passed Pageable object
+     * @param pageable Pageable
+     * @return Pageable of publishing houses
+     */
     Page<PublishingHouseDto> findAll(Pageable pageable);
+
+    /**
+     * Finds the publishing house based on the passed representative registration key
+     * @param representativeRegistrationKey representativeRegistrationKey of the publishing house
+     * @return PublishingHouse object for representativeRegistrationKey
+     */
+    PublishingHouseEntity findPublishingHouseEntityByRepresentativeRegistrationKey(String representativeRegistrationKey);
 }

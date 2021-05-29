@@ -20,5 +20,5 @@ public class PublishingHouseDto {
     private String email;
 
     /** TIN **/
-    private String TIN;
+    private String tin;
 }

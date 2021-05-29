@@ -1,9 +1,10 @@
 package com.mixienixie.ebookstore.rest.authority.controller;
 
 import com.mixienixie.ebookstore.authority.requests.AuthUserRequest;
+import com.mixienixie.ebookstore.authority.requests.CreateRepresentativeUserRequest;
 import com.mixienixie.ebookstore.authority.requests.CreateUserRequest;
 import com.mixienixie.ebookstore.repo.authority.entity.UserEntity;
-import com.mixienixie.ebookstore.repo.authority.entity.UserView;
+import com.mixienixie.ebookstore.repo.authority.entity.UserDto;
 import com.mixienixie.ebookstore.service.UserService;
 import com.mixienixie.ebookstore.service.authority.UserViewMapper;
 import com.mixienixie.ebookstore.service.security.JwtTokenUtil;
@@ -47,7 +48,7 @@ public class AuthController{
      * @return User if login is successful, otherwise returns Unauthorized status
      */
     @PostMapping("login")
-    public ResponseEntity<UserView> login(@RequestBody @Valid AuthUserRequest authUserRequest){
+    public ResponseEntity<UserDto> login(@RequestBody @Valid AuthUserRequest authUserRequest){
         try{
             Authentication authentication = this.authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(authUserRequest.getUsername(), authUserRequest.getPassword()));
@@ -66,11 +67,21 @@ public class AuthController{
      * Handles the register user request
      * @param createUserRequest User registration details
      *
-     * @return User if registration is successful, otherwise error message
+     * @return User if registration is successful, otherwise error is thrown
      */
-    @PostMapping("register")
-    public UserView register(@RequestBody @Valid CreateUserRequest createUserRequest) {
-        return this.userService.create(createUserRequest);
+    @PostMapping("register/user")
+    public UserDto register(@RequestBody @Valid CreateUserRequest createUserRequest) {
+        return this.userService.createUser(createUserRequest);
+    }
+
+    /**
+     * Handles the register representative request
+     * @param createRepresentativeUserRequest Representative User registration details
+     * @return User if registration is successful, otherwise error is thrown
+     */
+    @PostMapping("register/representative")
+    public UserDto register(@RequestBody @Valid CreateRepresentativeUserRequest createRepresentativeUserRequest){
+        return this.userService.createRepresentativeUser(createRepresentativeUserRequest);
     }
 
 }

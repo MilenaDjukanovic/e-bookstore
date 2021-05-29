@@ -29,8 +29,13 @@ public class PublishingHouseEntity {
     private String email;
 
     /** TIN **/
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Getter @Setter
-    private String TIN;
+    private String tin;
+
+
+    @Column(nullable = false, unique = true)
+    @Getter @Setter
+    private String representativeRegistrationKey;
 
 }

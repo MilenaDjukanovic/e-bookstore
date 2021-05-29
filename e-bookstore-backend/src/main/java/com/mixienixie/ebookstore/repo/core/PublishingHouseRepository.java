@@ -31,8 +31,15 @@ public interface PublishingHouseRepository extends JpaRepository<PublishingHouse
 
     /**
      * Finds publishing house by TIN
-     * @param TIN TIN of the publishing house
+     * @param tin TIN of the publishing house
      * @return optional publishing house
      */
-    Optional<PublishingHouseEntity> findPublishingHouseEntityByTIN(String TIN);
+    Optional<PublishingHouseEntity> findPublishingHouseEntityByTin(String tin);
+
+    /**
+     * Finds the publishing house by their Representative Registration Key
+     * @param representativeRegistrationKey representative registration key
+     * @return optional publishing house
+     */
+    Optional<PublishingHouseEntity> findPublishingHouseEntityByRepresentativeRegistrationKey(String representativeRegistrationKey);
 }

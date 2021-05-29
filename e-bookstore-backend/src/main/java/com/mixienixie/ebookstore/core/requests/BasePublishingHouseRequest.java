@@ -22,5 +22,9 @@ public abstract class BasePublishingHouseRequest {
 
     /** TIN **/
     @NotBlank
-    private String TIN;
+    private String tin;
+
+    /** Representative Registration Key */
+    @NotBlank
+    private String representativeRegistrationKey;
 }

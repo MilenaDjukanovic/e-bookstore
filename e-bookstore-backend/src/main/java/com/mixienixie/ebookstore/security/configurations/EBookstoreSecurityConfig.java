@@ -56,7 +56,6 @@ public class EBookstoreSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         // Disable CORS and disable CSRF
-        httpSecurity.cors().and().csrf().disable();
         httpSecurity = httpSecurity.cors().disable();
         httpSecurity = httpSecurity.csrf().disable();
 
@@ -90,19 +89,19 @@ public class EBookstoreSecurityConfig extends WebSecurityConfigurerAdapter{
         );
     }
 
-    @Bean
-    public CorsFilter corsFilter(){
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-
-        source.registerCorsConfiguration("/**", configuration);
-        return new CorsFilter(source);
-    }
+//    @Bean
+//    public CorsFilter corsFilter(){
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration configuration = new CorsConfiguration();
+//
+//        configuration.setAllowCredentials(true);
+//        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedHeader("*");
+//        configuration.addAllowedMethod("*");
+//
+//        source.registerCorsConfiguration("/**", configuration);
+//        return new CorsFilter(source);
+//    }
 
     /**
      * Exposes the password encoder as a bean

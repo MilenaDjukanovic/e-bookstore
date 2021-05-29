@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
 
   private returnUrl!: string;
-  private error!: string;
+  public error!: string;
 
   private submitted = false;
 
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate([this.returnUrl]);
       },
         error => {
-          this.error = error;
+          this.error = error['statusText'];
         }
     )
   }

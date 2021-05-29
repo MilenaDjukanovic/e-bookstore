@@ -5,28 +5,33 @@
     </div>
     <div class="card-content">
       <mat-card-content class="content">
-        <form [formGroup]="this.loginForm" (ngSubmit)="this.onSubmit()">
+        <form (ngSubmit)="this.onSubmit()" [formGroup]="this.loginForm">
           <h2>Log in</h2>
           <p>
             <mat-form-field class="form-field">
-              <input type="email" matInput placeholder="email" formControlName="email">
+              <input formControlName="email" matInput placeholder="email" type="email">
               <mat-error>
                 Email not valid
               </mat-error>
             </mat-form-field>
           </p>
           <p>
-          <mat-form-field class="form-field">
-            <input type="password" matInput placeholder="password" formControlName="password">
-            <mat-error>
-              Password not valid
-            </mat-error>
-          </mat-form-field>
+            <mat-form-field class="form-field">
+              <input formControlName="password" matInput placeholder="password" type="password">
+              <mat-error>
+                Password not valid
+              </mat-error>
+            </mat-form-field>
           </p>
-        <div class="actions">
-          <button mat-flat-button color="primary" class="login-button" type="submit">Login</button>
-          <a class="register-link" (click)="this.redirectToRegister()">Don't have an account yet? Register</a>
-        </div>
+
+          <mat-error *ngIf="this.error">
+            {{this.error}}
+          </mat-error>
+
+          <div class="actions">
+            <button class="login-button" color="primary" mat-flat-button type="submit">Login</button>
+            <a (click)="this.redirectToRegister()" class="register-link">Don't have an account yet? Register</a>
+          </div>
         </form>
       </mat-card-content>
     </div>

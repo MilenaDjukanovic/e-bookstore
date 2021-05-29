@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {AuthUser, CreateUser} from "../../shared/model/user.model";
+import {CreateUser} from "../../shared/model/user.model";
 import {first} from "rxjs/operators";
 import {AuthService} from "../../services/auth.service";
 
@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['login']);
       },
       error => {
-        this.error = error;
+        this.error = error['statusText'];
       }
     )
   }

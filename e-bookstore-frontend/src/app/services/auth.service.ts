@@ -10,7 +10,12 @@ import {map} from "rxjs/operators";
 })
 export class AuthService {
 
-  private baseURL = 'spring';
+  private readonly BASE_URL = 'spring/api/public/auth';
+
+  private readonly API_REGISTER_USER = '/register/user';
+  private readonly API_REGISTER_REPRESENTATIVE = '/register/representative';
+  private readonly API_LOGIN = '/login';
+
   private readonly LOCAL_STORAGE_USER: string = 'currentUser';
   private readonly LOCAL_STORAGE_USER_TOKEN: string = 'userToken';
 
@@ -38,12 +43,12 @@ export class AuthService {
   }
 
   public register(createUser: CreateUser): Observable<IUser> {
-    const url = this.baseURL + "/api/public/auth/register";
+    const url = this.BASE_URL + this.API_REGISTER_USER;
     return this.httpClient.post<IUser>(url, createUser);
   }
 
   public login(authUser: AuthUser): Observable<IUser> {
-    const url = this.baseURL + "/api/public/auth/login";
+    const url = this.BASE_URL + this.API_LOGIN;
 
     return this.httpClient.post<IUser>(url, authUser, {observe: 'response'}).pipe(
       map(response => {

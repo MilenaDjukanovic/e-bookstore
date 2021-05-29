@@ -16,7 +16,7 @@ import javax.persistence.Table;
 /**
  * Role Entity
  *
- * @author nkurcubic
+ * @author ndjordjieski
  */
 @Entity
 @AllArgsConstructor @NoArgsConstructor

@@ -3,6 +3,8 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import { ErrorInterceptor } from "./interceptors/error.interceptor";
+import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import {LoginComponent} from './pages/login/login.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCardModule} from "@angular/material/card";
@@ -15,7 +17,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { BasicLayoutComponent } from './layout/basic-layout/basic-layout.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { RegisterComponent } from './pages/register/register.component';
-import {HttpClientModule} from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -73,7 +75,10 @@ import { CreateBookRequestComponent } from './pages/create-book-request/create-b
         MatTableModule,
         MatSelectModule
     ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     InputComponent,

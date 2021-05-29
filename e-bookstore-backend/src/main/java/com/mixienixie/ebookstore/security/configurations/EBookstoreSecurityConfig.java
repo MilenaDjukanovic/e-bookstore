@@ -16,6 +16,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -53,6 +56,7 @@ public class EBookstoreSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         // Disable CORS and disable CSRF
+        httpSecurity.cors().and().csrf().disable();
         httpSecurity = httpSecurity.cors().disable();
         httpSecurity = httpSecurity.csrf().disable();
 
@@ -69,19 +73,35 @@ public class EBookstoreSecurityConfig extends WebSecurityConfigurerAdapter{
                 .and();
 
         httpSecurity.authorizeRequests()
-                // Our public endpoints
+                // Public endpoints
                 .antMatchers("/api/public/**").permitAll()
+
+                // Internal endpoints
                 .antMatchers(HttpMethod.GET, "/api/author/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/author/search").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/book/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/book/search").permitAll()
-                // Our private endpoints
+
                 .anyRequest().authenticated();
 
         httpSecurity.addFilterBefore(
                 jwtTokenFilter,
                 UsernamePasswordAuthenticationFilter.class
         );
+    }
+
+    @Bean
+    public CorsFilter corsFilter(){
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowCredentials(true);
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+
+        source.registerCorsConfiguration("/**", configuration);
+        return new CorsFilter(source);
     }
 
     /**

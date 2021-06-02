@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
 
@@ -24,6 +25,7 @@ import javax.validation.ValidationException;
  * @author ndjordjieski
  */
 @Service
+@Transactional
 @AllArgsConstructor
 public class DefaultUserService implements UserService{
 
@@ -59,12 +61,13 @@ public class DefaultUserService implements UserService{
      */
     @Override
     public UserDto createRepresentativeUser(CreateRepresentativeUserRequest createRepresentativeUserRequest){
-        // Create the base user
-        UserEntity userEntity = this.createBaseUser(createRepresentativeUserRequest);
-
+        // Get the publishing house for the representative key
         PublishingHouseEntity publishingHouseEntity =
                 this.publishingHouseService.findPublishingHouseEntityByRepresentativeRegistrationKey(
                         createRepresentativeUserRequest.getRepresentativeRegistrationKey());
+
+        // Create the base user
+        UserEntity userEntity = this.createBaseUser(createRepresentativeUserRequest);
 
         // Add the user to the representative role for the house
         RoleEntity role = this.roleService.getRepresentativeRoleForPublishingHouse(publishingHouseEntity);

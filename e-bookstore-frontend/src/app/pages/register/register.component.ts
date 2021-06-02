@@ -38,21 +38,21 @@ export class RegisterComponent implements OnInit {
     const rePassword = this.registerForm.controls.rePassword.value;
 
     if(password !== rePassword) {
-      this.error = "Passwords do not match! Please try again."
+      this.error = "Passwords do not match! Please try again.";
       return;
     }
     const firstName = this.registerForm.controls.firstName.value;
     const lastName = this.registerForm.controls.lastName.value;
     const email = this.registerForm.controls.email.value;
 
-    let user = new CreateUser(email, password, rePassword, firstName, lastName);
+    const user = new CreateUser(email, password, rePassword, firstName, lastName);
 
     this.authService.register(user).pipe(first()).subscribe(
       data => {
         this.router.navigate(['login']);
       },
       error => {
-        this.error = error['statusText'];
+        this.error = error;
       }
     )
   }

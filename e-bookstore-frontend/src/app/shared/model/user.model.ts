@@ -12,6 +12,10 @@ export interface ICreateUser extends IBaseUser {
   lastName: string;
 }
 
+export interface ICreateRepresentativeUser extends ICreateUser{
+  representativeRegistrationKey: string;
+}
+
 export class AuthUser implements IAuthUser {
   constructor(
     public username: string,
@@ -26,6 +30,17 @@ export class CreateUser implements ICreateUser {
     public rePassword: string,
     public firstName: string,
     public lastName: string
+  ){}
+}
+
+export class CreateRepresentativeUser implements ICreateRepresentativeUser{
+  constructor(
+    public username: string,
+    public password: string,
+    public rePassword: string,
+    public firstName: string,
+    public lastName: string,
+    public representativeRegistrationKey: string
   ){}
 }
 

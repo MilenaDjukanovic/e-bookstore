@@ -21,8 +21,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         location.reload();
       }
 
-      // #TODO check the structure of error, see if we should return status text or error.message/error.error.message
-      const errorMessage = error['statusText'];
+      const errorMessage = (error['error'] && error['error']['message']) ? error['error']['message'] : error['statusText'];
       return throwError(errorMessage);
     }));
   }

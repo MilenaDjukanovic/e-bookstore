@@ -76,7 +76,7 @@ public class DefaultPublishingHouseService implements PublishingHouseService {
         }
 
         return this.publishingHouseRepository.findPublishingHouseEntityByRepresentativeRegistrationKey(representativeRegistrationKey)
-                .orElseThrow(() -> new EntityNotFoundException("Could not find publishing house for representative " +
-                        "registration key: " + representativeRegistrationKey));
+                .orElseThrow(() -> new EntityNotFoundException("Could not find publishing house for provided representative " +
+                        "registration key"));
     }
 }

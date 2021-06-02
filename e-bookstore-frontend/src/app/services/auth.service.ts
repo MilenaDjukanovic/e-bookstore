@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {AuthUser, CreateUser, IUser} from "../shared/model/user.model";
+import { AuthUser, CreateRepresentativeUser, CreateUser, IUser } from "../shared/model/user.model";
 import {map} from "rxjs/operators";
 
 
@@ -45,6 +45,11 @@ export class AuthService {
   public register(createUser: CreateUser): Observable<IUser> {
     const url = this.BASE_URL + this.API_REGISTER_USER;
     return this.httpClient.post<IUser>(url, createUser);
+  }
+
+  public registerRepresentative(createRepresentativeUser: CreateRepresentativeUser): Observable<IUser>{
+    const url = this.BASE_URL + this.API_REGISTER_REPRESENTATIVE;
+    return this.httpClient.post<IUser>(url, createRepresentativeUser);
   }
 
   public login(authUser: AuthUser): Observable<IUser> {

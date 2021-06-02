@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {BasicLayoutComponent} from "./layout/basic-layout/basic-layout.component";
 import {LoginComponent} from "./pages/login/login.component";
+import { RegisterRepresentativeComponent } from "./pages/register-representative/register-representative.component";
 import {HeaderComponent} from "./shared/components/header/header.component";
 import {HomeComponent} from "./pages/home/home.component";
 import {RegisterComponent} from "./pages/register/register.component";
@@ -21,7 +22,8 @@ const routes: Routes = [
   {
     path: '', component: BasicLayoutComponent, children: [
       {path: 'login', component: LoginComponent},
-      {path: 'register', component: RegisterComponent}
+      {path: 'register', component: RegisterComponent},
+      {path: 'register-representative', component: RegisterRepresentativeComponent}
     ]
   },
   {path: '**', redirectTo: 'home'}

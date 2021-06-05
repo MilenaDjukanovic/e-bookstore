@@ -28,6 +28,8 @@ public interface RoleService{
     String SEPARATOR = "_";
     /** Role Prefix */
     String PREFIX = "ROLE_";
+    /** Prefix of the publishing hosue specific representative role */
+    String PREFIX_PUBLISHING_HOUSE_REPRESENTATIVE = PREFIX + ROLE_PUBLISHER_REPRESENTATIVE + SEPARATOR;
 
     /**
      * Creates the Representative Role for the publishing house
@@ -64,4 +66,18 @@ public interface RoleService{
      * @return UserEntity
      */
     UserEntity addUserToRole(Long userId, String roleName);
+
+    /**
+     * Gets the Publishing House Representative role for the provided user for his publishing house
+     * @param userId userId of user for which to get the role
+     * @return Publishing House Representative role of user for his publishing house
+     */
+    RoleEntity getPublishingHouseRepresentativeRoleForUser(Long userId);
+
+    /**
+     * Returns the TIN of the Publishing House for which the user is a Publishing House Representative
+     * @param userId id of user for which to return the TIN of publishing house
+     * @return TIN of publishing house
+     */
+    String getPublishingHouseTinForPublishingHouseRepresentative(Long userId);
 }

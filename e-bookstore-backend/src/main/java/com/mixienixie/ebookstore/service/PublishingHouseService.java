@@ -28,9 +28,23 @@ public interface PublishingHouseService {
     Page<PublishingHouseDto> findAll(Pageable pageable);
 
     /**
+     * Finds the Publishing House based on the passed id
+     * @param id id of publishing house to find
+     * @return PublishingHouseEntity for passed id
+     */
+    PublishingHouseEntity findById(Long id);
+
+    /**
      * Finds the publishing house based on the passed representative registration key
      * @param representativeRegistrationKey representativeRegistrationKey of the publishing house
-     * @return PublishingHouse object for representativeRegistrationKey
+     * @return PublishingHouseEntity for representativeRegistrationKey
      */
     PublishingHouseEntity findPublishingHouseEntityByRepresentativeRegistrationKey(String representativeRegistrationKey);
+
+    /**
+     * Finds the publishing house based on the passed TIN
+     * @param tin publishing house TIN
+     * @return PublishingHouseEntity for TIN
+     */
+    PublishingHouseEntity findByTin(String tin);
 }

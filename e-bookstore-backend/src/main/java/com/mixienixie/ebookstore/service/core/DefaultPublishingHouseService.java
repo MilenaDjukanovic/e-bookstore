@@ -71,10 +71,20 @@ public class DefaultPublishingHouseService implements PublishingHouseService {
     }
 
     /**
-     * Finds the publishing house based on the passed representative registration key
+     * Finds the Publishing House based on the passed id
      *
-     * @param representativeRegistrationKey representativeRegistrationKey of the publishing house
-     * @return PublishingHouse object for representativeRegistrationKey
+     * @param id id of publishing house to find
+     * @return PublishingHouseEntity for passed id
+     */
+    @Override
+    public PublishingHouseEntity findById(Long id){
+        Objects.requireNonNull(id);
+        return this.publishingHouseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find publishing house for id: " + id));
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public PublishingHouseEntity findPublishingHouseEntityByRepresentativeRegistrationKey(String representativeRegistrationKey){
@@ -85,5 +95,18 @@ public class DefaultPublishingHouseService implements PublishingHouseService {
         return this.publishingHouseRepository.findPublishingHouseEntityByRepresentativeRegistrationKey(representativeRegistrationKey)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find publishing house for provided representative " +
                         "registration key"));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PublishingHouseEntity findByTin(String tin){
+        if(StringUtils.isEmpty(tin)){
+            throw new ValidationException("TIN must not be null or empty");
+        }
+
+        return this.publishingHouseRepository.findByTin(tin)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find publishing house for provided tin"));
     }
 }

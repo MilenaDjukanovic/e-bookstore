@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
 import java.util.Objects;
 
@@ -61,6 +62,20 @@ public class DefaultUserService implements UserService{
      * {@inheritDoc}
      */
     @Override
+    public UserEntity save(UserEntity userEntity){
+        Objects.requireNonNull(userEntity);
+        Objects.requireNonNull(userEntity.getId());
+
+        this.userRepository.findById(userEntity.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Could not find user to update with id: " + userEntity.getId()));
+
+        return this.userRepository.save(userEntity);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UserDto createRepresentativeUser(CreateRepresentativeUserRequest createRepresentativeUserRequest){
         // Get the publishing house for the representative key
         PublishingHouseEntity publishingHouseEntity =
@@ -77,6 +92,17 @@ public class DefaultUserService implements UserService{
         this.roleService.addUserToRole(userEntity.getId(), RoleService.ROLE_PUBLISHER_REPRESENTATIVE);
 
         return this.userViewMapper.toDto(userEntity);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UserEntity findById(Long id){
+        Objects.requireNonNull(id);
+
+        return this.userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find user with id: " + id));
     }
 
     /**

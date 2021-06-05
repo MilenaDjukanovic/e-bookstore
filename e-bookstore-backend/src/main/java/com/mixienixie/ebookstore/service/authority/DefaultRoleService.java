@@ -1,17 +1,18 @@
 package com.mixienixie.ebookstore.service.authority;
 
 import com.mixienixie.ebookstore.repo.authority.RoleRepository;
-import com.mixienixie.ebookstore.repo.authority.UserRepository;
 import com.mixienixie.ebookstore.repo.authority.entity.RoleEntity;
 import com.mixienixie.ebookstore.repo.authority.entity.UserEntity;
-import com.mixienixie.ebookstore.repo.core.PublishingHouseRepository;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
+import com.mixienixie.ebookstore.service.PublishingHouseService;
 import com.mixienixie.ebookstore.service.RoleService;
+import com.mixienixie.ebookstore.service.UserService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
 import java.util.Objects;
 
 /**
@@ -26,9 +27,10 @@ public class DefaultRoleService implements RoleService{
     private final RoleRepository roleRepository;
 
     /** User Repository */
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    private final PublishingHouseRepository publishingHouseRepository;
+    /** Publishing House Service */
+    private final PublishingHouseService publishingHouseService;
 
     /**
      * {@inheritDoc}
@@ -40,9 +42,7 @@ public class DefaultRoleService implements RoleService{
 
         // Handle case where we just
         if(StringUtils.isEmpty(publishingHouse.getTin())){
-            PublishingHouseEntity finalPublishingHouse = publishingHouse;
-            publishingHouse = this.publishingHouseRepository.findById(publishingHouse.getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Publishing house with id: " + finalPublishingHouse.getId() + " not found!"));
+            publishingHouse = this.publishingHouseService.findById(publishingHouse.getId());
         }
 
         String roleName = this.getRepresentativeRoleNameForPublishingHouse(publishingHouse);
@@ -94,8 +94,7 @@ public class DefaultRoleService implements RoleService{
             roleName = PREFIX + roleName;
         }
 
-        UserEntity userEntity = this.userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User with id: " + userId + " not found!"));
+        UserEntity userEntity = this.userService.findById(userId);
 
         String finalRoleName = roleName;
         RoleEntity roleEntity = this.roleRepository.findByAuthority(roleName)
@@ -103,6 +102,29 @@ public class DefaultRoleService implements RoleService{
 
         userEntity.getAuthorities().add(roleEntity);
 
-        return this.userRepository.save(userEntity);
+        return this.userService.save(userEntity);
     }
+
+    @Override
+    public RoleEntity getPublishingHouseRepresentativeRoleForUser(Long userId){
+        Objects.requireNonNull(userId);
+
+        UserEntity userEntity = this.userService.findById(userId);
+
+        return this.getPublishingHouseRepresentativeRoleForUser(userEntity);
+    }
+
+    @Override
+    public String getPublishingHouseTinForPublishingHouseRepresentative(Long userId){
+        RoleEntity publishingHouseRepresentativeRole = this.getPublishingHouseRepresentativeRoleForUser(userId);
+        return StringUtils.substringAfter(publishingHouseRepresentativeRole.getAuthority(), PREFIX_PUBLISHING_HOUSE_REPRESENTATIVE);
+    }
+
+    private RoleEntity getPublishingHouseRepresentativeRoleForUser(UserEntity userEntity){
+        return userEntity.getAuthorities().stream()
+                .filter(roleEntity -> StringUtils.startsWith(roleEntity.getAuthority(), PREFIX_PUBLISHING_HOUSE_REPRESENTATIVE))
+                .findFirst()
+                .orElseThrow(() -> new ValidationException("User with id: " + userEntity.getId() + " is not a Publishing House Representative"));
+    }
+
 }

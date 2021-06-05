@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import { AuthUser, CreateRepresentativeUser, CreateUser, IUser } from "../shared/model/user.model";
+import { AuthUser, CreateRepresentativeUser, CreateUser, IUser } from "../../shared/model/user.model";
 import {map} from "rxjs/operators";
 
 

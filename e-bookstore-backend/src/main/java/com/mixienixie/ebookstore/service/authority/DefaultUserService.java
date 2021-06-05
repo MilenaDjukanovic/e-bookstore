@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
+import java.util.Objects;
 
 /**
  * {@inheritDoc}
@@ -84,6 +85,8 @@ public class DefaultUserService implements UserService{
      * @return UserEntity object for the created user
      */
     private UserEntity createBaseUser(CreateUserRequest createUserRequest){
+        Objects.requireNonNull(createUserRequest);
+
         if(this.userRepository.findByUsername(createUserRequest.getUsername()).isPresent()){
             throw new ValidationException("Username exists");
         }

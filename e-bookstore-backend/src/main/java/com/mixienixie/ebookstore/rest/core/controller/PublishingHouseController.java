@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController @RequestMapping("api/public")
+@RestController @RequestMapping("api/public/publishing-houses")
 @AllArgsConstructor
 public class PublishingHouseController {
 
     private final PublishingHouseService publishingHouseService;
 
-    @GetMapping("publishing-houses")
+    @GetMapping()
     public Page<PublishingHouseDto> findAll(Pageable pageable) {
         return this.publishingHouseService.findAll(pageable);
     }
 
-    @PostMapping("publishing-houses")
+    @PostMapping("create")
     public PublishingHouseDto create(@RequestBody @Valid CreatePublishingHouseRequest createPublishingHouseRequest) {
         return this.publishingHouseService.create(createPublishingHouseRequest);
     }

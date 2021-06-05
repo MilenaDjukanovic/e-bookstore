@@ -21,4 +21,7 @@ public class PublishingHouseDto {
 
     /** TIN **/
     private String tin;
+
+    /** Representative Registration Key */
+    private String representativeRegistrationKey;
 }

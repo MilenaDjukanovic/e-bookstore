@@ -1,0 +1,28 @@
+<div class="base-register-container" fxLayout="column" fxLayoutAlign="center center">
+  <mat-card class="card">
+    <div class="header">
+      <mat-card-title>E-bookstore</mat-card-title>
+    </div>
+    <div class="card-content">
+      <mat-card-content class="content">
+        <form (ngSubmit)="this.onFormSubmit()" [formGroup]="this.registrationForm">
+          <h2>Register</h2>
+          <mat-form-field *ngFor="let controlConfiguration of this.formConfiguration['controls']" class="form-field">
+            <input formControlName="{{controlConfiguration['controlName']}}" matInput
+                   placeholder="{{controlConfiguration['placeholder']}}" [type]="controlConfiguration['type']">
+            <mat-error>
+              {{controlConfiguration['error']}}
+            </mat-error>
+          </mat-form-field>
+          <mat-error *ngIf="this.error">
+            {{this.error}}
+          </mat-error>
+          <div class="actions" fxLayout="row" fxLayoutAlign="space-between stretch">
+            <button [disabled]="this.registrationForm.invalid" class="login-button" color="primary" mat-flat-button type="submit">Register</button>
+            <a *ngIf="this.formConfiguration['navigation']" (click)="this.redirect()" class="register-link">{{this.formConfiguration['navigation']['text']}}</a>
+          </div>
+        </form>
+      </mat-card-content>
+    </div>
+  </mat-card>
+</div>

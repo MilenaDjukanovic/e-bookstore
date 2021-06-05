@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {BookService} from "../../services/book.service";
+import {BookService} from "../../services/core/book.service";
 import {Book} from "../../shared/model/book.model";
 import {Pageable} from "../../shared/util/request.utils";
 

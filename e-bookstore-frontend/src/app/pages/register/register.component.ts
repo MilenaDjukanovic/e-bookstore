@@ -1,51 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {CreateUser} from "../../shared/model/user.model";
-import {first} from "rxjs/operators";
-import {AuthService} from "../../services/auth.service";
+import { Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { first } from "rxjs/operators";
+import { AuthService } from "../../services/authority/auth.service";
+import { CreateUser } from "../../shared/model/user.model";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit{
 
-  public registerForm!: FormGroup;
+  public formConfiguration!: any;
 
   public error!: string;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) {
+  constructor(private router: Router, private authService: AuthService){
 
   }
 
-  ngOnInit(): void {
-    this.registerForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-      rePassword: ['', Validators.required]
-    });
+  ngOnInit(): void{
+    this.initializeFormConfiguration();
   }
 
-  public onSubmit(): void {
-    if(this.registerForm.invalid) {
-      return;
-    }
-    const password = this.registerForm.controls.password.value;
-    const rePassword = this.registerForm.controls.rePassword.value;
+  public registerUser(event: any): void{
+    const user: CreateUser = event['values'];
 
-    if(password !== rePassword) {
+    if(user['password'] !== user['rePassword']){
       this.error = "Passwords do not match! Please try again.";
       return;
     }
-    const firstName = this.registerForm.controls.firstName.value;
-    const lastName = this.registerForm.controls.lastName.value;
-    const email = this.registerForm.controls.email.value;
-
-    const user = new CreateUser(email, password, rePassword, firstName, lastName);
 
     this.authService.register(user).pipe(first()).subscribe(
       data => {
@@ -57,7 +42,47 @@ export class RegisterComponent implements OnInit {
     )
   }
 
-  public redirectToLogin(): void {
+  public redirectToLogin(): void{
     this.router.navigate(['login']);
+  }
+
+  private initializeFormConfiguration(): void{
+    this.formConfiguration = {
+      controls: [{
+        controlName: 'firstName',
+        type: 'text',
+        placeholder: 'First Name',
+        validators: [Validators.required],
+        error: 'First Name not valid!'
+      }, {
+        controlName: 'lastName',
+        type: 'text',
+        placeholder: 'Last Name',
+        validators: [Validators.required],
+        error: 'Last Name not valid!'
+      }, {
+        controlName: 'username',
+        type: 'text',
+        placeholder: 'E-Mail',
+        validators: [Validators.required, Validators.email],
+        error: 'E-Mail not valid!'
+      }, {
+        controlName: 'password',
+        type: 'password',
+        placeholder: 'Password',
+        validators: [Validators.required],
+        error: 'Password not valid!'
+      }, {
+        controlName: 'rePassword',
+        type: 'password',
+        placeholder: 'Password',
+        validators: [Validators.required],
+        error: 'Password not valid!'
+      }],
+      navigation: {
+        text: 'Back to Login',
+        path: ['login']
+      }
+    }
   }
 }

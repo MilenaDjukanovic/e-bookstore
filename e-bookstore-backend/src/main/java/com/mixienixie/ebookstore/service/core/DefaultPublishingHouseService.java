@@ -43,6 +43,13 @@ public class DefaultPublishingHouseService implements PublishingHouseService {
      */
     @Override
     public PublishingHouseDto create(CreatePublishingHouseRequest createPublishingHouseRequest) {
+        Objects.requireNonNull(createPublishingHouseRequest);
+        Objects.requireNonNull(createPublishingHouseRequest.getTin());
+
+        if(this.publishingHouseRepository.findByTin(createPublishingHouseRequest.getTin()).isPresent()){
+            throw new ValidationException("Publishing house with tin: " + createPublishingHouseRequest.getTin() + " already exists!");
+        }
+
         PublishingHouseEntity publishingHouseEntity = this.publishingHouseCreateMapper.toEntity(createPublishingHouseRequest);
 
         publishingHouseEntity = this.publishingHouseRepository.save(publishingHouseEntity);

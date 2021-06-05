@@ -36,6 +36,8 @@ import { DynamicFormComponent } from './shared/components/form/dynamic-form/dyna
 import {InputComponent} from "./shared/components/form/input/input.component";
 import { CreateBookRequestComponent } from './pages/create-book-request/create-book-request.component';
 import { RegisterRepresentativeComponent } from './pages/register-representative/register-representative.component';
+import { RegisterPublishingHouseComponent } from './pages/register-publishing-house/register-publishing-house.component';
+import { BaseRegisterComponent } from './shared/components/base-register/base-register.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { RegisterRepresentativeComponent } from './pages/register-representative
     DynamicFieldDirective,
     DynamicFormComponent,
     CreateBookRequestComponent,
-    RegisterRepresentativeComponent
+    RegisterRepresentativeComponent,
+    RegisterPublishingHouseComponent,
+    BaseRegisterComponent
   ],
     imports: [
         BrowserModule,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {IPage, IPageable} from "../shared/util/request.utils";
+import {IPage, IPageable} from "../../shared/util/request.utils";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({

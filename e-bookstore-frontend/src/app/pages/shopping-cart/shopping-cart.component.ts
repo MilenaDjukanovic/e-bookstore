@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BookPurchase} from "../../shared/model/book-purchase.model";
-import {BookPurchasesService} from "../../services/book-purchases.service";
+import {BookPurchasesService} from "../../services/core/book-purchases.service";
 import {Book} from "../../shared/model/book.model";
 import {Router} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";

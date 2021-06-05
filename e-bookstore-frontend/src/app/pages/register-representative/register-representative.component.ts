@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { first } from "rxjs/operators";
-import { AuthService } from "../../services/auth.service";
-import { CreateRepresentativeUser, ICreateRepresentativeUser } from "../../shared/model/user.model";
+import { AuthService } from "../../services/authority/auth.service";
+import { CreateRepresentativeUser } from "../../shared/model/user.model";
 
 @Component({
   selector: 'app-register-representative',
@@ -12,24 +12,24 @@ import { CreateRepresentativeUser, ICreateRepresentativeUser } from "../../share
 })
 export class RegisterRepresentativeComponent implements OnInit{
 
-  public registerRepresentativeForm!: FormGroup;
+  public formConfiguration!: any;
 
   public error!: string;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService){
+  constructor(private router: Router, private authService: AuthService){
 
   }
 
   public ngOnInit(): void{
-    this.initializeForm();
+    this.initializeFormConfiguration();
   }
 
-  public registerRepresentativeUser(): void{
-    if(!this.areFormValuesValid()){
+  public registerRepresentativeUser(event: any): void{
+    const representativeUser: CreateRepresentativeUser = event['values'];
+    if(!this.areFormValuesValid(representativeUser)){
       return;
     }
 
-    const representativeUser = this.getRepresentativeFromFormValues();
     this.authService.registerRepresentative(representativeUser).pipe(first()).subscribe(data => {
       this.redirectToLogin();
     }, error => {
@@ -37,28 +37,8 @@ export class RegisterRepresentativeComponent implements OnInit{
     })
   }
 
-  private getRepresentativeFromFormValues(): any{
-    const email = this.getFormControlValue('email');
-    const firstName = this.getFormControlValue('firstName');
-    const lastName = this.getFormControlValue('lastName');
-    const password = this.getFormControlValue('password');
-    const rePassword = this.getFormControlValue('rePassword');
-    const representativeRegistrationKey = this.getFormControlValue('representativeRegistrationKey');
-
-    return new CreateRepresentativeUser(email, password, rePassword, firstName, lastName, representativeRegistrationKey);
-  }
-
-  private getFormControlValue(controlName: string): string{
-    return this.registerRepresentativeForm['controls'][controlName]['value'];
-  }
-
-  public areFormValuesValid(): boolean{
-    if(this.registerRepresentativeForm.invalid){
-      // #TODO check if error needs to be added here
-      return false;
-    }
-
-    if(this.registerRepresentativeForm['controls']['password']['value'] !== this.registerRepresentativeForm['controls']['rePassword']['value']){
+  public areFormValuesValid(representativeUser: CreateRepresentativeUser): boolean{
+    if(representativeUser['password'] !== representativeUser['rePassword']){
       this.error = 'Passwords do not match! Please try again.';
       return false;
     }
@@ -70,15 +50,50 @@ export class RegisterRepresentativeComponent implements OnInit{
     this.router.navigate(['login']);
   }
 
-  private initializeForm(): void{
-    this.registerRepresentativeForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-      rePassword: ['', Validators.required],
-      representativeRegistrationKey: ['', Validators.required]
-    });
+  private initializeFormConfiguration(): void{
+    this.formConfiguration = {
+      controls: [{
+        controlName: 'firstName',
+        type: 'text',
+        placeholder: 'First Name',
+        validators: [Validators.required],
+        error: 'First Name not valid!'
+      }, {
+        controlName: 'lastName',
+        type: 'text',
+        placeholder: 'Last Name',
+        validators: [Validators.required],
+        error: 'Last Name not valid!'
+      }, {
+        controlName: 'username',
+        type: 'text',
+        placeholder: 'E-Mail',
+        validators: [Validators.required, Validators.email],
+        error: 'E-Mail not valid!'
+      }, {
+        controlName: 'password',
+        type: 'password',
+        placeholder: 'Password',
+        validators: [Validators.required],
+        error: 'Password not valid!'
+      }, {
+        controlName: 'rePassword',
+        type: 'password',
+        placeholder: 'Password',
+        validators: [Validators.required],
+        error: 'Password not valid!'
+      }, {
+        controlName: 'representativeRegistrationKey',
+        type: 'password',
+        placeholder: 'Representative Registration Key',
+        validators: [Validators.required],
+        error: 'Representative Registration Key not valid!'
+      }],
+      navigation: {
+        text: 'Back to Login',
+        path: ['login']
+      }
+    }
   }
 
 }

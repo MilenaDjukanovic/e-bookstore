@@ -4,8 +4,6 @@ import com.mixienixie.ebookstore.repo.authority.UserRepository;
 import com.mixienixie.ebookstore.service.security.JwtTokenUtil;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,8 +46,6 @@ public class JwtTokenFilter extends OncePerRequestFilter{
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
-
-        Pageable pageable = PageRequest.of(1, 5);
 
         final String token = header.split(" ")[1].trim();
         if(!this.jwtTokenUtil.validate(token)){

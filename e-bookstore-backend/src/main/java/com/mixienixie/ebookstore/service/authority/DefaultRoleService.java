@@ -6,7 +6,6 @@ import com.mixienixie.ebookstore.repo.authority.entity.RoleEntity;
 import com.mixienixie.ebookstore.repo.authority.entity.UserEntity;
 import com.mixienixie.ebookstore.repo.core.PublishingHouseRepository;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
-import com.mixienixie.ebookstore.service.PublishingHouseService;
 import com.mixienixie.ebookstore.service.RoleService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

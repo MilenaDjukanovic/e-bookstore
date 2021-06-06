@@ -1,6 +1,7 @@
 package com.mixienixie.ebookstore.service;
 
 import com.mixienixie.ebookstore.core.requests.CreateBookManagementRequestsRequest;
+import com.mixienixie.ebookstore.repo.core.BookManagementRequestsRepository;
 import com.mixienixie.ebookstore.repo.core.entity.BookManagementRequestsDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,9 @@ public interface BookManagementRequestsService {
 
     Page<BookManagementRequestsDto> findAll(Pageable pageable);
 
+    Page<BookManagementRequestsDto> findAllByProcessedAndByPublishingHouse(boolean processed, Long userId, Pageable pageable);
+
+    Page<BookManagementRequestsDto> findAllByProcessed(boolean processed, Pageable pageable);
+
+    void deleteBookManagementRequestById(Long id);
 }

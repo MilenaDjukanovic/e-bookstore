@@ -44,4 +44,15 @@ public interface BookManagementRequestsRepository extends JpaRepository<BookMana
      * @return pageable of book management requests
      */
     Page<BookManagementRequestsEntity> findBookManagementRequestsEntitiesByProcessedByUserId(Long processedByUserId, Pageable pageable);
+
+    /**
+     * Finds book management by user who processed it and by processed attribute
+     * @param publishingHouseEntity id of the user who processed the request
+     * @param processed finds processed or pending book management requests
+     * @param pageable pageable
+     * @return pageable of book management requests
+     */
+    Page<BookManagementRequestsEntity> findByProcessedAndPublishingHouse(boolean processed,PublishingHouseEntity publishingHouseEntity, Pageable pageable);
+
+    void deleteById(Long id);
 }

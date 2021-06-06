@@ -10,19 +10,37 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController @RequestMapping("api/public")
+@RestController @RequestMapping("api/public/book-management-requests")
 @AllArgsConstructor
 public class BookManagementRequestsController {
 
     private final BookManagementRequestsService bookManagementRequestsService;
 
-    @GetMapping("book-management-requests")
+    @GetMapping("all")
     public Page<BookManagementRequestsDto> findAll(Pageable pageable) {
         return this.bookManagementRequestsService.findAll(pageable);
     }
 
-    @PostMapping("book-management-requests")
+    @GetMapping("pending")
+    public Page<BookManagementRequestsDto> findByProcessed
+            (@RequestParam boolean processed, Pageable pageable){
+        return this.bookManagementRequestsService.findAllByProcessed(processed, pageable);
+    }
+
+    @GetMapping("delete")
+    public void deleteById(@RequestParam Long id) {
+        this.bookManagementRequestsService.deleteBookManagementRequestById(id);
+    }
+
+    @GetMapping()
+    public Page<BookManagementRequestsDto> findByProcessedAndByPublishingHouse
+            (@RequestParam Long id, @RequestParam boolean processed, Pageable pageable){
+        return this.bookManagementRequestsService.findAllByProcessedAndByPublishingHouse(processed, id, pageable);
+    }
+
+    @PostMapping("create")
     public BookManagementRequestsDto create(@RequestBody @Valid CreateBookManagementRequestsRequest createBookManagementRequestsRequest){
         return this.bookManagementRequestsService.create(createBookManagementRequestsRequest);
     }
+
 }

@@ -2,6 +2,7 @@ package com.mixienixie.ebookstore.repo.core.entity;
 
 import lombok.Data;
 
+
 /**
  * DTO class used for BookManagementView view
  *
@@ -17,7 +18,7 @@ public class BookManagementRequestsDto {
     private PublishingHouseDto publishingHouse;
 
     /** Id of the book referenced by the request **/
-    private Long bookId;
+    private BookDto book;
 
     /** Required quantity **/
     private int quantity;

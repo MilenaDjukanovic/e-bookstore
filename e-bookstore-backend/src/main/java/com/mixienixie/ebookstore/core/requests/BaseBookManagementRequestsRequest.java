@@ -29,4 +29,7 @@ public abstract class BaseBookManagementRequestsRequest {
 
     /** Reason why the the change was requested **/
     private String reason;
+
+    /** Was the request approved**/
+    private boolean processed;
 }

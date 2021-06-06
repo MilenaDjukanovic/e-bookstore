@@ -10,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * {@inheritDoc}
@@ -48,5 +50,12 @@ public class DefaultBookService implements BookService {
         Objects.requireNonNull(pageable);
 
         return this.bookRepository.findAll(pageable).map(this.bookViewMapper::toDto);
+    }
+
+    @Override
+    public BookDto findByBookId(Long id) {
+        BookEntity bookEntity = this.bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book with id: " + id + " not found"));
+        return this.bookViewMapper.toDto(bookEntity);
     }
 }

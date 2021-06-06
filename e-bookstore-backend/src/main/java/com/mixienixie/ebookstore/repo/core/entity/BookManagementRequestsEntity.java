@@ -39,7 +39,7 @@ public class BookManagementRequestsEntity implements Serializable {
     /** Was request processed **/
     @Column
     @Getter @Setter
-    private boolean processed;
+    private boolean processed = false;
 
     /** Id of the user who processed the request **/
     @Column(name = "processed_by_user_id", nullable = false)

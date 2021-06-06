@@ -24,7 +24,7 @@ public abstract class BaseBookRequest {
 
     /** Image(Cover) **/
     @NotNull
-    private byte[] image;
+    private String image;
 
     /** Price **/
     @NotNull @Min(value = 1)
@@ -43,7 +43,6 @@ public abstract class BaseBookRequest {
     private Long categoryId;
 
     /** Publishing house **/
-    @NotNull
     private Long publishingHouseId;
 
 }

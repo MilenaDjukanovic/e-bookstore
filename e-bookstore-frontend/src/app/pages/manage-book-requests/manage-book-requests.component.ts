@@ -35,7 +35,7 @@ export class ManageBookRequestsComponent implements OnInit {
     this.pageable = new Pageable(event.pageIndex, this.pageSize);
     this.bookManagementRequestService.getAllPendingBookManagementRequests(false, this.pageable)
       .subscribe(data => (
-        this.pageIndex = event.pageIndex,
+          this.pageIndex = event.pageIndex,
           this.bookManagementRequests = data.content
       ));
   }

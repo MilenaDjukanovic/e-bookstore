@@ -20,7 +20,7 @@ public class BookDto {
     private String description;
 
     /** Image(cover) **/
-    private byte[] image;
+    private String image;
 
     /** Price **/
     private double price;

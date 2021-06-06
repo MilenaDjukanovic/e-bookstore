@@ -3,20 +3,19 @@ import {IBook} from "./book.model";
 
 export interface IBaseBookManagementRequests {
   quantity: number;
-  processedByUserId: number | null;
   reason: string;
-  processed: boolean;
 }
 
 export interface ICreateBookManagementRequest extends IBaseBookManagementRequests {
   bookId: number;
-  publishingHouseId: number;
 }
 
 export interface IBookManagementRequest extends IBaseBookManagementRequests {
   id: number
   book: IBook;
   publishingHouse: PublishingHouse;
+  processed: boolean;
+  processedByUserId: number | null;
 }
 
 export interface IUpdateBookManagementRequest extends IBaseBookManagementRequests {
@@ -28,10 +27,7 @@ export interface IUpdateBookManagementRequest extends IBaseBookManagementRequest
 export class CreateBookManagementRequest implements ICreateBookManagementRequest {
   constructor(public bookId: number,
               public quantity: number,
-              public processedByUserId: number,
-              public reason: string,
-              public processed: boolean,
-              public publishingHouseId: number) {
+              public reason: string,) {
   }
 }
 

@@ -1,23 +1,23 @@
 <div fxLayout="column" fxLayoutAlign="center center">
 <div fxLayout="row" fxLayoutAlign="center center">
-  <button (click)="this.showFormWithExistingBooks()" class="option" color="primary"
-          mat-flat-button>With existing book
+  <button (click)="this.showFormForCreatingBookRequests()" class="option" color="primary"
+          mat-flat-button>Create book request
   </button>
-  <button (click)="this.showFormWithNewBooks()" class="option" color="primary"
-          mat-flat-button>With new book
+  <button (click)="this.showFormForCreatingBook()" class="option" color="primary"
+          mat-flat-button>Create book
   </button>
 </div>
 
 <div class="form-container">
-  <div *ngIf="this.showFormForExistingBooks" class="form">
+  <div *ngIf="this.showFormForBookRequests" class="form">
     <div style="text-align:center">
       <h1>
-        Create book request(existing book)
+        Create book request
       </h1>
     </div>
-    <app-dynamic-form (actionCalled)="this.handleAction($event)" (submit)="this.submit($event)"
-                      *ngIf="this.createBook.length > 0"
-                      [fields]="this.createBook">
+    <app-dynamic-form (actionCalled)="this.handleAction($event)" (submit)="this.createBookRequest($event)"
+                      *ngIf="this.fieldConfigs.length > 0"
+                      [fields]="this.fieldConfigs">
     </app-dynamic-form>
   </div>
 </div>
@@ -26,17 +26,16 @@
   <div *ngIf="this.showFormForNewBooks" class="form">
     <div style="text-align:center">
       <h1>
-        Create book request(new book)
+        Create book
       </h1>
     </div>
-    <app-dynamic-form (actionCalled)="this.handleAction($event)" (submit)="this.submit($event)"
-                    *ngIf="this.createBook.length > 0"
-                    [fields]="this.createBook">
+    <app-dynamic-form (actionCalled)="this.handleAction($event)" (submit)="this.createBook($event)"
+                    *ngIf="this.fieldConfigs.length > 0"
+                    [fields]="this.fieldConfigs">
     </app-dynamic-form>
   </div>
 </div>
 </div>
-
 <div fxLayoutAlign="center center">
   <div class="pending-requests">
     <h1>Pending requests</h1>
@@ -47,3 +46,4 @@
                [tableColumnDefinition]="this.columnDefinition"></app-table>
   </div>
 </div>
+

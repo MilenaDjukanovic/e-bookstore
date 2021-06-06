@@ -20,6 +20,6 @@ export class AuthorDialogComponent implements OnInit {
   }
 
   public submit(value: any) {
-    console.log(value);
+
   }
 }

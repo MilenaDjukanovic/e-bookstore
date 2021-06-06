@@ -51,7 +51,11 @@ public class DefaultBookManagementRequestsService implements BookManagementReque
      */
     @Override
     public BookManagementRequestsDto create(CreateBookManagementRequestsRequest bookManagementRequestsRequest) {
+        PublishingHouseEntity publishingHouse = this.getPublishingHouseForAuthorizedUser();
+
         BookManagementRequestsEntity bookManagementRequestsEntity = this.bookManagementRequestsCreateMapper.toEntity(bookManagementRequestsRequest);
+        bookManagementRequestsEntity.setPublishingHouse(publishingHouse);
+        bookManagementRequestsEntity.setProcessed(false);
 
         bookManagementRequestsEntity = this.bookManagementRequestsRepository.save(bookManagementRequestsEntity);
 

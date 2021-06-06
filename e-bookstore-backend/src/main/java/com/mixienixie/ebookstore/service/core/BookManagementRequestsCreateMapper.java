@@ -15,8 +15,4 @@ import org.mapstruct.Mapping;
  */
 @Mapper(componentModel = "spring", builder = @Builder(disableBuilder = true))
 public interface BookManagementRequestsCreateMapper extends EntityMapper<CreateBookManagementRequestsRequest, BookManagementRequestsEntity> {
-
-    @Mapping(source = "publishingHouseId", target = "publishingHouse.id")
-    BookManagementRequestsEntity toEntity(CreateBookManagementRequestsRequest bookManagementRequestsRequest);
-
 }

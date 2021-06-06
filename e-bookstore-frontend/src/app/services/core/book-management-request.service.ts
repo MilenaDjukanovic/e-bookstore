@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {IPageable} from "../../shared/util/request.utils";
 import {Observable} from "rxjs";
 import {
+  CreateBookManagementRequest,
   UpdateBookManagementRequest
 } from "../../shared/model/book-management-requests.model";
 
@@ -39,5 +40,10 @@ export class BookManagementRequestService {
   public rejectBookManagementRequest(bookManagementRequestId: number): Observable<any> {
     const url = this.baseURL + "/api/public/book-management-requests/delete/" + bookManagementRequestId;
     return this.httpClient.get(url);
+  }
+
+  public createBookRequestService(bookRequest: CreateBookManagementRequest): Observable<any> {
+    const url = this.baseURL + "/api/public/book-management-requests/create";
+    return this.httpClient.post(url, bookRequest);
   }
 }

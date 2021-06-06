@@ -1,10 +1,15 @@
 package com.mixienixie.ebookstore.service.core;
 
 import com.mixienixie.ebookstore.core.requests.CreateBookRequest;
+import com.mixienixie.ebookstore.repo.authority.entity.UserEntity;
 import com.mixienixie.ebookstore.repo.core.BookRepository;
 import com.mixienixie.ebookstore.repo.core.entity.BookDto;
 import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
+import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
+import com.mixienixie.ebookstore.service.AuthorizationService;
 import com.mixienixie.ebookstore.service.BookService;
+import com.mixienixie.ebookstore.service.PublishingHouseService;
+import com.mixienixie.ebookstore.service.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,11 +38,25 @@ public class DefaultBookService implements BookService {
     /** Book Create Mapper */
     private final BookViewMapper bookViewMapper;
 
+    /** Authorization Service */
+    private final AuthorizationService authorizationService;
+
+    /** Publishing House Service */
+    private final PublishingHouseService publishingHouseService;
+
+    /** Role Service */
+    private final RoleService roleService;
+
     /**
      * {@inheritDoc}
      */
     @Override
     public BookDto create(CreateBookRequest createBookRequest) {
+        UserEntity userEntity = this.authorizationService.getAuthenticatedUser();
+        PublishingHouseEntity publishingHouse = this.publishingHouseService
+                .findByTin(this.roleService.getPublishingHouseTinForPublishingHouseRepresentative(userEntity.getId()));
+        createBookRequest.setPublishingHouseId(publishingHouse.getId());
+
         BookEntity bookEntity = this.bookCreateMapper.toEntity(createBookRequest);
 
         bookEntity = this.bookRepository.save(bookEntity);

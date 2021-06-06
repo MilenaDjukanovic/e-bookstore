@@ -44,6 +44,8 @@ import { ManageBookRequestsComponent } from './pages/manage-book-requests/manage
 import { RegisterRepresentativeComponent } from './pages/register-representative/register-representative.component';
 import { RegisterPublishingHouseComponent } from './pages/register-publishing-house/register-publishing-house.component';
 import { BaseRegisterComponent } from './shared/components/base-register/base-register.component';
+import { CategoryDialogComponent } from './shared/components/category-dialog/category-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { BaseRegisterComponent } from './shared/components/base-register/base-re
     ManageBookRequestsComponent,
     RegisterRepresentativeComponent,
     RegisterPublishingHouseComponent,
-    BaseRegisterComponent
+    BaseRegisterComponent,
+    CategoryDialogComponent,
   ],
   imports: [
     BrowserModule,

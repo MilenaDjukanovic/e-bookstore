@@ -12,6 +12,9 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.router.events.subscribe(() => {
+      window.scroll(0,0);
+    })
   }
 
   public logout(): void {

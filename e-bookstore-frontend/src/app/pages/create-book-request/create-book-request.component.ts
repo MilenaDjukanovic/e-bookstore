@@ -1,16 +1,19 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DynamicFormComponent} from "../../shared/components/form/dynamic-form/dynamic-form.component";
 import {FieldConfig} from "../../shared/model/form/field.interface";
-import {
-  createExistingBookManagementRequestConfiguration
-} from "../../configuration/createBookConfiguration";
 import {AuthorDialogComponent} from "../../shared/components/author-dialog/author-dialog.component";
-import {ComponentType} from "@angular/cdk/overlay";
 import {MatDialog} from "@angular/material/dialog";
-import {BookManagementRequest} from "../../shared/model/book-management-requests.model";
+import {BookManagementRequest, CreateBookManagementRequest} from "../../shared/model/book-management-requests.model";
 import {Pageable} from "../../shared/util/request.utils";
 import {BookManagementRequestService} from "../../services/core/book-management-request.service";
 import {AuthService} from "../../services/authority/auth.service";
+import {defaultBookManagementRequestConfiguration} from "../../configuration/createBookManagementRequest";
+import {defaultBookConfiguration} from "../../configuration/createBookConfiguration";
+import {CategoryDialogComponent} from "../../shared/components/category-dialog/category-dialog.component";
+import {IBaseAuthor} from "../../shared/model/author.model";
+import {IBaseCategory} from "../../shared/model/category.model";
+import {CreateBook} from "../../shared/model/book.model";
+import {BookService} from "../../services/core/book.service";
 
 
 @Component({
@@ -22,62 +25,89 @@ export class CreateBookRequestComponent implements OnInit {
 
   @ViewChild(DynamicFormComponent) form!: DynamicFormComponent;
 
-  public createBook: FieldConfig[] = createExistingBookManagementRequestConfiguration;
+  public fieldConfigs!: FieldConfig[];
 
-  public showFormForExistingBooks = false;
+  public showFormForBookRequests = false;
   public showFormForNewBooks = false;
 
   public bookManagementRequests!: BookManagementRequest[];
-
-  private pageable!: Pageable;
   public numberOfElements!: number;
   public pageSize!: number;
-
   public columnDefinition: Array<any> = new Array<any>();
+  private pageable!: Pageable;
+  private pageIndex!: number;
+  private author!: IBaseAuthor;
+  private category!: IBaseCategory;
 
-  public submit(value: any) {
-    console.log(value);
+  constructor(public dialog: MatDialog,
+              private bookManagementRequestService: BookManagementRequestService,
+              private authService: AuthService,
+              private bookService: BookService) {
   }
-  constructor( public dialog: MatDialog,
-               private bookManagementRequestService: BookManagementRequestService,
-               private authService: AuthService) { }
+
+  public createBookRequest(value: any) {
+    const bookRequest: CreateBookManagementRequest =
+      new CreateBookManagementRequest(1, value.quantity, value.reason);
+
+    this.bookManagementRequestService.createBookRequestService(bookRequest)
+      .subscribe((data) => {
+          console.log("tu sam")
+          this.refreshTable();
+        },(error) => {
+
+        })
+  }
+
+  public createBook(value: any) {
+    const book: CreateBook = new CreateBook(value.title, value.description, value.image, value.price,
+      value.inStock, 1, 1);
+    this.bookService.createBook(book)
+      .subscribe((data) => {
+        console.log(data);
+      },(error => {
+
+      })
+    )
+  }
 
   ngOnInit(): void {
     this.getFirstPendingBookManagementRequests();
     this.initializeDefaultColumnDefinitions();
   }
 
-  handleAction($event: any) {
-    if($event === 'createAuthor') {
-      this.openDialog(AuthorDialogComponent );
+  public handleAction($event: any) {
+    if ($event === 'createAuthor') {
+      this.openAuthorDialog();
+    }
+    if ($event === 'createCategory') {
+      this.openCategoryDialog();
     }
   }
 
-  public openDialog(dialogToOpen: ComponentType<any>): void {
+  public openAuthorDialog(): void {
     const dialogRef = this.dialog.open(AuthorDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      this.author = result;
+    })
   }
 
-  public showFormWithExistingBooks():void {
-    this.showFormForExistingBooks = true;
+  public openCategoryDialog(): void {
+    const dialogRef = this.dialog.open(CategoryDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      this.category = result;
+    })
+  }
+
+  public showFormForCreatingBookRequests(): void {
+    this.showFormForBookRequests = true;
     this.showFormForNewBooks = false;
+    this.fieldConfigs = defaultBookManagementRequestConfiguration;
   }
 
-  public showFormWithNewBooks():void {
-    this.showFormForExistingBooks = false;
+  public showFormForCreatingBook(): void {
+    this.showFormForBookRequests = false;
     this.showFormForNewBooks = true;
-  }
-
-  private getFirstPendingBookManagementRequests() {
-    this.pageable = new Pageable(0,5);
-    this.bookManagementRequestService
-      .getBookManagementRequestsByProcessedAndByPublishingHouse(this.pageable,
-        this.authService.getCurrentUserValue().id, false).subscribe(
-          data => {
-            this.bookManagementRequests = data.content;
-            this.pageSize = data.pageable.pageSize;
-            this.numberOfElements = data.totalElements;
-          }
-    );
+    this.fieldConfigs = defaultBookConfiguration;
   }
 
   public loadPendingRequests(event: any) {
@@ -87,9 +117,10 @@ export class CreateBookRequestComponent implements OnInit {
         this.authService.getCurrentUserValue().id, false).subscribe(
       data => {
         this.bookManagementRequests = data.content;
+        this.pageIndex = event.pageIndex ? event.pageIndex : 0;
+        this.numberOfElements = data.totalElements;
       }
     );
-
   }
 
   public initializeDefaultColumnDefinitions(): void {
@@ -110,6 +141,27 @@ export class CreateBookRequestComponent implements OnInit {
         property: 'reason'
       }
     ];
+  }
+
+  private getFirstPendingBookManagementRequests() {
+    this.pageable = new Pageable(0, 5);
+    this.bookManagementRequestService
+      .getBookManagementRequestsByProcessedAndByPublishingHouse(this.pageable,
+        this.authService.getCurrentUserValue().id, false).subscribe(
+      data => {
+        this.bookManagementRequests = data.content;
+        this.pageSize = data.pageable.pageSize;
+        this.numberOfElements = data.totalElements;
+      }
+    );
+  }
+
+  private refreshTable() {
+    const pageToGet = {
+      pageIndex: this.pageIndex,
+      pageSize: this.pageSize
+    }
+    this.loadPendingRequests(pageToGet);
   }
 
 }

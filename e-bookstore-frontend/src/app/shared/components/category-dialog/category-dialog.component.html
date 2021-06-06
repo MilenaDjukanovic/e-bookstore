@@ -1,0 +1,8 @@
+<div fxLayout="column" fxLayoutAlign="start start" >
+  <h1>
+    Create category
+  </h1>
+
+<app-dynamic-form [fields]="this.categoryDialogFields" (submit)="this.submit($event)"
+                  *ngIf="this.categoryDialogFields.length > 0"></app-dynamic-form>
+</div>

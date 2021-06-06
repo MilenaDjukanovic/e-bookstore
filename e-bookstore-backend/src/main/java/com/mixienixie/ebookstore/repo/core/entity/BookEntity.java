@@ -31,7 +31,7 @@ public class BookEntity {
     @Lob
     @Column(nullable = false, columnDefinition = "BLOB")
     @Getter @Setter
-    private byte[] image;
+    private String image;
 
     /** Price **/
     @Column(nullable = false)

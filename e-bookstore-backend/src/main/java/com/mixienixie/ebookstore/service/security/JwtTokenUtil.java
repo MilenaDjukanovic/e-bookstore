@@ -23,10 +23,10 @@ import java.util.Date;
 public class JwtTokenUtil{
 
     /** Secret */
-    @Value("ebookstore.security.jwt.secret") @Setter
+    @Value("${ebookstore.security.jwt.secret}") @Setter
     private String jwtSecret;
     /** Issuer */
-    @Value("ebookstore.security.jwt.issuer") @Setter
+    @Value("${ebookstore.security.jwt.issuer}") @Setter
     private String jwtIssuer;
 
     /**

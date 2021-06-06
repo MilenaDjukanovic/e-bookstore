@@ -14,6 +14,20 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+  mail:
+    host: localhost
+    port: 25
+    username:
+    password:
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          from: sales@ebookstore.com
+          auth: false
+          starttls:
+            enable: false
+
 
 ### eBookstore Configuration
 ebookstore:
@@ -27,3 +41,5 @@ ebookstore:
       password: admin@123
       first-name: admin
       last-name: admin
+  mail:
+    enabled: true

@@ -29,6 +29,11 @@
       "name": "ebookstore.bootstrap.default-admin-user.last-name",
       "type": "java.lang.String",
       "description": "Default last name of admin user that is bootstrapped on database initialization or if missing."
+    },
+    {
+      "name": "ebookstore.mail.enabled",
+      "type": "java.lang.String",
+      "description": "Flag for enabling mail sending. If set to false, all logic will be simulated but no mails will be sent."
     }
   ]
 }

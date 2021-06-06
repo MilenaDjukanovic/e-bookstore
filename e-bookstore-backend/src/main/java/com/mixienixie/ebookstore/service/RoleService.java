@@ -20,7 +20,9 @@ public interface RoleService{
     /** Display name for User role */
     String DISPLAY_NAME_USER = "User";
     /** Display Name for Admin role */
-    String DiSPLAY_NAME_ADMIN = "Admin";
+    String DISPLAY_NAME_ADMIN = "Admin";
+    /** Display Name for Publisher Representative role */
+    String DISPLAY_NAME_PUBLISHER_REPRESENTATIVE = "Publisher Representative";
     /** Display Name for base Publisher Representative Role */
     String DISPLAY_NAME_BASE_ROLE_PUBLISHER_REPRESENTATIVE = "Publisher Representative For";
 

@@ -21,3 +21,9 @@ ebookstore:
     jwt:
       secret: 27DSeTRClfwAP+m1fipeneGfFdWtVZny
       issuer: ebookstore.com
+  bootstrap:
+    default-admin-user:
+      username: admin@ebookstore.com
+      password: admin@123
+      first-name: admin
+      last-name: admin

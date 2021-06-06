@@ -1,9 +1,4 @@
 .container{
-  width: 100%;
-}
-
-table{
-  width: 80%;
   margin: 3em;
 }
 
@@ -18,4 +13,9 @@ mat-card {
   background-image: url("https://images.pexels.com/photos/5632400/pexels-photo-5632400.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260 ") !important;
   background-size: cover;
   color: white !important;
+}
+
+.reserve-button {
+  float: right;
+  margin-top: 20px;
 }

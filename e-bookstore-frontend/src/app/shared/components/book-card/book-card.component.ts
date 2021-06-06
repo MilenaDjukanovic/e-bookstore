@@ -37,6 +37,10 @@ export class BookCardComponent implements OnInit {
   public addToCart() {
     const bookPurchase = new BookPurchase(this.book, this.quantityToBuy);
     this.bookPurchasesService.addBook(bookPurchase);
-    this.book.inStock = this.book.inStock - this.quantityToBuy;
+    if (this.book.inStock > 1) {
+      this.quantityToBuy = 1;
+    } else {
+      this.quantityToBuy = 0;
+    }
   }
 }

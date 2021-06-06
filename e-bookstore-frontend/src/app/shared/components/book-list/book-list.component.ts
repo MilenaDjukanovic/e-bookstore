@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Book} from "../../model/book.model";
-import {PageEvent} from "@angular/material/paginator";
-import {IPageable, Pageable} from "../../util/request.utils";
+import {Pageable} from "../../util/request.utils";
 
 @Component({
   selector: 'app-book-list',

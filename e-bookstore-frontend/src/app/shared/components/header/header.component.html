@@ -18,6 +18,9 @@
         <a routerLink="/book-requests" mat-list-item (click)="sidenav.toggle()">
           <mat-icon>request_page</mat-icon><span class="nav-caption">Create book request</span>
         </a>
+        <a routerLink="/manage-book-requests" mat-list-item (click)="sidenav.toggle()">
+          <mat-icon>manage_accounts</mat-icon><span class="nav-caption">Manage book request</span>
+        </a>
         <a mat-list-item (click)="sidenav.toggle()">
           <mat-icon>logout</mat-icon><span (click)="this.logout()" class="nav-caption">Logout</span>
         </a>

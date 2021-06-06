@@ -1,0 +1,11 @@
+<div class="container">
+  <app-table
+    (actionClickedEvent)="this.onAction($event)"
+    (pageChangedEvent)="this.loadPendingRequests($event)"
+    [data]="this.bookManagementRequests"
+    [defaultActions]="this.defaultActionDefinition"
+    [numberOfElements]="this.numberOfElements"
+    [pageSize]="this.pageSize"
+    [tableColumnDefinition]="this.columnDefinition">
+  </app-table>
+</div>

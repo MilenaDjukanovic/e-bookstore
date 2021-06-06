@@ -10,6 +10,7 @@ import {RegisterComponent} from "./pages/register/register.component";
 import {AuthGuard} from "./guards/auth.guard";
 import {ShoppingCartComponent} from "./pages/shopping-cart/shopping-cart.component";
 import {CreateBookRequestComponent} from "./pages/create-book-request/create-book-request.component";
+import {ManageBookRequestsComponent} from "./pages/manage-book-requests/manage-book-requests.component";
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
       {path: '', component: HomeComponent},
       {path: 'home', component: HomeComponent},
       {path: 'cart', component: ShoppingCartComponent},
-      {path: 'book-requests', component: CreateBookRequestComponent}
+      {path: 'book-requests', component: CreateBookRequestComponent},
+      {path: 'manage-book-requests', component: ManageBookRequestsComponent}
     ]
   },
   {

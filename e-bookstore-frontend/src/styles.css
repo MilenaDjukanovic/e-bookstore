@@ -16,10 +16,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: grey;
 }
 .form {
-  margin-left: 10px;
-  width: 600px;
+  margin: 10px;
   border-radius: 5px;
-  box-shadow: 5px 5px 15px 5px grey;
+  box-shadow: 5px 5px 15px 5px lightgray;
   padding: 20px;
-  margin-top: 10px;
 }

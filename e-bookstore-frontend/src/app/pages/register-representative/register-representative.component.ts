@@ -83,6 +83,12 @@ export class RegisterRepresentativeComponent implements OnInit{
         validators: [Validators.required],
         error: 'Password not valid!'
       }, {
+        controlName: 'tin',
+        type: 'text',
+        placeholder: 'Publishing House TIN',
+        validators: [Validators.required],
+        error: 'Publishing House TIN not valid!'
+      }, {
         controlName: 'representativeRegistrationKey',
         type: 'password',
         placeholder: 'Representative Registration Key',

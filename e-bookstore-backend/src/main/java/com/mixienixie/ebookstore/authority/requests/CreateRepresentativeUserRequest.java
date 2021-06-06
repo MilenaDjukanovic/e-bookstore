@@ -14,7 +14,11 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode(callSuper = true)
 public class CreateRepresentativeUserRequest extends CreateUserRequest{
 
-    /** Publishing Hosue Representative Registration Key */
+    /** Publishing Hosue Taxpayer Identification Number */
+    @NotBlank
+    private String tin;
+
+    /** Publishing House Representative Registration Key */
     @NotBlank
     private String representativeRegistrationKey;
 }

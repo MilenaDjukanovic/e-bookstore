@@ -34,7 +34,8 @@ public class PublishingHouseEntity {
     private String tin;
 
 
-    @Column(nullable = false, unique = true)
+    /** Representative Registration Key */
+    @Column(nullable = false)
     @Getter @Setter
     private String representativeRegistrationKey;
 

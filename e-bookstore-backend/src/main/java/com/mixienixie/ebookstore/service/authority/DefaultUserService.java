@@ -77,10 +77,14 @@ public class DefaultUserService implements UserService{
      */
     @Override
     public UserDto createRepresentativeUser(CreateRepresentativeUserRequest createRepresentativeUserRequest){
-        // Get the publishing house for the representative key
-        PublishingHouseEntity publishingHouseEntity =
-                this.publishingHouseService.findPublishingHouseEntityByRepresentativeRegistrationKey(
-                        createRepresentativeUserRequest.getRepresentativeRegistrationKey());
+        // Get the publishing house for the tin
+        PublishingHouseEntity publishingHouseEntity = this.publishingHouseService.findByTin(createRepresentativeUserRequest.getTin());
+
+        // Validate if user provided correct registration key
+        if(!StringUtils.equals(publishingHouseEntity.getRepresentativeRegistrationKey(),
+                createRepresentativeUserRequest.getRepresentativeRegistrationKey())){
+            throw new ValidationException("Invalid registration key provided!");
+        }
 
         // Create the base user
         UserEntity userEntity = this.createBaseUser(createRepresentativeUserRequest);

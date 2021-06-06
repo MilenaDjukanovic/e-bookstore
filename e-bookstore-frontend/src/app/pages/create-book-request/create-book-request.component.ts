@@ -9,7 +9,7 @@ import {ComponentType} from "@angular/cdk/overlay";
 import {MatDialog} from "@angular/material/dialog";
 import {BookManagementRequest} from "../../shared/model/book-management-requests.model";
 import {Pageable} from "../../shared/util/request.utils";
-import {BookManagementRequestService} from "../../services/book-management-request.service";
+import {BookManagementRequestService} from "../../services/core/book-management-request.service";
 import {AuthService} from "../../services/authority/auth.service";
 
 

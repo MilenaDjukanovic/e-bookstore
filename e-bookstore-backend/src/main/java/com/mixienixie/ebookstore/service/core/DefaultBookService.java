@@ -58,4 +58,11 @@ public class DefaultBookService implements BookService {
                 .orElseThrow(() -> new EntityNotFoundException("Book with id: " + id + " not found"));
         return this.bookViewMapper.toDto(bookEntity);
     }
+
+    @Override
+    public BookDto save(BookEntity bookEntity) {
+        bookEntity = this.bookRepository.save(bookEntity);
+
+        return bookViewMapper.toDto(bookEntity);
+    }
 }

@@ -1,0 +1,43 @@
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {IPageable} from "../../shared/util/request.utils";
+import {Observable} from "rxjs";
+import {
+  UpdateBookManagementRequest
+} from "../../shared/model/book-management-requests.model";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class BookManagementRequestService {
+
+  private baseURL = 'spring';
+
+  constructor(private httpClient: HttpClient) {
+  }
+
+  public getBookManagementRequestsByProcessedAndByPublishingHouse(
+    pageable: IPageable, id: number, processed: boolean): Observable<any> {
+    const url = this.baseURL + "/api/public/book-management-requests?page=" +
+      pageable.page + '&size=' + pageable.size + '&id=' + id + '&processed=' + processed;
+
+    return this.httpClient.get(url);
+  }
+
+  public getAllPendingBookManagementRequests(processed: boolean, pageable: IPageable): Observable<any> {
+    const url = this.baseURL + "/api/public/book-management-requests/pending?page=" +
+      pageable.page + '&size=' + pageable.size + '&processed=' + processed;
+
+    return this.httpClient.get(url);
+  }
+
+  public approveBookManagementRequest(bookManagementRequest: UpdateBookManagementRequest): Observable<any> {
+    const url = this.baseURL + "/api/public/book-management-requests/approve/" + bookManagementRequest.id;
+    return this.httpClient.post(url, bookManagementRequest);
+  }
+
+  public rejectBookManagementRequest(bookManagementRequestId: number): Observable<any> {
+    const url = this.baseURL + "/api/public/book-management-requests/delete/" + bookManagementRequestId;
+    return this.httpClient.get(url);
+  }
+}

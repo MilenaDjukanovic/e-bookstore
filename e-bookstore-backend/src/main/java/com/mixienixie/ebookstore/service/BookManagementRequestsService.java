@@ -27,4 +27,6 @@ public interface BookManagementRequestsService {
     Page<BookManagementRequestsDto> findAllByProcessed(boolean processed, Pageable pageable);
 
     void deleteBookManagementRequestById(Long id);
+
+    BookManagementRequestsDto approveBookManagementRequest(Long id, CreateBookManagementRequestsRequest bookManagementRequestsRequest);
 }

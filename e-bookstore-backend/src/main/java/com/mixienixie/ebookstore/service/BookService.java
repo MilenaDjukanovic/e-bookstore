@@ -35,4 +35,6 @@ public interface BookService {
      * @return optional of BookDto
      */
     BookDto findByBookId(Long id);
+
+    BookDto save(BookEntity bookEntity);
 }

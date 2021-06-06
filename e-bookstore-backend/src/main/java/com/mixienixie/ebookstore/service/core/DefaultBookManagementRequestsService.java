@@ -1,21 +1,16 @@
 package com.mixienixie.ebookstore.service.core;
 
 import com.mixienixie.ebookstore.core.requests.CreateBookManagementRequestsRequest;
+import com.mixienixie.ebookstore.repo.authority.entity.UserEntity;
 import com.mixienixie.ebookstore.repo.core.BookManagementRequestsRepository;
-import com.mixienixie.ebookstore.repo.core.PublishingHouseRepository;
-import com.mixienixie.ebookstore.repo.core.entity.BookDto;
-import com.mixienixie.ebookstore.repo.core.entity.BookManagementRequestsDto;
-import com.mixienixie.ebookstore.repo.core.entity.BookManagementRequestsEntity;
-import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
-import com.mixienixie.ebookstore.service.BookManagementRequestsService;
-import com.mixienixie.ebookstore.service.BookService;
-import com.mixienixie.ebookstore.service.RoleService;
+import com.mixienixie.ebookstore.repo.core.entity.*;
+import com.mixienixie.ebookstore.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
+import javax.validation.ValidationException;
 import java.util.Objects;
 
 /**
@@ -37,10 +32,16 @@ public class DefaultBookManagementRequestsService implements BookManagementReque
     /** Book management requests Create Mapper */
     private final BookManagementRequestsViewMapper bookManagementRequestsViewMapper;
 
-    private final PublishingHouseRepository publishingHouseRepository;
+    private final PublishingHouseService publishingHouseService;
+
+    /** Book Create Mapper **/
+    private final BookViewMapper bookViewMapper;
 
     /** Book service **/
     private final BookService bookService;
+
+    /** Authorization service **/
+    private final AuthorizationService authorizationService;
 
     /** Role service **/
     private final RoleService roleService;
@@ -74,9 +75,10 @@ public class DefaultBookManagementRequestsService implements BookManagementReque
 
     @Override
     public Page<BookManagementRequestsDto> findAllByProcessedAndByPublishingHouse(boolean processed, Long userId, Pageable pageable) {
-        PublishingHouseEntity publishingHouseEntity = this.publishingHouseRepository.findAll(pageable).get().findFirst().orElse(null);
+        PublishingHouseEntity publishingHouse = this.getPublishingHouseForAuthorizedUser();
+
         Page<BookManagementRequestsDto> bookManagementRequestsDtos = this.bookManagementRequestsRepository.
-                findByProcessedAndPublishingHouse(processed, publishingHouseEntity, pageable).
+                findByProcessedAndPublishingHouse(processed, publishingHouse, pageable).
                 map(this.bookManagementRequestsViewMapper::toDto);
         this.fillWithBooks(bookManagementRequestsDtos);
 
@@ -98,6 +100,31 @@ public class DefaultBookManagementRequestsService implements BookManagementReque
         this.bookManagementRequestsRepository.deleteById(id);
     }
 
+    @Override
+    public BookManagementRequestsDto approveBookManagementRequest(Long requestId, CreateBookManagementRequestsRequest bookManagementRequestsRequest) {
+        Objects.requireNonNull(requestId);
+        Objects.requireNonNull(bookManagementRequestsRequest);
+        Objects.requireNonNull(bookManagementRequestsRequest.getBookId());
+
+        BookDto bookDto = this.bookService.findByBookId(bookManagementRequestsRequest.getBookId());
+
+        int newQuantity = bookDto.getInStock() + bookManagementRequestsRequest.getQuantity();
+        if(newQuantity < 0) {
+            throw new ValidationException("Book request cannot be approved, book quantity would be less then zero");
+        }
+
+        bookDto.setInStock(newQuantity);
+        this.bookService.save(this.bookViewMapper.toEntity(bookDto));
+
+        BookManagementRequestsEntity bookManagementRequestsEntity = this.bookManagementRequestsCreateMapper.toEntity(bookManagementRequestsRequest);
+        bookManagementRequestsEntity.setId(requestId);
+        bookManagementRequestsEntity.setProcessed(true);
+        bookManagementRequestsEntity.setProcessedByUserId(this.authorizationService.getAuthenticatedUser().getId());
+        bookManagementRequestsEntity = this.bookManagementRequestsRepository.save(bookManagementRequestsEntity);
+
+        return this.bookManagementRequestsViewMapper.toDto(bookManagementRequestsEntity);
+    }
+
     private void fillWithBooks(Page<BookManagementRequestsDto> bookManagementRequestsDtos) {
         bookManagementRequestsDtos.forEach((bookManagementRequestsDto) -> {
             bookManagementRequestsDto.setBook(this.fillBookDto(bookManagementRequestsDto.getBook()));
@@ -106,5 +133,12 @@ public class DefaultBookManagementRequestsService implements BookManagementReque
 
     private BookDto fillBookDto(BookDto book) {
         return this.bookService.findByBookId(book.getId());
+    }
+
+    private PublishingHouseEntity getPublishingHouseForAuthorizedUser(){
+        UserEntity userEntity = this.authorizationService.getAuthenticatedUser();
+
+        String tin = this.roleService.getPublishingHouseTinForPublishingHouseRepresentative(userEntity.getId());
+        return this.publishingHouseService.findByTin(tin);
     }
 }

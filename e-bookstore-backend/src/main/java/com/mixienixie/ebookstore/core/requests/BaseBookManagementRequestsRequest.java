@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 public abstract class BaseBookManagementRequestsRequest {
 
     /** Publishing house id **/
-    @NotNull
     private Long publishingHouseId;
 
     /** Book id **/
@@ -24,7 +23,6 @@ public abstract class BaseBookManagementRequestsRequest {
     private int quantity;
 
     /** Id of the user who processed the request **/
-    @NotNull
     private Long processedByUserId;
 
     /** Reason why the the change was requested **/

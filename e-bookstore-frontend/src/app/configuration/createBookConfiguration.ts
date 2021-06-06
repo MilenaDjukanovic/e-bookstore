@@ -1,9 +1,16 @@
 import {FieldConfig} from "../shared/model/form/field.interface";
 
-export const createBookConfiguration: FieldConfig[] = [
+export const createExistingBookManagementRequestConfiguration: FieldConfig[] = [
   {
     type: 'input',
     label: 'Title',
+    inputType: 'text',
+    name: 'title',
+    validations: []
+  },
+  {
+    type: 'input',
+    label: 'Quantity',
     inputType: 'text',
     name: 'title',
     validations: []
@@ -14,12 +21,22 @@ export const createBookConfiguration: FieldConfig[] = [
     name: 'author',
     value: 'author',
     options: ['neko', 'nesto'],
+    showButton: true,
+    actionName: 'createAuthor'
+
+  },
+  {
+    type: 'select',
+    label: 'Book',
+    name: 'book',
+    value: 'book',
+    options: ['neko', 'nesto'],
   },
   {
     type: 'input',
-    label: 'Description',
+    label: 'Reason',
     inputType: 'text',
-    name: 'description',
+    name: 'reason',
     validations: []
   }, {
     type: 'button',

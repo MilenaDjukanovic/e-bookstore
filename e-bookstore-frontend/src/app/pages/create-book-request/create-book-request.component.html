@@ -1,11 +1,49 @@
-<div class="form">
-  <div style="text-align:center">
-    <h1>
-      Create book
-    </h1>
-  </div>
-  <app-dynamic-form [fields]="this.createBook" (submit)="submit($event)" *ngIf="this.createBook.length > 0">
-  </app-dynamic-form>
-
+<div fxLayout="column" fxLayoutAlign="center center">
+<div fxLayout="row" fxLayoutAlign="center center">
+  <button (click)="this.showFormWithExistingBooks()" class="option" color="primary"
+          mat-flat-button>With existing book
+  </button>
+  <button (click)="this.showFormWithNewBooks()" class="option" color="primary"
+          mat-flat-button>With new book
+  </button>
 </div>
-<p>create-book-request works!</p>
+
+<div class="form-container">
+  <div *ngIf="this.showFormForExistingBooks" class="form">
+    <div style="text-align:center">
+      <h1>
+        Create book request(existing book)
+      </h1>
+    </div>
+    <app-dynamic-form (actionCalled)="this.handleAction($event)" (submit)="this.submit($event)"
+                      *ngIf="this.createBook.length > 0"
+                      [fields]="this.createBook">
+    </app-dynamic-form>
+  </div>
+</div>
+
+<div class="form-container">
+  <div *ngIf="this.showFormForNewBooks" class="form">
+    <div style="text-align:center">
+      <h1>
+        Create book request(new book)
+      </h1>
+    </div>
+    <app-dynamic-form (actionCalled)="this.handleAction($event)" (submit)="this.submit($event)"
+                    *ngIf="this.createBook.length > 0"
+                    [fields]="this.createBook">
+    </app-dynamic-form>
+  </div>
+</div>
+</div>
+
+<div fxLayoutAlign="center center">
+  <div class="pending-requests">
+    <h1>Pending requests</h1>
+    <app-table (pageChangedEvent)="this.loadPendingRequests($event)"
+               [data]="this.bookManagementRequests"
+               [numberOfElements]="this.numberOfElements"
+               [pageSize]="this.pageSize"
+               [tableColumnDefinition]="this.columnDefinition"></app-table>
+  </div>
+</div>

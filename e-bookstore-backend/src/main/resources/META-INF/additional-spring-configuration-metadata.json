@@ -1,11 +1,34 @@
 {
-  "properties": [{
+  "properties": [
+    {
       "name": "ebookstore.security.jwt.secret",
       "type": "java.lang.String",
       "description": "Secret for JWT tokens."
-    },{
+    },
+    {
       "name": "ebookstore.security.jwt.issuer",
       "type": "java.lang.String",
       "description": "Issuer for JWT tokens."
-    }]
+    },
+    {
+      "name": "ebookstore.bootstrap.default-admin-user.username",
+      "type": "java.lang.String",
+      "description": "Default username of admin user that is bootstrapped on database initialization or if missing."
+    },
+    {
+      "name": "ebookstore.bootstrap.default-admin-user.password",
+      "type": "java.lang.String",
+      "description": "Default password of admin user that is bootstrapped on database initialization or if missing."
+    },
+    {
+      "name": "ebookstore.bootstrap.default-admin-user.first-name",
+      "type": "java.lang.String",
+      "description": "Default first name of admin user that is bootstrapped on database initialization or if missing."
+    },
+    {
+      "name": "ebookstore.bootstrap.default-admin-user.last-name",
+      "type": "java.lang.String",
+      "description": "Default last name of admin user that is bootstrapped on database initialization or if missing."
+    }
+  ]
 }

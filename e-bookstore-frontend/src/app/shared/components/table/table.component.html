@@ -1,0 +1,36 @@
+<div class="container" class="mat-elevation-z8">
+  <table [dataSource]="this.tableDataSource" mat-table>
+
+    <ng-container *ngFor="let column of this.tableColumnDefinition" [matColumnDef]="column.property">
+      <th *matHeaderCellDef mat-header-cell>{{column['label']}}</th>
+      <td *matCellDef="let element" mat-cell>
+        <div>
+          <p>{{this.getDisplayValueForProperty(element, column['property'])}}</p>
+        </div>
+      </td>
+      <!--    <td mat-footer-cell *matFooterCellDef></td>-->
+    </ng-container>
+
+    <ng-container matColumnDef="actions" *ngIf="this.defaultActions.length != 0">
+      <th *matHeaderCellDef mat-header-cell>Actions</th>
+      <td *matCellDef="let element; let i = index" mat-cell>
+        <div *ngFor="let action of this.defaultActions">
+          <button mat-icon-button color="primary" (click)="this.actionClicked(element, i, action['actionName'])">
+            <mat-icon [matTooltip]="action['label']">{{action['icon']}}</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="this.columnsForDisplay" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: this.columnsForDisplay;" mat-row></tr>
+    <!--  <tr mat-footer-row *matFooterRowDef="this.getColumnsForDisplay()"></tr>-->
+  </table>
+  <mat-paginator #paginator
+                 (page)="this.onPageChanged($event)"
+                 [length]="this.numberOfElements"
+                 [pageSize]="this.pageSize"
+                 hidePageSize
+                 showFirstLastButtons
+  ></mat-paginator>
+</div>

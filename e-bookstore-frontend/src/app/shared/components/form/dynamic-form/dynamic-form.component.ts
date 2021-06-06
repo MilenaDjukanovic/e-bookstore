@@ -1,6 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FieldConfig} from "../../../model/form/field.interface";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {DynamicFormService} from "../../../../services/dynamic-form.service";
+
+export interface DialogData {
+  fieldConfiguration: FieldConfig[];
+}
 
 @Component({
   selector: 'app-dynamic-form',
@@ -12,14 +17,19 @@ export class DynamicFormComponent implements OnInit {
   @Input() fields: FieldConfig[] = [];
 
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() actionCalled: EventEmitter<any> = new EventEmitter<any>();
 
   form!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private dynamicFormService: DynamicFormService) {
   }
 
   ngOnInit(): void {
     this.form = this.createControl();
+    this.dynamicFormService.onButtonAction.subscribe(data => {
+        this.actionCalled.emit(data)
+      }
+    )
   }
 
   public getValue() {
@@ -47,10 +57,10 @@ export class DynamicFormComponent implements OnInit {
 
 
   public bindValidations(validations: any) {
-    if(validations.length > 0) {
+    if (validations.length > 0) {
       let validList: any[] = [];
       // @ts-ignore
-      validations.forEach( valid  => {
+      validations.forEach(valid => {
         validList.push(valid.validators)
       });
       return Validators.compose(validList);
@@ -63,7 +73,7 @@ export class DynamicFormComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    if(this.form.valid) {
+    if (this.form.valid) {
       this.submit.emit(this.form.value);
     } else {
       this.validateAllFormFields(this.form);
@@ -76,4 +86,5 @@ export class DynamicFormComponent implements OnInit {
       control?.markAsTouched({onlySelf: true});
     })
   }
+
 }

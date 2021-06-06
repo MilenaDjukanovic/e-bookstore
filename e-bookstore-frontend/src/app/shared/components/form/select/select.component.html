@@ -1,5 +1,10 @@
-<mat-form-field class="demo-full-width margin-top" [formGroup]="group">
-  <mat-select [placeholder]="field.label" [formControlName]="field.name">
-    <mat-option *ngFor="let item of field.options" [value]="item">{{item}}</mat-option>
-  </mat-select>
-</mat-form-field>
+<div fxLayout="row" fxLayoutAlign="center center">
+  <mat-form-field class="demo-full-width margin-top" [formGroup]="group">
+    <mat-select [placeholder]="field.label" [formControlName]="field.name">
+      <mat-option *ngFor="let item of field.options" [value]="item">{{item}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button (click)="this.onAction()" *ngIf="field.showButton" mat-raised-button>
+    <mat-icon>add_circle_outline</mat-icon>
+  </button>
+</div>

@@ -11,8 +11,10 @@ export interface FieldConfig {
   options?: any;
   serviceMethod?: any;
   collections?: any;
+  showButton?: boolean;
   type: string;
   value?: any;
+  actionName?: string;
   validations?: Validator[];
 }
 

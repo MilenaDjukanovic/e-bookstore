@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from "@angular/forms";
-import { DynamicFormService } from "../../../../services/dynamic-form.service";
+import { MatDialog} from "@angular/material/dialog";
 import { FieldConfig } from "../../../model/form/field.interface";
 
 @Component({
@@ -16,15 +16,19 @@ export class RestSelectComponent implements OnInit {
 
   public options: Array<any> = new Array<any>();
 
-  constructor(private dynamicFormService: DynamicFormService, private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,
+              private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.initializeControlValues();
   }
 
-  public onAction() {
-    if (this.field.actionName != null) {
-      this.dynamicFormService.handleButtonAction(this.field.actionName);
+  public onCreateEntity() {
+    if(this.field.entityCreateComponentDialog){
+      const dialogRef = this.dialog.open(this.field.entityCreateComponentDialog);
+      dialogRef.afterClosed().subscribe(result => {
+        this.initializeControlValues();
+      })
     }
   }
 
@@ -34,8 +38,7 @@ export class RestSelectComponent implements OnInit {
       this.httpClient.get(url).subscribe(data => {
         this.parseOptions(data)
       }, error => {
-        // #TODO handle error
-        console.log(error)
+        console.error(error)
       });
     }
   }

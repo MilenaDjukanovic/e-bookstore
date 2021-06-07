@@ -1,3 +1,5 @@
+import { AuthorDialogComponent } from "../shared/components/author-dialog/author-dialog.component";
+import { CategoryDialogComponent } from "../shared/components/category-dialog/category-dialog.component";
 import {FieldConfig} from "../shared/model/form/field.interface";
 
 export const defaultBookConfiguration: FieldConfig[] = [
@@ -44,8 +46,7 @@ export const defaultBookConfiguration: FieldConfig[] = [
     optionsArrayProperty: 'content',
     optionsDisplayProperty: 'firstName',
     optionsValueProperty: 'id',
-    showButton: true,
-    actionName: 'createAuthor'
+    entityCreateComponentDialog: AuthorDialogComponent
   },
   {
     type: 'rest-select',
@@ -56,7 +57,7 @@ export const defaultBookConfiguration: FieldConfig[] = [
     optionsDisplayProperty: 'name',
     optionsValueProperty: 'id',
     showButton: true,
-    actionName: 'createCategory'
+    entityCreateComponentDialog: CategoryDialogComponent
   },
   {
     type: 'button',

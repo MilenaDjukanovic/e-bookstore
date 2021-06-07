@@ -1,3 +1,5 @@
+import { ComponentType } from "@angular/cdk/overlay";
+
 export interface Validator {
   name: string;
   validator: any;
@@ -13,6 +15,7 @@ export interface FieldConfig {
   optionsArrayProperty?: string;
   optionsDisplayProperty?: string;
   optionsValueProperty?: string;
+  entityCreateComponentDialog?: ComponentType<any>;
   serviceMethod?: any;
   collections?: any;
   showButton?: boolean;

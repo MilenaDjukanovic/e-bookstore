@@ -1,12 +1,12 @@
 <div fxLayout="row" fxLayoutAlign="center center">
-  <mat-form-field class="demo-full-width margin-top" [formGroup]="group">
+  <mat-form-field class="demo-full-width margin-top" [formGroup]="this.group">
     <mat-select [placeholder]="this.field['label']" [formControlName]="this.field['name']">
       <mat-option *ngFor="let option of this.options" [value]="option['value']">
         {{option['displayValue']}}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <button (click)="this.onAction()" *ngIf="field.showButton" mat-raised-button>
+  <button (click)="this.onCreateEntity()" type="button" *ngIf="this.field['entityCreateComponentDialog']" mat-raised-button>
     <mat-icon>add_circle_outline</mat-icon>
   </button>
 </div>

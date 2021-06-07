@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="center center">
 <div fxLayout="row" fxLayoutAlign="center center">
-  <button (click)="this.showFormForCreatingBookRequests()" class="option" color="primary"
-          mat-flat-button>Create book request
+  <button (click)="this.showFormForCreatingBookRequests()" class="option" color="primary" mat-flat-button>
+    Add Books
   </button>
   <button (click)="this.showFormForCreatingBook()" class="option" color="primary"
           mat-flat-button>Create book
@@ -12,7 +12,7 @@
   <div *ngIf="this.showFormForBookRequests" class="form">
     <div style="text-align:center">
       <h1>
-        Create book request
+        Add Books
       </h1>
     </div>
     <app-dynamic-form (actionCalled)="this.handleAction($event)" (submit)="this.createBookRequest($event)"

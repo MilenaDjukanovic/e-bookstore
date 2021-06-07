@@ -97,12 +97,7 @@ export class ManageBookRequestsComponent implements OnInit {
   }
 
   private approveBookManagementRequest(bookManagementRequest: BookManagementRequest) {
-    debugger
-    const updateBookManagementRequest =
-      new UpdateBookManagementRequest(bookManagementRequest.id, bookManagementRequest.book.id,
-        bookManagementRequest.quantity, null, bookManagementRequest.reason, bookManagementRequest.processed,
-        bookManagementRequest.publishingHouse.id);
-    this.bookManagementRequestService.approveBookManagementRequest(updateBookManagementRequest).
+    this.bookManagementRequestService.approveBookManagementRequest(bookManagementRequest.id).
     subscribe((data) => {
       console.log('successful');
       this.refreshTable();

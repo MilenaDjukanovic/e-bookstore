@@ -37,21 +37,24 @@ export const defaultBookConfiguration: FieldConfig[] = [
     validations: []
   },
   {
-    type: 'select',
-    label: 'Author',
+    type: 'rest-select',
     name: 'author',
-    value: 'author',
-    options: ['neko', 'nesto'],
+    label: 'Author',
+    optionsUrl: '/spring/api/public/authors/all',
+    optionsArrayProperty: 'content',
+    optionsDisplayProperty: 'firstName',
+    optionsValueProperty: 'id',
     showButton: true,
     actionName: 'createAuthor'
-
   },
   {
-    type: 'select',
+    type: 'rest-select',
     label: 'Category',
     name: 'category',
-    value: 'category',
-    options: ['neko', 'nesto'],
+    optionsUrl: '/spring/api/public/categories/all',
+    optionsArrayProperty: 'content',
+    optionsDisplayProperty: 'name',
+    optionsValueProperty: 'id',
     showButton: true,
     actionName: 'createCategory'
   },

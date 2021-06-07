@@ -30,7 +30,6 @@ import {MatTableModule} from "@angular/material/table";
 import { ButtonComponent } from './shared/components/form/button/button.component';
 import { SelectComponent } from './shared/components/form/select/select.component';
 import {MatSelectModule} from "@angular/material/select";
-import { DynamicFieldComponent } from './shared/components/form/dynamic-field/dynamic-field.component';
 import { DynamicFieldDirective } from './shared/components/form/dynamic-field/dynamic-field.directive';
 import { DynamicFormComponent } from './shared/components/form/dynamic-form/dynamic-form.component';
 import {InputComponent} from "./shared/components/form/input/input.component";
@@ -45,6 +44,7 @@ import { RegisterRepresentativeComponent } from './pages/register-representative
 import { RegisterPublishingHouseComponent } from './pages/register-publishing-house/register-publishing-house.component';
 import { BaseRegisterComponent } from './shared/components/base-register/base-register.component';
 import { CategoryDialogComponent } from './shared/components/category-dialog/category-dialog.component';
+import { RestSelectComponent } from './shared/components/form/rest-select/rest-select.component';
 
 
 @NgModule({
@@ -61,7 +61,6 @@ import { CategoryDialogComponent } from './shared/components/category-dialog/cat
     InputComponent,
     ButtonComponent,
     SelectComponent,
-    DynamicFieldComponent,
     DynamicFieldDirective,
     DynamicFormComponent,
     CreateBookRequestComponent,
@@ -72,6 +71,7 @@ import { CategoryDialogComponent } from './shared/components/category-dialog/cat
     RegisterPublishingHouseComponent,
     BaseRegisterComponent,
     CategoryDialogComponent,
+    RestSelectComponent,
   ],
   imports: [
     BrowserModule,

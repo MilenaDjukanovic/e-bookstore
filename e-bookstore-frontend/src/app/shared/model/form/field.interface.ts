@@ -9,6 +9,10 @@ export interface FieldConfig {
   name: string;
   inputType?: string;
   options?: any;
+  optionsUrl?: string;
+  optionsArrayProperty?: string;
+  optionsDisplayProperty?: string;
+  optionsValueProperty?: string;
   serviceMethod?: any;
   collections?: any;
   showButton?: boolean;

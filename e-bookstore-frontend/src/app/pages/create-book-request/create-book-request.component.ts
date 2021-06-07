@@ -47,7 +47,7 @@ export class CreateBookRequestComponent implements OnInit {
 
   public createBookRequest(value: any) {
     const bookRequest: CreateBookManagementRequest =
-      new CreateBookManagementRequest(1, value.quantity, value.reason);
+      new CreateBookManagementRequest(value.book, value.quantity, value.reason);
 
     this.bookManagementRequestService.createBookRequestService(bookRequest)
       .subscribe((data) => {

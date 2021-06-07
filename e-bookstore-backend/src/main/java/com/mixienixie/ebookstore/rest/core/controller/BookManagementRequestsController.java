@@ -27,7 +27,7 @@ public class BookManagementRequestsController {
         return this.bookManagementRequestsService.findAllByProcessed(processed, pageable);
     }
 
-    @GetMapping("delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void deleteById(@PathVariable Long id) {
         this.bookManagementRequestsService.deleteBookManagementRequestById(id);
     }
@@ -44,10 +44,8 @@ public class BookManagementRequestsController {
         return this.bookManagementRequestsService.create(createBookManagementRequestsRequest);
     }
 
-    @PostMapping("approve/{id}")
-    public BookManagementRequestsDto approveBookManagementRequest
-            (@RequestBody @Valid CreateBookManagementRequestsRequest createBookManagementRequestsRequest,
-             @PathVariable Long id){
-        return this.bookManagementRequestsService.approveBookManagementRequest(id, createBookManagementRequestsRequest);
+    @PutMapping("approve/{id}")
+    public BookManagementRequestsDto approveBookManagementRequest(@PathVariable Long id){
+        return this.bookManagementRequestsService.approveBookManagementRequest(id);
     }
 }

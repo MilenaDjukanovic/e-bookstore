@@ -1,11 +1,11 @@
 package com.mixienixie.ebookstore.service.notifications;
 
 import com.mixienixie.ebookstore.repo.authority.entity.UserEntity;
+import com.mixienixie.ebookstore.repo.core.PublishingHouseRepository;
 import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
 import com.mixienixie.ebookstore.service.AuthorizationService;
 import com.mixienixie.ebookstore.service.NotificationService;
-import com.mixienixie.ebookstore.service.PublishingHouseService;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +34,7 @@ import java.util.Objects;
 public class DefaultNotificationService implements NotificationService{
 
     /** Publishing House Service */
-    private final PublishingHouseService publishingHouseService;
+    private final PublishingHouseRepository publishingHouseRepository;
     /** Authorization Service */
     private final AuthorizationService authorizationService;
 
@@ -132,7 +133,8 @@ public class DefaultNotificationService implements NotificationService{
      * @return EMail message for the book purchases for the publishing house
      */
     private SimpleMailMessage generateEmailForPublishingHouse(Long publishingHouseId, Map<BookEntity, Integer> booksAndQuantity, String address){
-        PublishingHouseEntity publishingHouseEntity = this.publishingHouseService.findById(publishingHouseId);
+        PublishingHouseEntity publishingHouseEntity = this.publishingHouseRepository.findById(publishingHouseId)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find publishing house with id: " + publishingHouseId));
         UserEntity userEntity = this.authorizationService.getAuthenticatedUser();
 
         String emailTitle = String.format(NotificationService.EMAIL_TITLE_PUBLISHING_HOUSE_BOOK_PURCHASE,

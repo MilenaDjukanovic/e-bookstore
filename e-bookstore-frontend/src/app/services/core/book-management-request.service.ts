@@ -32,14 +32,14 @@ export class BookManagementRequestService {
     return this.httpClient.get(url);
   }
 
-  public approveBookManagementRequest(bookManagementRequest: UpdateBookManagementRequest): Observable<any> {
-    const url = this.baseURL + "/api/public/book-management-requests/approve/" + bookManagementRequest.id;
-    return this.httpClient.post(url, bookManagementRequest);
+  public approveBookManagementRequest(requestId: number): Observable<any> {
+    const url = this.baseURL + "/api/public/book-management-requests/approve/" + requestId;
+    return this.httpClient.put(url, {});
   }
 
   public rejectBookManagementRequest(bookManagementRequestId: number): Observable<any> {
     const url = this.baseURL + "/api/public/book-management-requests/delete/" + bookManagementRequestId;
-    return this.httpClient.get(url);
+    return this.httpClient.delete(url);
   }
 
   public createBookRequestService(bookRequest: CreateBookManagementRequest): Observable<any> {

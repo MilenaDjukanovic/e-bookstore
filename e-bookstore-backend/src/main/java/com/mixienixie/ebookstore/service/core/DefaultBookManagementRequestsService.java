@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
 import java.util.Objects;
 
@@ -105,14 +106,15 @@ public class DefaultBookManagementRequestsService implements BookManagementReque
     }
 
     @Override
-    public BookManagementRequestsDto approveBookManagementRequest(Long requestId, CreateBookManagementRequestsRequest bookManagementRequestsRequest) {
+    public BookManagementRequestsDto approveBookManagementRequest(Long requestId) {
         Objects.requireNonNull(requestId);
-        Objects.requireNonNull(bookManagementRequestsRequest);
-        Objects.requireNonNull(bookManagementRequestsRequest.getBookId());
 
-        BookDto bookDto = this.bookService.findByBookId(bookManagementRequestsRequest.getBookId());
+        BookManagementRequestsEntity bookManagementRequestsEntity = this.bookManagementRequestsRepository.findById(requestId)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find book management request with id: " + requestId));
 
-        int newQuantity = bookDto.getInStock() + bookManagementRequestsRequest.getQuantity();
+        BookDto bookDto = this.bookService.findByBookId(bookManagementRequestsEntity.getBookId());
+
+        int newQuantity = bookDto.getInStock() + bookManagementRequestsEntity.getQuantity();
         if(newQuantity < 0) {
             throw new ValidationException("Book request cannot be approved, book quantity would be less then zero");
         }
@@ -120,8 +122,6 @@ public class DefaultBookManagementRequestsService implements BookManagementReque
         bookDto.setInStock(newQuantity);
         this.bookService.save(this.bookViewMapper.toEntity(bookDto));
 
-        BookManagementRequestsEntity bookManagementRequestsEntity = this.bookManagementRequestsCreateMapper.toEntity(bookManagementRequestsRequest);
-        bookManagementRequestsEntity.setId(requestId);
         bookManagementRequestsEntity.setProcessed(true);
         bookManagementRequestsEntity.setProcessedByUserId(this.authorizationService.getAuthenticatedUser().getId());
         bookManagementRequestsEntity = this.bookManagementRequestsRepository.save(bookManagementRequestsEntity);

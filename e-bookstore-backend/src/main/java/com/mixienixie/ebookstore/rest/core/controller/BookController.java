@@ -5,6 +5,7 @@ import com.mixienixie.ebookstore.repo.core.entity.BookDto;
 import com.mixienixie.ebookstore.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,12 @@ public class BookController {
 
     @GetMapping("books")
     public Page<BookDto> findAll(Pageable pageable) {
+        return this.bookService.findAll(pageable);
+    }
+
+    @GetMapping("books/all")
+    public Page<BookDto> findAll(){
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
         return this.bookService.findAll(pageable);
     }
 

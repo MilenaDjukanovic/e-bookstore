@@ -5,6 +5,7 @@ import com.mixienixie.ebookstore.repo.core.entity.AuthorDto;
 import com.mixienixie.ebookstore.service.AuthorService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +15,17 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class AuthorController {
 
+    /** Author Service */
     private final AuthorService authorService;
 
     @GetMapping("authors")
     public Page<AuthorDto> findAll(Pageable pageable) {
+        return this.authorService.findAll(pageable);
+    }
+
+    @GetMapping("authors/all")
+    public Page<AuthorDto> findAllNoLimit(){
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
         return this.authorService.findAll(pageable);
     }
 

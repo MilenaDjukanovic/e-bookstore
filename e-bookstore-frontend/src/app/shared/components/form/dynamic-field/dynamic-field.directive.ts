@@ -1,6 +1,7 @@
 import {ComponentFactoryResolver, Directive, Input, OnInit, ViewContainerRef} from '@angular/core';
 import {InputComponent} from "../input/input.component";
 import {ButtonComponent} from "../button/button.component";
+import { RestSelectComponent } from "../rest-select/rest-select.component";
 import {SelectComponent} from "../select/select.component";
 import {FieldConfig} from "../../../model/form/field.interface";
 import {FormGroup} from "@angular/forms";
@@ -8,7 +9,8 @@ import {FormGroup} from "@angular/forms";
 const componentMapper = {
   input: InputComponent,
   button: ButtonComponent,
-  select: SelectComponent
+  select: SelectComponent,
+  "rest-select": RestSelectComponent
 };
 
 @Directive({

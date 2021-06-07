@@ -11,8 +11,10 @@ export class BaseRegisterComponent implements OnInit {
 
   @Input() public formConfiguration!: any;
   @Input() public error!: string;
+  @Input() public headerMessage!: string;
+  @Input() public buttonLabel!: string;
 
-  @Output() formSubmitted: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public formSubmitted: EventEmitter<any> = new EventEmitter<any>();
 
   public registrationForm!: FormGroup;
 
@@ -23,6 +25,8 @@ export class BaseRegisterComponent implements OnInit {
       this.error = 'Invalid form configuration!';
       return;
     }
+
+    this.buttonLabel = this.buttonLabel ? this.buttonLabel : 'Register';
 
     this.initializeForm();
   }

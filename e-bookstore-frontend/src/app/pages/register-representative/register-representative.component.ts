@@ -14,6 +14,9 @@ export class RegisterRepresentativeComponent implements OnInit{
 
   public formConfiguration!: any;
 
+  public headerMessage: string = 'Here you can register as a Publishing House Representative. Provide the TIN of the publishing house ' +
+    'and the Representative Registration Key.';
+
   public error!: string;
 
   constructor(private router: Router, private authService: AuthService){

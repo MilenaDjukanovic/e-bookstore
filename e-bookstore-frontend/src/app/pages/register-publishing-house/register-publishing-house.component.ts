@@ -12,7 +12,8 @@ import { CreatePublishingHouse } from "../../shared/model/publishing-house.model
 })
 export class RegisterPublishingHouseComponent implements OnInit{
 
-  public registerPublishingHouseForm!: FormGroup;
+  public headerMessage: string = 'Here you can register your publishing house. The Representative Registration Key is a key your ' +
+    'representatives will need to provide in order to register their account with your publishing house.';
 
   public error!: string;
 
@@ -28,7 +29,7 @@ export class RegisterPublishingHouseComponent implements OnInit{
   public registerPublishingHouse(event: any): void{
     const publishingHouse: CreatePublishingHouse = event['values'];
     this.publishingHouseService.create(publishingHouse).pipe(first()).subscribe(data => {
-      console.log(data);
+      this.redirectToRegisterRepresentative();
     }, error => {
       this.error = error;
     })

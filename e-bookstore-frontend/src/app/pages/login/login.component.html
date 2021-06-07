@@ -1,39 +1,4 @@
-<div class="card-wrapper" fxLayout="column" fxLayoutAlign="center center">
-  <mat-card class="card">
-    <div class="header">
-      <mat-card-title>E-bookstore</mat-card-title>
-    </div>
-    <div class="card-content">
-      <mat-card-content class="content">
-        <form (ngSubmit)="this.onSubmit()" [formGroup]="this.loginForm">
-          <h2>Log in</h2>
-          <p>
-            <mat-form-field class="form-field">
-              <input formControlName="email" matInput placeholder="email" type="email">
-              <mat-error>
-                Email not valid
-              </mat-error>
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field class="form-field">
-              <input formControlName="password" matInput placeholder="password" type="password">
-              <mat-error>
-                Password not valid
-              </mat-error>
-            </mat-form-field>
-          </p>
-
-          <mat-error *ngIf="this.error">
-            {{this.error}}
-          </mat-error>
-
-          <div class="actions">
-            <button class="login-button" color="primary" mat-flat-button type="submit">Login</button>
-            <a (click)="this.redirectToRegister()" class="register-link">Don't have an account yet? Register</a>
-          </div>
-        </form>
-      </mat-card-content>
-    </div>
-  </mat-card>
-</div>
+<app-base-register (formSubmitted)="this.onSubmit($event)"
+                   [buttonLabel]="'Login'"
+                   [error]="this.error" [formConfiguration]="this.formConfiguration">
+</app-base-register>

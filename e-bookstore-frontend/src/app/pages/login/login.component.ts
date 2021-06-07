@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../services/authority/auth.service";
-import {AuthUser, IAuthUser} from "../../shared/model/user.model";
+import {AuthUser} from "../../shared/model/user.model";
 import {first} from "rxjs/operators";
 
 @Component({
@@ -12,12 +12,10 @@ import {first} from "rxjs/operators";
 })
 export class LoginComponent implements OnInit {
 
-  public loginForm!: FormGroup;
+  public formConfiguration!: any;
 
   private returnUrl!: string;
   public error!: string;
-
-  private submitted = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router,
               private route: ActivatedRoute, private authService: AuthService) {
@@ -28,31 +26,42 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-
-    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+    this.initializeFormConfiguration();
   }
 
-  public onSubmit(): void {
-    this.submitted = true;
-    if(this.loginForm.invalid) {
-      return;
-    }
-    const email = this.loginForm.controls.email.value;
-    const password = this.loginForm.controls.password.value;
-    let user = new AuthUser(email, password);
-
+  public onSubmit(event: any): void {
+    const user: AuthUser = event['values'];
     this.authService.login(user).pipe(first()).subscribe(
       data => {
-        this.router.navigate([this.returnUrl]);
+        const url = this.returnUrl ? this.returnUrl : '/';
+        this.router.navigate([url]);
       },
         error => {
           this.error = error['statusText'];
         }
     )
+  }
+
+  private initializeFormConfiguration(): void{
+    this.formConfiguration = {
+      controls: [{
+        controlName: 'username',
+        type: 'text',
+        placeholder: 'E-mail',
+        validators: [Validators.required, Validators.email],
+        error: 'E-mail not valid!'
+      }, {
+        controlName: 'password',
+        type: 'password',
+        placeholder: 'Password',
+        validators: [Validators.required],
+        error: 'Password not valid!'
+      }],
+      navigation: {
+        text: 'Don\'t have an account yet? Register',
+        path: ['/register']
+      }
+    }
   }
 
   public redirectToRegister(): void {

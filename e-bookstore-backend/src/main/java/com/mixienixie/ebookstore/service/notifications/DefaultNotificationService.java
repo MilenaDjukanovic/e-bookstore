@@ -62,6 +62,24 @@ public class DefaultNotificationService implements NotificationService{
      * {@inheritDoc}
      */
     @Override
+    public void sendRepresentativeRegisteredNotification(PublishingHouseEntity publishingHouseEntity, UserEntity userEntity){
+        Objects.requireNonNull(publishingHouseEntity);
+        Objects.requireNonNull(userEntity);
+
+        String representativeRegisteredBody = String.format(NotificationService.EMAIL_BODY_REPRESENTATIVE_REGISTERED,
+                userEntity.getFirstName(), userEntity.getLastName(), userEntity.getUsername());
+        representativeRegisteredBody += "\n\n" + NotificationService.EMAIL_BODY_REPRESENTATIVE_REGISTERED_OUTRO;
+
+        SimpleMailMessage representativeMessage = this.createMessage(publishingHouseEntity.getEmail(),
+                NotificationService.EMAIL_TITLE_REPRESENTATIVE_REGISTERED, representativeRegisteredBody);
+
+        this.sendMessage(representativeMessage);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void sendMessages(List<SimpleMailMessage> messages){
         if(CollectionUtils.isEmpty(messages)){
             throw new ValidationException("Messages must not be null or empty!");

@@ -7,6 +7,7 @@ import com.mixienixie.ebookstore.repo.authority.entity.RoleEntity;
 import com.mixienixie.ebookstore.repo.authority.entity.UserEntity;
 import com.mixienixie.ebookstore.repo.authority.entity.UserDto;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
+import com.mixienixie.ebookstore.service.NotificationService;
 import com.mixienixie.ebookstore.service.PublishingHouseService;
 import com.mixienixie.ebookstore.service.RoleService;
 import com.mixienixie.ebookstore.service.UserService;
@@ -33,20 +34,20 @@ public class DefaultUserService implements UserService{
 
     /** User Repository */
     private final UserRepository userRepository;
-
     /** Role Repository */
     private final RoleService roleService;
-
     /** Publishing House Service */
     private final PublishingHouseService publishingHouseService;
+    /** Notification Service */
+    private final NotificationService notificationService;
+
+    /** Password Encoder */
+    private final PasswordEncoder passwordEncoder;
 
     /** User View Mapper */
     private final UserViewMapper userViewMapper;
     /** User Create Mapper */
     private final UserCreateMapper userCreateMapper;
-
-    /** Password Encoder */
-    private final PasswordEncoder passwordEncoder;
 
     /**
      * {@inheritDoc}
@@ -94,6 +95,8 @@ public class DefaultUserService implements UserService{
         this.roleService.addUserToRole(userEntity.getId(), role.getAuthority());
         // Also add the user to the base representative role
         this.roleService.addUserToRole(userEntity.getId(), RoleService.ROLE_PUBLISHER_REPRESENTATIVE);
+
+        this.notificationService.sendRepresentativeRegisteredNotification(publishingHouseEntity, userEntity);
 
         return this.userViewMapper.toDto(userEntity);
     }

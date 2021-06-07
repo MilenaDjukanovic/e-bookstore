@@ -1,6 +1,8 @@
 package com.mixienixie.ebookstore.service;
 
+import com.mixienixie.ebookstore.repo.authority.entity.UserEntity;
 import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
+import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
 import org.springframework.mail.SimpleMailMessage;
 
 import java.util.List;
@@ -34,12 +36,21 @@ public interface NotificationService{
     /** Outro for email body for email sent to user for book purchase */
     String EMAIL_BODY_USER_BOOK_PURCHASE_OUTRO = "Best Regards,\n Mixie Nixie Bookstore";
 
+    /** Title for email sent for representative registration */
+    String EMAIL_TITLE_REPRESENTATIVE_REGISTERED = "A representative has been registered for your publishing house";
+    /** Body for email sent for representative registration */
+    String EMAIL_BODY_REPRESENTATIVE_REGISTERED = "%s %s (%s) has been registered as your representative.";
+    /** Outro for email body for email sent for representative registration */
+    String EMAIL_BODY_REPRESENTATIVE_REGISTERED_OUTRO = "Best Regards,\n Mixie Nixie Bookstore";
+
     /**
      * Sends a book purchase email for the provided books and quantities to the related publishing houses, for the
      * currently authorized user and an email to the authorized user that his purchase has been finalized
      * @param bookPurchase Map of books and their quantities for purchase
      */
     void sendBookPurchaseNotification(Map<BookEntity, Integer> bookPurchase, String address);
+
+    void sendRepresentativeRegisteredNotification(PublishingHouseEntity publishingHouseEntity, UserEntity userEntity);
 
     /**
      * Sends the provided list of mail messages

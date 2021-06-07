@@ -6,7 +6,8 @@ import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
 import com.mixienixie.ebookstore.service.AuthorizationService;
 import com.mixienixie.ebookstore.service.NotificationService;
 import com.mixienixie.ebookstore.service.PublishingHouseService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -28,7 +29,7 @@ import java.util.Objects;
  * @author ndjordjieski
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DefaultNotificationService implements NotificationService{
 
     /** Publishing House Service */
@@ -40,8 +41,8 @@ public class DefaultNotificationService implements NotificationService{
     private final JavaMailSender emailSender;
 
     /** Flag for enabling sending of mails */
-    @Value("${ebookstore.mail.enabled}")
-    private final boolean mailSendingEnabled;
+    @Value("${ebookstore.mail.enabled}") @Setter
+    private boolean mailSendingEnabled;
 
     /**
      * {@inheritDoc}

@@ -13,6 +13,7 @@ export class BaseRegisterComponent implements OnInit {
   @Input() public error!: string;
   @Input() public headerMessage!: string;
   @Input() public buttonLabel!: string;
+  @Input() public header!: string;
 
   @Output() public formSubmitted: EventEmitter<any> = new EventEmitter<any>();
 
@@ -27,6 +28,7 @@ export class BaseRegisterComponent implements OnInit {
     }
 
     this.buttonLabel = this.buttonLabel ? this.buttonLabel : 'Register';
+    this.header = this.header ? this.header : 'Register';
 
     this.initializeForm();
   }
@@ -59,7 +61,6 @@ export class BaseRegisterComponent implements OnInit {
   }
 
   private getFormValues(): {[key: string]: string}{
-    debugger
     const formControls = this.registrationForm['controls'];
     const formControlKeys = Object.keys(formControls);
 

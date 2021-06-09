@@ -1,10 +1,11 @@
 import { FieldConfig } from "../shared/model/form/field.interface";
+import { PublishingHouseApi } from "./api/publishing-house-api";
 
 export const defaultBookManagementRequestConfiguration: FieldConfig[] = [{
   type: 'rest-select',
   name: 'book',
   label: 'Book',
-  optionsUrl: '/spring/api/public/books/all',
+  optionsUrl: PublishingHouseApi.private.findAllBooks,
   optionsArrayProperty: 'content',
   optionsDisplayProperty: 'title',
   optionsValueProperty: 'id'

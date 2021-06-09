@@ -1,6 +1,8 @@
 import { AuthorDialogComponent } from "../shared/components/author-dialog/author-dialog.component";
 import { CategoryDialogComponent } from "../shared/components/category-dialog/category-dialog.component";
 import {FieldConfig} from "../shared/model/form/field.interface";
+import { AuthorsApi } from "./api/authors-api";
+import { CategoryApi } from "./api/category-api";
 
 export const defaultBookConfiguration: FieldConfig[] = [
   {
@@ -42,7 +44,7 @@ export const defaultBookConfiguration: FieldConfig[] = [
     type: 'rest-select',
     name: 'authorId',
     label: 'Author',
-    optionsUrl: '/spring/api/public/authors/all',
+    optionsUrl: AuthorsApi.public.findAllNoLimit,
     optionsArrayProperty: 'content',
     optionsDisplayProperty: 'firstName',
     optionsValueProperty: 'id',
@@ -52,7 +54,7 @@ export const defaultBookConfiguration: FieldConfig[] = [
     type: 'rest-select',
     label: 'Category',
     name: 'categoryId',
-    optionsUrl: '/spring/api/public/categories/all',
+    optionsUrl: CategoryApi.public.findAll,
     optionsArrayProperty: 'content',
     optionsDisplayProperty: 'name',
     optionsValueProperty: 'id',

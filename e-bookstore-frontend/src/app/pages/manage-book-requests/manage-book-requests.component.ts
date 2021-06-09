@@ -78,7 +78,6 @@ export class ManageBookRequestsComponent implements OnInit {
   }
 
   public onAction($event: any) {
-    debugger
     if ($event.actionName == 'reject') {
       this.rejectBookManagementRequest($event.element);
     } else if ($event.actionName == 'approve') {
@@ -107,7 +106,6 @@ export class ManageBookRequestsComponent implements OnInit {
   }
 
   private rejectBookManagementRequest(bookManagementRequest: BookManagementRequest) {
-    debugger
     this.bookManagementRequestService.rejectBookManagementRequest(bookManagementRequest.id)
       .subscribe(() => {
       this.refreshTable();

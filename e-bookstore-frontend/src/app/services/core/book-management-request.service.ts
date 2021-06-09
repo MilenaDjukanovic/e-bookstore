@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import { BooksManagementRequestsApi } from "../../configuration/api/books-management-requests-api";
 import {IPageable} from "../../shared/util/request.utils";
 import {Observable} from "rxjs";
 import {
@@ -12,38 +13,35 @@ import {
 })
 export class BookManagementRequestService {
 
-  private baseURL = 'spring';
-
   constructor(private httpClient: HttpClient) {
   }
 
   public getBookManagementRequestsByProcessedAndByPublishingHouse(
     pageable: IPageable, id: number, processed: boolean): Observable<any> {
-    const url = this.baseURL + "/api/public/book-management-requests?page=" +
+    const url = BooksManagementRequestsApi.public.findAll + '?page=' +
       pageable.page + '&size=' + pageable.size + '&id=' + id + '&processed=' + processed;
 
     return this.httpClient.get(url);
   }
 
   public getAllPendingBookManagementRequests(processed: boolean, pageable: IPageable): Observable<any> {
-    const url = this.baseURL + "/api/public/book-management-requests/pending?page=" +
+    const url = BooksManagementRequestsApi.private.findAllPending + '?page=' +
       pageable.page + '&size=' + pageable.size + '&processed=' + processed;
 
     return this.httpClient.get(url);
   }
 
   public approveBookManagementRequest(requestId: number): Observable<any> {
-    const url = this.baseURL + "/api/public/book-management-requests/approve/" + requestId;
+    const url = BooksManagementRequestsApi.private.approve + requestId;
     return this.httpClient.put(url, {});
   }
 
   public rejectBookManagementRequest(bookManagementRequestId: number): Observable<any> {
-    const url = this.baseURL + "/api/public/book-management-requests/delete/" + bookManagementRequestId;
+    const url = BooksManagementRequestsApi.private.delete + bookManagementRequestId;
     return this.httpClient.delete(url);
   }
 
   public createBookRequestService(bookRequest: CreateBookManagementRequest): Observable<any> {
-    const url = this.baseURL + "/api/public/book-management-requests/create";
-    return this.httpClient.post(url, bookRequest);
+    return this.httpClient.post(BooksManagementRequestsApi.private.create, bookRequest);
   }
 }

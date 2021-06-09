@@ -16,7 +16,7 @@ import javax.validation.Valid;
  * Private API Endpoint for Books
  * @author ndjordjieski
  */
-@RestController @RequestMapping("api/public/books")
+@RestController @RequestMapping("api/private/books")
 @IsPublishingHouseRepresentative()
 @AllArgsConstructor
 public class BookPrivateController{
@@ -24,7 +24,7 @@ public class BookPrivateController{
     /** Book Service */
     private final BookService bookService;
 
-    @PostMapping("books")
+    @PostMapping()
     public BookDto create(@RequestBody @Valid CreateBookRequest createBookRequest) {
         return this.bookService.create(createBookRequest);
     }

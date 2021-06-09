@@ -9,7 +9,7 @@
     <div class="card-content">
       <mat-card-content class="content">
         <form (ngSubmit)="this.onFormSubmit()" [formGroup]="this.registrationForm">
-          <h2>Register</h2>
+          <h2>{{this.header}}</h2>
           <mat-form-field *ngFor="let controlConfiguration of this.formConfiguration['controls']" class="form-field">
             <input formControlName="{{controlConfiguration['controlName']}}" matInput
                    placeholder="{{controlConfiguration['placeholder']}}" [type]="controlConfiguration['type']">

@@ -1,4 +1,4 @@
-package com.mixienixie.ebookstore.rest.authority.controller;
+package com.mixienixie.ebookstore.rest.authority.controller.external;
 
 import com.mixienixie.ebookstore.authority.requests.AuthUserRequest;
 import com.mixienixie.ebookstore.authority.requests.CreateRepresentativeUserRequest;

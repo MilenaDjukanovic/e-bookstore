@@ -1,9 +1,13 @@
 package com.mixienixie.ebookstore.service.core;
 
 import com.mixienixie.ebookstore.core.requests.CreatePublishingHouseRequest;
+import com.mixienixie.ebookstore.repo.core.BookRepository;
 import com.mixienixie.ebookstore.repo.core.PublishingHouseRepository;
+import com.mixienixie.ebookstore.repo.core.entity.BookDto;
+import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseDto;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
+import com.mixienixie.ebookstore.service.AuthorizationService;
 import com.mixienixie.ebookstore.service.PublishingHouseService;
 import com.mixienixie.ebookstore.service.RoleService;
 import lombok.AllArgsConstructor;
@@ -29,6 +33,9 @@ public class DefaultPublishingHouseService implements PublishingHouseService {
     /** Publishing house Repository */
     private final PublishingHouseRepository publishingHouseRepository;
 
+    /** Book Repository */
+    private final BookRepository bookRepository;
+
     /** Publishing house View Mapper */
     private final PublishingHouseCreateMapper publishingHouseCreateMapper;
 
@@ -37,6 +44,12 @@ public class DefaultPublishingHouseService implements PublishingHouseService {
 
     /** Role Service */
     private final RoleService roleService;
+
+    /** Authorization Service */
+    private final AuthorizationService authorizationService;
+
+    /** Book View Mapper */
+    private final BookViewMapper bookViewMapper;
 
     /**
      * {@inheritDoc}
@@ -108,5 +121,23 @@ public class DefaultPublishingHouseService implements PublishingHouseService {
 
         return this.publishingHouseRepository.findByTin(tin)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find publishing house for provided tin"));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<BookDto> findAllBooksForPublishingHouse(Pageable pageable){
+        Objects.requireNonNull(pageable);
+
+        PublishingHouseEntity publishingHouseEntity = this.getPublishingHouseForLoggedInUser();
+        return this.bookRepository.findBookEntitiesByPublishingHouse(publishingHouseEntity, pageable).map(this.bookViewMapper::toDto);
+    }
+
+    private PublishingHouseEntity getPublishingHouseForLoggedInUser(){
+        Long userId = this.authorizationService.getAuthenticatedUser().getId();
+        String tin = this.roleService.getPublishingHouseTinForPublishingHouseRepresentative(userId);
+
+        return this.findByTin(tin);
     }
 }

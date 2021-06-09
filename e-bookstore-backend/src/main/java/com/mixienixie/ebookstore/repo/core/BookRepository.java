@@ -1,6 +1,7 @@
 package com.mixienixie.ebookstore.repo.core;
 
 import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
+import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,6 +38,13 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
      * @return pageable of books
      */
     Page<BookEntity> findBookEntitiesByPriceLessThan(double price, Pageable pageable);
+
+    /**
+     * Finds books that belong to the passed publishing house
+     * @param publishingHouseEntity Publishing House to find books for
+     * @return pageable of books
+     */
+    Page<BookEntity> findBookEntitiesByPublishingHouse(PublishingHouseEntity publishingHouseEntity, Pageable pageable);
 
 
     /**

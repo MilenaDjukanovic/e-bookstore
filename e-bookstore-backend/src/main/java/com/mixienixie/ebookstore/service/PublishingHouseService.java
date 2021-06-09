@@ -1,6 +1,8 @@
 package com.mixienixie.ebookstore.service;
 
 import com.mixienixie.ebookstore.core.requests.CreatePublishingHouseRequest;
+import com.mixienixie.ebookstore.repo.core.entity.AuthorDto;
+import com.mixienixie.ebookstore.repo.core.entity.BookDto;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseDto;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
 import org.springframework.data.domain.Page;
@@ -47,4 +49,11 @@ public interface PublishingHouseService {
      * @return PublishingHouseEntity for TIN
      */
     PublishingHouseEntity findByTin(String tin);
+
+    /**
+     * Finds all books for the publishing house of the currently logged in user
+     * @param pageable
+     * @return
+     */
+    Page<BookDto> findAllBooksForPublishingHouse(Pageable pageable);
 }

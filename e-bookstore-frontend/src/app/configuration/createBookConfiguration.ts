@@ -35,12 +35,12 @@ export const defaultBookConfiguration: FieldConfig[] = [
     type: 'input',
     label: 'In storage',
     inputType: 'text',
-    name: 'inStorage',
+    name: 'inStock',
     validations: []
   },
   {
     type: 'rest-select',
-    name: 'author',
+    name: 'authorId',
     label: 'Author',
     optionsUrl: '/spring/api/public/authors/all',
     optionsArrayProperty: 'content',
@@ -51,7 +51,7 @@ export const defaultBookConfiguration: FieldConfig[] = [
   {
     type: 'rest-select',
     label: 'Category',
-    name: 'category',
+    name: 'categoryId',
     optionsUrl: '/spring/api/public/categories/all',
     optionsArrayProperty: 'content',
     optionsDisplayProperty: 'name',

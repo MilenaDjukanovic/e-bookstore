@@ -14,9 +14,7 @@ export class ShoppingCartComponent implements OnInit {
   public booksForPurchase!: BookPurchase[];
 
   public dataSource = new MatTableDataSource();
-
-  public displayedColumns: string[] = ['name', 'author', 'quantity', 'price', 'remove-from-cart'];
-
+  
   public totalCost = 0;
 
   public columnDefinitions: Array<any> = new Array<any>();

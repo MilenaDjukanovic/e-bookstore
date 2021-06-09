@@ -3,6 +3,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {DialogData, DynamicFormComponent} from "../form/dynamic-form/dynamic-form.component";
 import {FieldConfig} from "../../model/form/field.interface";
 import {authorDialogConfiguration} from "../../../configuration/authorDialogConfiguration";
+import {AuthorService} from "../../../services/core/author.service";
+import {CreateAuthor, ICreateAuthor} from "../../model/author.model";
 
 @Component({
   selector: 'app-author-dialog',
@@ -12,14 +14,28 @@ import {authorDialogConfiguration} from "../../../configuration/authorDialogConf
 export class AuthorDialogComponent implements OnInit {
 
   @ViewChild(DynamicFormComponent) form!: DynamicFormComponent;
-  authorDialogFields: FieldConfig[] = authorDialogConfiguration;
+  public authorDialogFields: FieldConfig[] = authorDialogConfiguration;
+  private successfullyCreated = false;
 
-  constructor(public dialogRef: MatDialogRef<AuthorDialogComponent>) { }
+  constructor(public dialogRef: MatDialogRef<AuthorDialogComponent>,
+              private authorService: AuthorService) { }
 
   ngOnInit(): void {
   }
 
   public submit(value: any) {
+    debugger
+      const createAuthor: ICreateAuthor = new CreateAuthor(
+        value.firstname, value.lastname, value.about
+      );
 
+      this.authorService.createAuthor(createAuthor)
+        .subscribe(() => {
+          this.successfullyCreated = true;
+        }, (error => {
+          this.successfullyCreated = false;
+        }))
+
+      this.dialogRef.close({successful: this.successfullyCreated});
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {IPageable} from "../../shared/util/request.utils";
 import {Observable} from "rxjs";
+import {ICreateAuthor} from "../../shared/model/author.model";
 
 @Injectable({
   providedIn: 'root'
@@ -17,4 +18,8 @@ export class AuthorService {
     return this.httpClient.get(url);
   }
 
+  public createAuthor(author: ICreateAuthor): Observable<any> {
+    const url = this.baseURL + "api/public/authors";
+    return this.httpClient.post(url, author);
+  }
 }

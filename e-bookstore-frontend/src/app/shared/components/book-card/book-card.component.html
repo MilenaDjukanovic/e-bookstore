@@ -14,7 +14,7 @@
 
       <mat-card-actions class="controls">
 
-        <div fxLayout="row" fxLayoutAlign="space-around center" class="quantity-control">
+        <div *ngIf="!this.representativeLoggedIn" fxLayout="row" fxLayoutAlign="space-around center" class="quantity-control">
           <button mat-fab class="quantity-buttons" fxLayoutAlign="center center" (click)="this.reduceQuantity()">
             <mat-icon>remove</mat-icon>
           </button>
@@ -24,13 +24,18 @@
           </button>
         </div>
 
-        <button (click)="this.addToCart()" mat-flat-button
+        <button *ngIf="!this.representativeLoggedIn" (click)="this.addToCart()" mat-flat-button
                 class="controls-button" color="accent">
           <span class="price">{{this.book.price}}$</span>
           <span class="shopping-cart" aria-hidden="true"><mat-icon>shopping_cart</mat-icon></span>
           <span class="buy">Buy now</span>
         </button>
 
+
+        <button *ngIf="this.representativeLoggedIn" mat-flat-button
+                class="controls-button delete-book" color="warn">
+          <span>Delete</span>
+        </button>
       </mat-card-actions>
     </div>
   </mat-card-content>

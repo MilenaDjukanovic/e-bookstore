@@ -126,6 +126,10 @@ mat-card-content > p {
   padding: 10px;
 }
 
+.delete-book{
+  width: 20vh;
+}
+
 @media screen and (max-width: 600px) {
   .container {
     max-width: 300px;

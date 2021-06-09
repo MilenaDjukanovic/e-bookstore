@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Book} from "../../model/book.model";
 import {BookPurchasesService} from "../../../services/core/book-purchases.service";
 import {BookPurchase} from "../../model/book-purchase.model";
+import {AuthService} from "../../../services/authority/auth.service";
 
 @Component({
   selector: 'app-book-card',
@@ -13,13 +14,20 @@ export class BookCardComponent implements OnInit {
   @Input() book!: Book;
 
   public stars = [1, 2, 3, 4, 5];
+  public representativeLoggedIn: boolean = false;
+  public quantityToBuy!: number;
 
-  public quantityToBuy = 1;
-
-  constructor(private bookPurchasesService: BookPurchasesService) {
+  constructor(private bookPurchasesService: BookPurchasesService,
+              private authService: AuthService) {
+    this.authService.getCurrentUserValue().authorities.forEach((authority: any) => {
+        if(authority.authority === 'ROLE_PUBLISHER_REPRESENTATIVE'){
+          this.representativeLoggedIn = true;
+        }
+    });
   }
 
   ngOnInit(): void {
+    this.setBookQuantity();
   }
 
   public reduceQuantity() {
@@ -35,9 +43,17 @@ export class BookCardComponent implements OnInit {
   }
 
   public addToCart() {
+    debugger
+    if(this.quantityToBuy === 0) {
+      return;
+    }
     const bookPurchase = new BookPurchase(this.book, this.quantityToBuy);
     this.bookPurchasesService.addBook(bookPurchase);
-    if (this.book.inStock > 1) {
+    this.setBookQuantity();
+  }
+
+  private setBookQuantity(): void{
+    if (this.book.inStock > 0) {
       this.quantityToBuy = 1;
     } else {
       this.quantityToBuy = 0;

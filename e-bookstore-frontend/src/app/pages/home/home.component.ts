@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.pageable = new Pageable(0, 2);
+    this.pageable = new Pageable(0, 10);
     this.bookService.getBooks(this.pageable).subscribe(data => {
         this.books = data.content;
         this.numberOfItems = data.totalElements;

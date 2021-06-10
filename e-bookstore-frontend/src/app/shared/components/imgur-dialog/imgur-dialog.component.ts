@@ -23,8 +23,7 @@ export class ImgurDialogComponent implements OnInit {
       const imageUrl = response['data']['link'];
       this.dialogRef.close({imageUrl: imageUrl})
     }, error => {
-      this.error = 'Image upload failed';
-      console.error(error);
+      this.error = 'Image upload failed: ' + error;
     })
   }
 

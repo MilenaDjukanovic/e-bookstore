@@ -3,6 +3,9 @@
     <mat-select [placeholder]="field.label" [formControlName]="field.name">
       <mat-option *ngFor="let item of field.options" [value]="item">{{item}}</mat-option>
     </mat-select>
+    <mat-error>
+      {{this.field['error']}}
+    </mat-error>
   </mat-form-field>
   <button (click)="this.onAction()" type="button" *ngIf="field.showButton" mat-raised-button>
     <mat-icon>add_circle_outline</mat-icon>

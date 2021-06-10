@@ -19,7 +19,7 @@ public class CategoryEntity {
     private Long id;
 
     /** Name **/
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Getter @Setter
     private String name;
 }

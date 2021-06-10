@@ -14,8 +14,9 @@ import {CreateAuthor, ICreateAuthor} from "../../model/author.model";
 export class AuthorDialogComponent implements OnInit {
 
   @ViewChild(DynamicFormComponent) form!: DynamicFormComponent;
+
   public authorDialogFields: FieldConfig[] = authorDialogConfiguration;
-  private successfullyCreated = false;
+  public error!: string;
 
   constructor(public dialogRef: MatDialogRef<AuthorDialogComponent>,
               private authorService: AuthorService) { }
@@ -23,18 +24,12 @@ export class AuthorDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public submit(value: any) {
-      const createAuthor: ICreateAuthor = new CreateAuthor(
-        value.firstname, value.lastname, value.about
-      );
-
-      this.authorService.createAuthor(createAuthor)
-        .subscribe(() => {
-          this.successfullyCreated = true;
-        }, (error => {
-          this.successfullyCreated = false;
-        }))
-
-      this.dialogRef.close({successful: this.successfullyCreated});
+  public submit(createAuthor: CreateAuthor) {
+    this.authorService.createAuthor(createAuthor).subscribe(() => {
+      this.error = '';
+      this.dialogRef.close({successful: true});
+    }, error => {
+      this.error = 'ERROR: ' + error;
+    });
   }
 }

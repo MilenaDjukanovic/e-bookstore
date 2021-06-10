@@ -15,6 +15,7 @@ export interface DialogData {
 export class DynamicFormComponent implements OnInit {
 
   @Input() fields: FieldConfig[] = [];
+  @Input() error!: string;
 
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
   @Output() actionCalled: EventEmitter<any> = new EventEmitter<any>();
@@ -45,7 +46,7 @@ export class DynamicFormComponent implements OnInit {
 
       const control = this.formBuilder.control(
         field.value,
-        this.bindValidations(field.validations || [])
+        field.validations || []
       );
       if (field.name != null) {
         group.addControl(field.name, control);
@@ -75,6 +76,7 @@ export class DynamicFormComponent implements OnInit {
 
     if (this.form.valid) {
       this.submit.emit(this.form.value);
+      this.form.reset();
     } else {
       this.validateAllFormFields(this.form);
     }

@@ -43,7 +43,6 @@ export class BookCardComponent implements OnInit {
   }
 
   public addToCart() {
-    debugger
     if(this.quantityToBuy === 0) {
       return;
     }

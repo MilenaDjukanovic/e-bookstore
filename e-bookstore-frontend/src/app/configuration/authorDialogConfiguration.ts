@@ -1,19 +1,22 @@
+import { Validators } from "@angular/forms";
 import {FieldConfig} from "../shared/model/form/field.interface";
 
 export const authorDialogConfiguration: FieldConfig[] = [
   {
     type: 'input',
-    label: 'First name',
+    label: 'First Name',
     inputType: 'text',
-    name: 'firstname',
-    validations: []
+    name: 'firstName',
+    validations: [Validators.required],
+    error: 'First Name cannot be empty!'
   },
   {
     type: 'input',
-    label: 'First name',
+    label: 'Last Name',
     inputType: 'text',
-    name: 'lastname',
-    validations: []
+    name: 'lastName',
+    validations: [Validators.required],
+    error: 'Last Name cannot be empty!'
   },
   {
     type: 'input',

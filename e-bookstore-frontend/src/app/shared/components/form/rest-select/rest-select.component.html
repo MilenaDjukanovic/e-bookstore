@@ -5,6 +5,9 @@
         {{option['displayValue']}}
       </mat-option>
     </mat-select>
+    <mat-error>
+      {{this.field['error']}}
+    </mat-error>
   </mat-form-field>
   <button (click)="this.onCreateEntity()" type="button" *ngIf="this.field['entityCreateComponentDialog']" mat-raised-button>
     <mat-icon>add_circle_outline</mat-icon>

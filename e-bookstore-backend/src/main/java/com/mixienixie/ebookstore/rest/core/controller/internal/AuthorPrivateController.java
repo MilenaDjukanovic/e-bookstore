@@ -16,7 +16,7 @@ import javax.validation.Valid;
  * Private API Endpoint for Author
  * @author ndjordjieski
  */
-@RestController @RequestMapping("api/private/author")
+@RestController @RequestMapping("api/private/authors")
 @IsPublishingHouseRepresentative()
 @AllArgsConstructor
 public class AuthorPrivateController{

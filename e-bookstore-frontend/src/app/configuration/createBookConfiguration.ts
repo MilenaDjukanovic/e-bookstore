@@ -1,3 +1,4 @@
+import { Validators } from "@angular/forms";
 import { AuthorDialogComponent } from "../shared/components/author-dialog/author-dialog.component";
 import { CategoryDialogComponent } from "../shared/components/category-dialog/category-dialog.component";
 import {FieldConfig} from "../shared/model/form/field.interface";
@@ -10,36 +11,41 @@ export const defaultBookConfiguration: FieldConfig[] = [
     label: 'Title',
     inputType: 'text',
     name: 'title',
-    validations: []
+    validations: [Validators.required],
+    error: 'Title must not be empty!'
   },
   {
     type: 'input',
     label: 'Description',
     inputType: 'text',
     name: 'description',
-    validations: []
+    validations: [Validators.required],
+    error: 'Description must not be empty!'
   },
   {
     type: 'upload-imgur',
     label: 'Image URL',
-    inputType: 'text',
+    inputType: 'url',
     showButton: true,
     name: 'image',
-    validations: []
+    validations: [Validators.required],
+    error: 'Please provide the url to the cover image or upload a new one!'
   },
   {
     type: 'input',
     label: 'Price',
-    inputType: 'text',
+    inputType: 'number',
     name: 'price',
-    validations: []
+    validations: [Validators.required, Validators.min(1)],
+    error: 'Price cannot be empty or less than 1!'
   },
   {
     type: 'input',
-    label: 'In storage',
-    inputType: 'text',
+    label: 'In Stock',
+    inputType: 'number',
     name: 'inStock',
-    validations: []
+    validations: [Validators.required, Validators.min(0)],
+    error: 'In Stock cannot be empty or less than 0!'
   },
   {
     type: 'rest-select',
@@ -49,7 +55,9 @@ export const defaultBookConfiguration: FieldConfig[] = [
     optionsArrayProperty: 'content',
     optionsDisplayProperty: 'firstName',
     optionsValueProperty: 'id',
-    entityCreateComponentDialog: AuthorDialogComponent
+    entityCreateComponentDialog: AuthorDialogComponent,
+    validations: [Validators.required],
+    error: 'Author cannot be empty!'
   },
   {
     type: 'rest-select',
@@ -60,7 +68,9 @@ export const defaultBookConfiguration: FieldConfig[] = [
     optionsDisplayProperty: 'name',
     optionsValueProperty: 'id',
     showButton: true,
-    entityCreateComponentDialog: CategoryDialogComponent
+    entityCreateComponentDialog: CategoryDialogComponent,
+    validations: [Validators.required],
+    error: 'Category cannot be empty!'
   },
   {
     type: 'button',

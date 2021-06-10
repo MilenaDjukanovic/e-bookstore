@@ -14,8 +14,9 @@ import {CategoryService} from "../../../services/core/category.service";
 export class CategoryDialogComponent implements OnInit {
 
   @ViewChild(DynamicFormComponent) form!:DynamicFormComponent;
+
   public categoryDialogFields: FieldConfig[] = categoryDialogConfiguration;
-  private successfullyCreated = false;
+  public error!: string;
 
   constructor(public dialogRef: MatDialogRef<CategoryDialogComponent>,
               private categoryService: CategoryService) { }
@@ -23,16 +24,13 @@ export class CategoryDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public submit(value: any) {
-    const category: ICreateCategory = new CreateCategory(value.name);
-    this.categoryService.createCategory(category)
-      .subscribe(() => {
-        this.successfullyCreated = true;
-      }, (error) => {
-        this.successfullyCreated = false;
-      })
-
-    this.dialogRef.close({successful: this.successfullyCreated})
+  public submit(category: ICreateCategory) {
+    this.categoryService.createCategory(category).subscribe(() => {
+      this.error = '';
+      this.dialogRef.close({successful: true});
+    }, error => {
+      this.error = 'ERROR: ' + error;
+    });
   }
 
 }

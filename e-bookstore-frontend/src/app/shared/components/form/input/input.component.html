@@ -1,5 +1,6 @@
 <mat-form-field class="demo-full-width" [formGroup]="group">
-  <input matInput [formControlName]="field.name" [placeholder]="field.label" type="field.inputType">
-  <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
-  </ng-container>
+  <input matInput [formControlName]="field.name" [placeholder]="field.label" type="{{this.field['inputType']}}">
+  <mat-error>
+    {{this.field['error']}}
+  </mat-error>
 </mat-form-field>

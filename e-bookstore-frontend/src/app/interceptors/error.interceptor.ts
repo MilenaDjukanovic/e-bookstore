@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from "rxjs/operators";
+import { environment } from "../../environments/environment";
 import { AuthService } from "../services/authority/auth.service";
 
 @Injectable()
@@ -21,7 +22,14 @@ export class ErrorInterceptor implements HttpInterceptor {
         location.reload();
       }
 
-      const errorMessage = (error['error'] && error['error']['message']) ? error['error']['message'] : error['statusText'];
+      let errorMessage = (error['error'] && error['error']['message']) ? error['error']['message'] : error['statusText'];
+      // Handle specific imgur errors, their structure is different
+      if(request.url.indexOf(environment.imgur.uploadUrl) !== -1){
+        if(error.error.data.error.message){
+          errorMessage = error.error.data.error.message;
+        }
+      }
+
       return throwError(errorMessage);
     }));
   }

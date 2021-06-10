@@ -1,3 +1,4 @@
+import { Validators } from "@angular/forms";
 import { FieldConfig } from "../shared/model/form/field.interface";
 import { PublishingHouseApi } from "./api/publishing-house-api";
 
@@ -8,19 +9,23 @@ export const defaultBookManagementRequestConfiguration: FieldConfig[] = [{
   optionsUrl: PublishingHouseApi.private.findAllBooks,
   optionsArrayProperty: 'content',
   optionsDisplayProperty: 'title',
-  optionsValueProperty: 'id'
+  optionsValueProperty: 'id',
+  validations: [Validators.required],
+  error: 'Book cannot be empty!'
 }, {
   type: 'input',
   label: 'Quantity',
-  inputType: 'text',
+  inputType: 'number',
   name: 'quantity',
-  validations: []
+  validations: [Validators.required],
+  error: 'Quantity cannot be empty or less than 1!'
 }, {
   type: 'input',
   label: 'Reason',
   inputType: 'text',
   name: 'reason',
-  validations: []
+  validations: [Validators.required],
+  error: 'Please provide the reason for your request'
 }, {
   type: 'button',
   name: 'saveBookRequest',

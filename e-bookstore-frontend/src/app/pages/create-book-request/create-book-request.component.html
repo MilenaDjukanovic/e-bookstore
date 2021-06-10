@@ -17,6 +17,7 @@
     </div>
     <app-dynamic-form (actionCalled)="this.handleAction($event)" (submit)="this.createBookRequest($event)"
                       *ngIf="this.fieldConfigs.length > 0"
+                      [error]="this.createBookRequestError"
                       [fields]="this.fieldConfigs">
     </app-dynamic-form>
   </div>
@@ -30,8 +31,9 @@
       </h1>
     </div>
     <app-dynamic-form (actionCalled)="this.handleAction($event)" (submit)="this.createBook($event)"
-                    *ngIf="this.fieldConfigs.length > 0"
-                    [fields]="this.fieldConfigs">
+                      *ngIf="this.fieldConfigs.length > 0"
+                      [error]="this.createBookError"
+                      [fields]="this.fieldConfigs">
     </app-dynamic-form>
   </div>
 </div>

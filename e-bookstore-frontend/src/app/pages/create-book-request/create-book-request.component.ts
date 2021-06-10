@@ -34,6 +34,10 @@ export class CreateBookRequestComponent implements OnInit {
   public numberOfElements!: number;
   public pageSize!: number;
   public columnDefinition: Array<any> = new Array<any>();
+
+  public createBookError!: string;
+  public createBookRequestError!: string;
+
   private pageable!: Pageable;
   private pageIndex!: number;
   private author!: IBaseAuthor;
@@ -45,29 +49,21 @@ export class CreateBookRequestComponent implements OnInit {
               private bookService: BookService) {
   }
 
-  public createBookRequest(value: any) {
-    const bookRequest: CreateBookManagementRequest =
-      new CreateBookManagementRequest(value.book, value.quantity, value.reason);
-
-    this.bookManagementRequestService.createBookRequestService(bookRequest)
-      .subscribe((data) => {
-          console.log("tu sam")
-          this.refreshTable();
-        },(error) => {
-
-        })
+  public createBookRequest(bookRequest: CreateBookManagementRequest) {
+    this.bookManagementRequestService.createBookRequestService(bookRequest).subscribe(data => {
+      this.createBookRequestError = '';
+      this.refreshTable();
+    }, error => {
+      this.createBookRequestError = error;
+    });
   }
 
-  public createBook(value: any) {
-    const book: CreateBook = new CreateBook(value.title, value.description, value.image, value.price,
-      value.inStock, 1, 1);
-    this.bookService.createBook(book)
-      .subscribe((data) => {
-        console.log(data);
-      },(error => {
-
-      })
-    )
+  public createBook(book: CreateBook) {
+    this.bookService.createBook(book).subscribe(data => {
+      this.createBookError = '';
+    }, error => {
+      this.createBookError = error;
+    });
   }
 
   ngOnInit(): void {

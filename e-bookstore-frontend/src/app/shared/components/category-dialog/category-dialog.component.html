@@ -4,5 +4,6 @@
   </h1>
 
 <app-dynamic-form [fields]="this.categoryDialogFields" (submit)="this.submit($event)"
+                  [error]="this.error"
                   *ngIf="this.categoryDialogFields.length > 0"></app-dynamic-form>
 </div>

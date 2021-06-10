@@ -1,10 +1,5 @@
 import { ComponentType } from "@angular/cdk/overlay";
-
-export interface Validator {
-  name: string;
-  validator: any;
-  message: string;
-}
+import { ValidatorFn} from "@angular/forms";
 
 export interface FieldConfig {
   label: string;
@@ -22,6 +17,7 @@ export interface FieldConfig {
   type: string;
   value?: any;
   actionName?: string;
-  validations?: Validator[];
+  validations?: ValidatorFn[];
+  error?: string;
 }
 

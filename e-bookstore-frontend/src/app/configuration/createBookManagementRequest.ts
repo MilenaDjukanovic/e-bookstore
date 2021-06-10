@@ -4,11 +4,15 @@ import { PublishingHouseApi } from "./api/publishing-house-api";
 
 export const defaultBookManagementRequestConfiguration: FieldConfig[] = [{
   type: 'rest-select',
-  name: 'book',
+  name: 'bookId',
   label: 'Book',
   optionsUrl: PublishingHouseApi.private.findAllBooks,
   optionsArrayProperty: 'content',
   optionsDisplayProperty: 'title',
+  optionsDisplayComplexProperty: {
+    properties: ['title', 'inStock'],
+    format: '{title} (In Stock: {inStock})'
+  },
   optionsValueProperty: 'id',
   validations: [Validators.required],
   error: 'Book cannot be empty!'

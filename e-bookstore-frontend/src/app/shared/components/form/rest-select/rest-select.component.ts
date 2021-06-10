@@ -49,7 +49,7 @@ export class RestSelectComponent implements OnInit {
       const values: Array<any> = rawOptions[this.field['optionsArrayProperty']];
       values.forEach(value => {
         if(this.field['optionsDisplayProperty'] && this.field['optionsValueProperty']){
-          const fieldDisplayValue = value[this.field['optionsDisplayProperty']];
+          const fieldDisplayValue = this.resolveDisplayValue(value);
           const fieldValue = value[this.field['optionsValueProperty']];
           tempOptions.push({
             displayValue: fieldDisplayValue,
@@ -60,6 +60,25 @@ export class RestSelectComponent implements OnInit {
     }
 
     this.options = tempOptions;
+  }
+
+  private resolveDisplayValue(value: any): string{
+    const optionsDisplayComplexProperty = this.field['optionsDisplayComplexProperty'];
+    if(optionsDisplayComplexProperty){
+      const properties = optionsDisplayComplexProperty['properties'];
+      let format = optionsDisplayComplexProperty['format'];
+
+      properties.forEach(property => {
+        if(property){
+          const toReplace = '{' + property + '}';
+          format = format.replace(toReplace, value[property])
+        }
+      })
+
+      return format;
+    }
+
+    return this.field['optionsDisplayProperty'] ? value[this.field['optionsDisplayProperty']] : '';
   }
 
 }

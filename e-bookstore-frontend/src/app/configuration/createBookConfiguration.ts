@@ -28,7 +28,7 @@ export const defaultBookConfiguration: FieldConfig[] = [
     inputType: 'url',
     showButton: true,
     name: 'image',
-    validations: [Validators.required],
+    validations: [Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')],
     error: 'Please provide the url to the cover image or upload a new one!'
   },
   {
@@ -54,6 +54,10 @@ export const defaultBookConfiguration: FieldConfig[] = [
     optionsUrl: AuthorsApi.public.findAllNoLimit,
     optionsArrayProperty: 'content',
     optionsDisplayProperty: 'firstName',
+    optionsDisplayComplexProperty: {
+      properties: ['firstName', 'birthYear', 'lastName'],
+      format: '{firstName} {lastName} ({birthYear})'
+    },
     optionsValueProperty: 'id',
     entityCreateComponentDialog: AuthorDialogComponent,
     validations: [Validators.required],

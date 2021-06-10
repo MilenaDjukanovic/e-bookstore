@@ -30,6 +30,7 @@ export class ImgurDialogComponent implements OnInit {
   public handleFileInput(event: any): void{
     const files = event['target']['files']
     if(files && files.item(0)){
+      this.error = '';
       this.image = files.item(0);
     }
   }

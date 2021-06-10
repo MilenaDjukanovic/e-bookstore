@@ -1,6 +1,11 @@
 import { ComponentType } from "@angular/cdk/overlay";
 import { ValidatorFn} from "@angular/forms";
 
+interface OptionsDisplayComplexProperty{
+  properties: Array<string>,
+  format: string
+}
+
 export interface FieldConfig {
   label: string;
   name: string;
@@ -9,6 +14,7 @@ export interface FieldConfig {
   optionsUrl?: string;
   optionsArrayProperty?: string;
   optionsDisplayProperty?: string;
+  optionsDisplayComplexProperty?: OptionsDisplayComplexProperty;
   optionsValueProperty?: string;
   entityCreateComponentDialog?: ComponentType<any>;
   serviceMethod?: any;

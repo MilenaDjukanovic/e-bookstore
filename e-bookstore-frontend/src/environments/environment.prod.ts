@@ -1,5 +1,10 @@
 export const environment = {
   production: true,
+  imgur: {
+    clientId: '',
+    clientSecret: '',
+    uploadUrl: 'https://api.imgur.com/3/image'
+  },
   bookstore: {
     api: {
       base: 'spring',

@@ -24,7 +24,6 @@ export class AuthorDialogComponent implements OnInit {
   }
 
   public submit(value: any) {
-    debugger
       const createAuthor: ICreateAuthor = new CreateAuthor(
         value.firstname, value.lastname, value.about
       );

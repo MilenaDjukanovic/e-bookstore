@@ -1,0 +1,8 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <mat-form-field class="demo-full-width margin-top" [formGroup]="this.group">
+    <input [(ngModel)]="this.imageUrl" matInput [formControlName]="this.field.name" [placeholder]="this.field['label']" type="this.field.inputType">
+  </mat-form-field>
+  <button (click)="this.onUploadImage()" type="button" *ngIf="this.field['showButton']" mat-raised-button>
+    <mat-icon>add_circle_outline</mat-icon>
+  </button>
+</div>

@@ -45,6 +45,8 @@ import { RegisterPublishingHouseComponent } from './pages/register-publishing-ho
 import { BaseRegisterComponent } from './shared/components/base-register/base-register.component';
 import { CategoryDialogComponent } from './shared/components/category-dialog/category-dialog.component';
 import { RestSelectComponent } from './shared/components/form/rest-select/rest-select.component';
+import { UploadImgurComponent } from './shared/components/form/upload-imgur/upload-imgur.component';
+import { ImgurDialogComponent } from './shared/components/imgur-dialog/imgur-dialog.component';
 
 
 @NgModule({
@@ -72,6 +74,8 @@ import { RestSelectComponent } from './shared/components/form/rest-select/rest-s
     BaseRegisterComponent,
     CategoryDialogComponent,
     RestSelectComponent,
+    UploadImgurComponent,
+    ImgurDialogComponent,
   ],
   imports: [
     BrowserModule,

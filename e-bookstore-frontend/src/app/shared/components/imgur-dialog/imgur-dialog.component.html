@@ -1,0 +1,15 @@
+<div class="img-container" style="width: 400px">
+  <div style="text-align:center">
+    <h1>
+      Upload Image
+    </h1>
+  </div>
+  <div class="button-container" fxLayout="row" fxLayoutAlign="space-between center">
+    <input #file type="file" [hidden]="true" (change)="this.handleFileInput($event)"/>
+    <button mat-flat-button color="primary" (click)="this.file.click()">Select Image</button>
+    <button mat-flat-button color="primary" [disabled]="!this.image" (click)="this.uploadImage()">Upload</button>
+  </div>
+  <mat-error *ngIf="this.error">
+    <span>{{this.error}}</span>
+  </mat-error>
+</div>

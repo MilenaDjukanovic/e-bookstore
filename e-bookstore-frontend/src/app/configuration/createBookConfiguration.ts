@@ -20,9 +20,10 @@ export const defaultBookConfiguration: FieldConfig[] = [
     validations: []
   },
   {
-    type: 'input',
-    label: 'ImageURL',
+    type: 'upload-imgur',
+    label: 'Image URL',
     inputType: 'text',
+    showButton: true,
     name: 'image',
     validations: []
   },

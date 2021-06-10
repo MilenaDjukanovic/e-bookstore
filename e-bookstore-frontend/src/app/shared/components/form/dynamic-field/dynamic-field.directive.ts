@@ -5,12 +5,14 @@ import { RestSelectComponent } from "../rest-select/rest-select.component";
 import {SelectComponent} from "../select/select.component";
 import {FieldConfig} from "../../../model/form/field.interface";
 import {FormGroup} from "@angular/forms";
+import { UploadImgurComponent } from "../upload-imgur/upload-imgur.component";
 
 const componentMapper = {
   input: InputComponent,
   button: ButtonComponent,
   select: SelectComponent,
-  "rest-select": RestSelectComponent
+  'rest-select': RestSelectComponent,
+  'upload-imgur': UploadImgurComponent
 };
 
 @Directive({

@@ -1,3 +1,17 @@
+<div class="form-container">
+  <div class="form">
+    <div style="text-align:center">
+      <h1>
+        Search Books
+      </h1>
+    </div>
+    <div class="search-form">
+    <app-dynamic-form *ngIf="this.fieldConfigs.length > 0"
+                      [fields]="this.fieldConfigs">
+    </app-dynamic-form>
+    </div>
+  </div>
+</div>
 <app-book-list [books]="this.books"
                [totalBooks]="this.numberOfItems"
                [pageSize]="this.pageSize"

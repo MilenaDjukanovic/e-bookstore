@@ -56,4 +56,10 @@ public interface PublishingHouseService {
      * @return
      */
     Page<BookDto> findAllBooksForPublishingHouse(Pageable pageable);
+
+    /**
+     * Deletes book
+     * @param bookId
+     */
+    void deleteBook(Long bookId);
 }

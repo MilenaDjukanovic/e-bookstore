@@ -134,6 +134,17 @@ public class DefaultPublishingHouseService implements PublishingHouseService {
         return this.bookRepository.findBookEntitiesByPublishingHouse(publishingHouseEntity, pageable).map(this.bookViewMapper::toDto);
     }
 
+    @Override
+    public void deleteBook(Long bookId) {
+        BookEntity bookEntity = this.bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find book for that id"));
+        PublishingHouseEntity publishingHouseEntity = this.getPublishingHouseForLoggedInUser();
+        if(!bookEntity.getPublishingHouse().getId().equals(publishingHouseEntity.getId())) {
+            throw new ValidationException("You don't have the premission to delete this book");
+        }
+        this.bookRepository.deleteById(bookId);
+    }
+
     private PublishingHouseEntity getPublishingHouseForLoggedInUser(){
         Long userId = this.authorizationService.getAuthenticatedUser().getId();
         String tin = this.roleService.getPublishingHouseTinForPublishingHouseRepresentative(userId);

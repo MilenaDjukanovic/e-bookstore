@@ -4,8 +4,7 @@ import { BooksManagementRequestsApi } from "../../configuration/api/books-manage
 import {IPageable} from "../../shared/util/request.utils";
 import {Observable} from "rxjs";
 import {
-  CreateBookManagementRequest,
-  UpdateBookManagementRequest
+  CreateBookManagementRequest
 } from "../../shared/model/book-management-requests.model";
 
 @Injectable({

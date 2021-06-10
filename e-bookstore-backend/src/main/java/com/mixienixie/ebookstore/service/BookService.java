@@ -6,8 +6,6 @@ import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
-
 /**
  * Service for Book related operations
  *
@@ -36,5 +34,16 @@ public interface BookService {
      */
     BookDto findByBookId(Long id);
 
+    /**
+     * Saves book entity
+     * @param bookEntity book for saving
+     * @return BookDto
+     */
     BookDto save(BookEntity bookEntity);
+
+    /**
+     * Deletes book entity
+     * @param bookId id of the book for deleting
+     */
+    void delete(Long bookId);
 }

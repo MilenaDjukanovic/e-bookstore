@@ -5,7 +5,8 @@ const CATEGORY_API_PRIVATE = environment.bookstore.api.base + environment.bookst
 
 export const CategoryApi = {
   public: {
-    findAll: CATEGORY_API_PUBLIC + environment.bookstore.api.public.category.findAll
+    findAll: CATEGORY_API_PUBLIC + environment.bookstore.api.public.category.findAll,
+    findAllNoLimit: CATEGORY_API_PUBLIC + environment.bookstore.api.public.category.findAllNoLimit
   },
   private: {
     create: CATEGORY_API_PRIVATE + environment.bookstore.api.private.category.create

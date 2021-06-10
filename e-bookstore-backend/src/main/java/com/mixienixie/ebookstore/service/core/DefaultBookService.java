@@ -84,4 +84,9 @@ public class DefaultBookService implements BookService {
 
         return bookViewMapper.toDto(bookEntity);
     }
+
+    @Override
+    public void delete(Long bookId) {
+        this.bookRepository.deleteById(bookId);
+    }
 }

@@ -1,8 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Book} from "../../model/book.model";
 import {BookPurchasesService} from "../../../services/core/book-purchases.service";
 import {BookPurchase} from "../../model/book-purchase.model";
 import {AuthService} from "../../../services/authority/auth.service";
+import {PublishingHouseService} from "../../../services/core/publishing-house.service";
 
 @Component({
   selector: 'app-book-card',
@@ -12,13 +13,14 @@ import {AuthService} from "../../../services/authority/auth.service";
 export class BookCardComponent implements OnInit {
 
   @Input() book!: Book;
+  @Output() deleteBook: EventEmitter<any> = new EventEmitter();
 
   public stars = [1, 2, 3, 4, 5];
   public representativeLoggedIn: boolean = false;
   public quantityToBuy!: number;
 
   constructor(private bookPurchasesService: BookPurchasesService,
-              private authService: AuthService) {
+              private authService: AuthService, private publishingHouseService: PublishingHouseService) {
     this.authService.getCurrentUserValue().authorities.forEach((authority: any) => {
         if(authority.authority === 'ROLE_PUBLISHER_REPRESENTATIVE'){
           this.representativeLoggedIn = true;
@@ -57,5 +59,9 @@ export class BookCardComponent implements OnInit {
     } else {
       this.quantityToBuy = 0;
     }
+  }
+
+  public onDeleteBook() {
+    this.publishingHouseService.onDeleteBook(this.book);
   }
 }

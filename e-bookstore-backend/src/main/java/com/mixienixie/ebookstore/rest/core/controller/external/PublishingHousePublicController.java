@@ -8,6 +8,7 @@ import com.mixienixie.ebookstore.service.AuthorService;
 import com.mixienixie.ebookstore.service.PublishingHouseService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,12 @@ public class PublishingHousePublicController{
 
     @GetMapping()
     public Page<PublishingHouseDto> findAll(Pageable pageable){
+        return this.publishingHouseService.findAll(pageable);
+    }
+
+    @GetMapping("all")
+    public Page<PublishingHouseDto> findAllNoLimit(){
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
         return this.publishingHouseService.findAll(pageable);
     }
 

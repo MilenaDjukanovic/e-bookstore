@@ -23,9 +23,11 @@ export const environment = {
         },
         category: {
           findAll: '/categories',
+          findAllNoLimit: '/categories/all'
         },
         publishingHouse: {
-          create: '/publishing-houses/create'
+          create: '/publishing-houses/create',
+          findAllNoLimit: '/publishing-houses/all'
         }
       },
       private: {
@@ -47,7 +49,8 @@ export const environment = {
           create: '/categories'
         },
         publishingHouse: {
-          findAllBooks: '/publishing-houses/books'
+          findAllBooks: '/publishing-houses/books',
+          delete: '/publishing-houses/delete/'
         }
       }
     }

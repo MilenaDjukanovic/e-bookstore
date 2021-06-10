@@ -5,9 +5,11 @@ const PUBLISHING_HOUSE_API_PRIVATE = environment.bookstore.api.base + environmen
 
 export const PublishingHouseApi = {
   public: {
-    create: PUBLISHING_HOUSE_API_PUBLIC + environment.bookstore.api.public.publishingHouse.create
+    create: PUBLISHING_HOUSE_API_PUBLIC + environment.bookstore.api.public.publishingHouse.create,
+    findAllNoLimit: PUBLISHING_HOUSE_API_PUBLIC + environment.bookstore.api.public.publishingHouse.findAllNoLimit
   },
   private: {
-    findAllBooks: PUBLISHING_HOUSE_API_PRIVATE + environment.bookstore.api.private.publishingHouse.findAllBooks
-  }
+    findAllBooks: PUBLISHING_HOUSE_API_PRIVATE + environment.bookstore.api.private.publishingHouse.findAllBooks,
+    delete: PUBLISHING_HOUSE_API_PRIVATE + environment.bookstore.api.private.publishingHouse.delete
+  },
 }

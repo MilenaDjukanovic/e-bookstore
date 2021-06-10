@@ -53,4 +53,10 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
      * @return optional of Book Entity
      */
     Optional<BookEntity> findById(Long bookId);
+
+    /**
+     * Deletes book by its id
+     * @param id id of the book
+     */
+    void deleteById(Long id);
 }

@@ -19,6 +19,9 @@ public class AuthorDto {
     /** Last name **/
     private String lastName;
 
+    /** Birth Year */
+    private Integer birthYear;
+
     /** (Description)About **/
     private String about;
 }

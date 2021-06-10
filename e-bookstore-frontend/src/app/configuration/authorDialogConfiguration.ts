@@ -20,6 +20,14 @@ export const authorDialogConfiguration: FieldConfig[] = [
   },
   {
     type: 'input',
+    label: 'Birth Year',
+    inputType: 'number',
+    name: 'birthYear',
+    validations: [Validators.required, Validators.min(0)],
+    error: 'Birth year cannot be empty or 0!'
+  },
+  {
+    type: 'input',
     label: 'About',
     inputType: 'text',
     name: 'about',

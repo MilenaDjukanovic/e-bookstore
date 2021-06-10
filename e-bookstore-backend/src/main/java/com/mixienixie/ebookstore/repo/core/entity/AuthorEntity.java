@@ -27,6 +27,11 @@ public class AuthorEntity {
     @Getter @Setter
     private String lastName;
 
+    /** Birth Year */
+    @Column(name = "birth_year", nullable = false)
+    @Getter @Setter
+    private Integer birthYear;
+
     /** (Description)About **/
     @Column
     @Getter @Setter

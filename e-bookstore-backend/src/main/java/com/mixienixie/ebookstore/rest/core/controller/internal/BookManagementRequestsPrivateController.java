@@ -2,6 +2,7 @@ package com.mixienixie.ebookstore.rest.core.controller.internal;
 
 import com.mixienixie.ebookstore.core.requests.CreateBookManagementRequestsRequest;
 import com.mixienixie.ebookstore.repo.core.entity.BookManagementRequestsDto;
+import com.mixienixie.ebookstore.security.authorizations.IsAdminUser;
 import com.mixienixie.ebookstore.security.authorizations.IsPublishingHouseRepresentative;
 import com.mixienixie.ebookstore.service.BookManagementRequestsService;
 import lombok.AllArgsConstructor;
@@ -31,17 +32,20 @@ public class BookManagementRequestsPrivateController{
     /** Book Management Requests Service */
     private final BookManagementRequestsService bookManagementRequestsService;
 
+    @IsAdminUser()
     @GetMapping("all")
     public Page<BookManagementRequestsDto> findAll(Pageable pageable) {
         return this.bookManagementRequestsService.findAll(pageable);
     }
 
+    @IsAdminUser
     @GetMapping("pending")
     public Page<BookManagementRequestsDto> findByProcessed
             (@RequestParam boolean processed, Pageable pageable){
         return this.bookManagementRequestsService.findAllByProcessed(processed, pageable);
     }
 
+    @IsAdminUser
     @DeleteMapping("delete/{id}")
     public void deleteById(@PathVariable Long id) {
         this.bookManagementRequestsService.deleteBookManagementRequestById(id);
@@ -59,6 +63,7 @@ public class BookManagementRequestsPrivateController{
         return this.bookManagementRequestsService.create(createBookManagementRequestsRequest);
     }
 
+    @IsAdminUser
     @PutMapping("approve/{id}")
     public BookManagementRequestsDto approveBookManagementRequest(@PathVariable Long id){
         return this.bookManagementRequestsService.approveBookManagementRequest(id);

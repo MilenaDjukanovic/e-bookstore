@@ -1,7 +1,7 @@
 ### Spring Configuration ###
 spring:
   datasource:
-    url: jdbc:h2:file:./dev_data/ebookstore
+    url: jdbc:h2:file:./dev_data/ebookstore;AUTO_SERVER=TRUE
     username: root
     password: root
     driver-class-name: org.h2.Driver

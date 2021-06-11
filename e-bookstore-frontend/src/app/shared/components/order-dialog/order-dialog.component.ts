@@ -44,6 +44,6 @@ export class OrderDialogComponent implements OnInit {
   }
 
   public closeDialRef() {
-    this.dialogRef.close();
+    this.dialogRef.close({success: true});
   }
 }

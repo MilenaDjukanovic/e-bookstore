@@ -86,8 +86,10 @@ export class ShoppingCartComponent implements OnInit {
   public reserveBooks(): void {
     if (this.authService.isAuthenticated()) {
       const dialogRef = this.dialog.open(OrderDialogComponent);
-      dialogRef.afterClosed().subscribe(() => {
-        this.router.navigate(['home']);
+      dialogRef.afterClosed().subscribe((data) => {
+        if(data && data['success']){
+          this.router.navigate(['home']);
+        }
       })
     } else {
       this.router.navigate(['login']);

@@ -52,6 +52,9 @@ export const environment = {
         publishingHouse: {
           findAllBooks: '/publishing-houses/books',
           delete: '/publishing-houses/delete/'
+        },
+        orders: {
+          order: '/orders'
         }
       }
     }

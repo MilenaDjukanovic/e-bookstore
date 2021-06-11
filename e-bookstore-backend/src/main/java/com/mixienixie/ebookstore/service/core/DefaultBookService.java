@@ -8,8 +8,10 @@ import com.mixienixie.ebookstore.repo.core.entity.BookDto;
 import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
 import com.mixienixie.ebookstore.repo.core.entity.CategoryEntity;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
-import com.mixienixie.ebookstore.search.SpecificationBuilder;
-import com.mixienixie.ebookstore.service.*;
+import com.mixienixie.ebookstore.service.AuthorizationService;
+import com.mixienixie.ebookstore.service.BookService;
+import com.mixienixie.ebookstore.service.PublishingHouseService;
+import com.mixienixie.ebookstore.service.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,9 +48,6 @@ public class DefaultBookService implements BookService {
 
     /** Role Service */
     private final RoleService roleService;
-
-    /** Specification builder **/
-    private final SpecificationBuilder<BookEntity> builder;
 
     /** Category repository **/
     private final CategoryRepository categoryRepository;
@@ -114,7 +113,7 @@ public class DefaultBookService implements BookService {
                     .map(this.bookViewMapper::toDto);
         }
 
-        CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId.orElse(null)).orElse(null);
+        CategoryEntity categoryEntity = this.categoryRepository.findById(createBookRequest.getCategoryId()).orElse(null);
         return this.bookRepository.findBookEntitiesByTitleAndCategory
                 (createBookRequest.getTitle(), categoryEntity, pageable).map(this.bookViewMapper::toDto);
     }
@@ -123,12 +122,4 @@ public class DefaultBookService implements BookService {
         return this.bookRepository.findBookEntitiesByCategory(categoryEntity,pageable)
                 .map(this.bookViewMapper::toDto);
     }
-
-//    @Override
-//    public List<BookDto> searchBooks(SearchBook searchBook, Pageable pageable) {
-//        var params = new ObjectMapper()
-//                .convertValue(searchBook, new TypeReference<Map<String, Object>>() {});
-//        var specs = this.builder.with(params).build();
-//        return this.bookViewMapper.toDto(this.bookRepository.findAll(specs, pageable).getContent());
-//    }
 }

@@ -29,7 +29,4 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
      * @return pageable of orders
      */
     Page<OrderEntity> findOrderEntitiesByOrderDate(Date orderDate, Pageable pageable);
-
-//    Page<OrderEntity> findOrderEntitiesByBooks_(Set<BookEntity> books, Pageable pageable);
-
 }

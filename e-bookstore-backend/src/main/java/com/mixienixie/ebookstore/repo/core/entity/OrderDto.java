@@ -23,5 +23,5 @@ public class OrderDto {
     private Date orderDate;
 
     /** Books that were ordered **/
-    private Set<BookDto> books;
+    private Set<OrderItemEntity> orderItems;
 }

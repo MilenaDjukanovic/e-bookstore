@@ -2,6 +2,7 @@ package com.mixienixie.ebookstore.service;
 
 import com.mixienixie.ebookstore.repo.authority.entity.UserEntity;
 import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
+import com.mixienixie.ebookstore.repo.core.entity.OrderEntity;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -46,9 +47,9 @@ public interface NotificationService{
     /**
      * Sends a book purchase email for the provided books and quantities to the related publishing houses, for the
      * currently authorized user and an email to the authorized user that his purchase has been finalized
-     * @param bookPurchase Map of books and their quantities for purchase
+     * @param orderEntity Order containing individual order items for books and quantities
      */
-    void sendBookPurchaseNotification(Map<BookEntity, Integer> bookPurchase, String address);
+    void sendBookPurchaseNotification(OrderEntity orderEntity);
 
     void sendRepresentativeRegisteredNotification(PublishingHouseEntity publishingHouseEntity, UserEntity userEntity);
 

@@ -3,6 +3,8 @@ package com.mixienixie.ebookstore.service.notifications;
 import com.mixienixie.ebookstore.repo.authority.entity.UserEntity;
 import com.mixienixie.ebookstore.repo.core.PublishingHouseRepository;
 import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
+import com.mixienixie.ebookstore.repo.core.entity.OrderEntity;
+import com.mixienixie.ebookstore.repo.core.entity.OrderItemEntity;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
 import com.mixienixie.ebookstore.service.AuthorizationService;
 import com.mixienixie.ebookstore.service.NotificationService;
@@ -19,9 +21,11 @@ import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Default implementation of the Notification Service
@@ -45,15 +49,19 @@ public class DefaultNotificationService implements NotificationService{
     @Value("${ebookstore.mail.enabled}") @Setter
     private boolean mailSendingEnabled;
 
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public void sendBookPurchaseNotification(Map<BookEntity, Integer> bookPurchase, String address){
-        Map<Long, Map<BookEntity, Integer>> publishingHouseIdBooksMap = this.getPublishingHouseIdAndBookMap(bookPurchase);
+    public void sendBookPurchaseNotification(OrderEntity orderEntity){
+        Objects.requireNonNull(orderEntity);
+        Objects.requireNonNull(orderEntity.getOrderItems());
 
-        List<SimpleMailMessage> publishingHouseMessages = this.getPublishingHouseMailMessages(publishingHouseIdBooksMap, address);
-        SimpleMailMessage userMessage = this.getUserMessage(bookPurchase, address);
+        Map<Long, Set<OrderItemEntity>> booksByPublishingHouse = this.getBooksByPublishingHouse(orderEntity);
+
+        List<SimpleMailMessage> publishingHouseMessages = this.getPublishingHouseMailMessages(booksByPublishingHouse, orderEntity.getAddress());
+        SimpleMailMessage userMessage = this.getUserMessage(orderEntity.getOrderItems(), orderEntity.getAddress());
 
         this.sendMessages(publishingHouseMessages);
         this.sendMessage(userMessage);
@@ -104,35 +112,30 @@ public class DefaultNotificationService implements NotificationService{
 
     /**
      * Parses a map books and their quantities to a map of publishing house ids and books and their quantities.
-     * @param bookPurchase Map of book entities and their quantities
+     * @param orderEntity Order containing individual books and quantities
      * @return Map of Publishing House Ids and their books and quantities
      */
-    private Map<Long, Map<BookEntity, Integer>> getPublishingHouseIdAndBookMap(Map<BookEntity, Integer> bookPurchase){
-        Map<Long, Map<BookEntity, Integer>> publishingHouseIdBooksMap = new HashMap<>();
-        bookPurchase.keySet().forEach(bookEntity -> {
-            Long publishingHouseId = bookEntity.getPublishingHouse().getId();
-            Map<BookEntity, Integer> booksAndQuantity = publishingHouseIdBooksMap.computeIfAbsent(publishingHouseId, k -> new HashMap<>());
+    private Map<Long, Set<OrderItemEntity>> getBooksByPublishingHouse(OrderEntity orderEntity){
+        Map<Long, Set<OrderItemEntity>> booksByPublishingHouse = new HashMap<>();
+        orderEntity.getOrderItems().forEach(orderItemEntity -> {
+            Long publishingHouseId = orderItemEntity.getBook().getPublishingHouse().getId();
 
-            int quantity = bookPurchase.get(bookEntity);
-            if(booksAndQuantity.containsKey(bookEntity)){
-                quantity += booksAndQuantity.get(bookEntity);
-            }
-
-            booksAndQuantity.put(bookEntity, quantity);
+            booksByPublishingHouse.computeIfAbsent(publishingHouseId, k -> new HashSet<>());
+            booksByPublishingHouse.get(publishingHouseId).add(orderItemEntity);
         });
 
-        return publishingHouseIdBooksMap;
+        return booksByPublishingHouse;
     }
 
     /**
      * Generates a simple mail message notification for the publishing house for the passed publishing house id and the map of books
      * and their quantities, and the recipient address
      * @param publishingHouseId publishing house id
-     * @param booksAndQuantity books for the publishing house and their quantities
+     * @param orderItems Set of order items
      * @param address recipient address
      * @return EMail message for the book purchases for the publishing house
      */
-    private SimpleMailMessage generateEmailForPublishingHouse(Long publishingHouseId, Map<BookEntity, Integer> booksAndQuantity, String address){
+    private SimpleMailMessage generateEmailForPublishingHouse(Long publishingHouseId, Set<OrderItemEntity> orderItems, String address){
         PublishingHouseEntity publishingHouseEntity = this.publishingHouseRepository.findById(publishingHouseId)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find publishing house with id: " + publishingHouseId));
         UserEntity userEntity = this.authorizationService.getAuthenticatedUser();
@@ -144,7 +147,7 @@ public class DefaultNotificationService implements NotificationService{
 
         StringBuilder emailBody = new StringBuilder(emailBodyIntro).append("\n\n");
 
-        String bookEntries = this.generateBodyForBooksAndQuantities(booksAndQuantity, NotificationService.EMAIL_BODY_PUBLISHING_HOUSE_BOOK_PURCHASE_BOOK);
+        String bookEntries = this.generateBodyForBooksAndQuantities(orderItems, NotificationService.EMAIL_BODY_PUBLISHING_HOUSE_BOOK_PURCHASE_BOOK);
         emailBody.append(bookEntries);
 
         address = String.format(NotificationService.EMAIL_BODY_PUBLISHING_HOUSE_BOOK_PURCHASE_ADDRESS, address);
@@ -156,17 +159,16 @@ public class DefaultNotificationService implements NotificationService{
 
     /**
      * Generates the mail notifications to be sent to the publishing houses for the book purchases
-     * @param publishingHouseIdBooksMap Map of publishing house Ids and their book purchases and quantities
+     * @param ordersByPublishingHouse Map of publisher house ids and related order items
      * @param address recipient address
      * @return List of book purchase mail notifications for publishing houses
      */
-    private List<SimpleMailMessage> getPublishingHouseMailMessages(Map<Long, Map<BookEntity, Integer>> publishingHouseIdBooksMap, String address){
+    private List<SimpleMailMessage> getPublishingHouseMailMessages(Map<Long, Set<OrderItemEntity>> ordersByPublishingHouse, String address){
         List<SimpleMailMessage> publishingHouseMessages = new ArrayList<>();
 
-        publishingHouseIdBooksMap.keySet().forEach(publishingHouseId -> {
+        ordersByPublishingHouse.keySet().forEach(publishingHouseId -> {
             SimpleMailMessage publishingHouseMessage = this.generateEmailForPublishingHouse(publishingHouseId,
-                    publishingHouseIdBooksMap.get(publishingHouseId), address);
-
+                    ordersByPublishingHouse.get(publishingHouseId), address);
             publishingHouseMessages.add(publishingHouseMessage);
         });
 
@@ -175,18 +177,18 @@ public class DefaultNotificationService implements NotificationService{
 
     /**
      * Generates the authorized user notification for his book purchase
-     * @param bookPurchase Map of books and quantities for purchase
+     * @param orderItems Order Items
      * @param address recipient address
      * @return EMail message for user book purchase
      */
-    private SimpleMailMessage getUserMessage(Map<BookEntity, Integer> bookPurchase, String address){
+    private SimpleMailMessage getUserMessage(Set<OrderItemEntity> orderItems, String address){
         UserEntity userEntity = this.authorizationService.getAuthenticatedUser();
 
         String emailTitle = String.format(NotificationService.EMAIL_TITLE_USER_BOOK_PURCHASE, new Date());
 
         StringBuilder emailBody = new StringBuilder(EMAIL_BODY_USER_BOOK_PURCHASE_INTRO).append("\n\n");
 
-        String bookEntries = this.generateBodyForBooksAndQuantities(bookPurchase, NotificationService.EMAIL_BODY_USER_BOOK_PURCHASE_BOOK);
+        String bookEntries = this.generateBodyForBooksAndQuantities(orderItems, NotificationService.EMAIL_BODY_USER_BOOK_PURCHASE_BOOK);
         emailBody.append(bookEntries);
 
         address = String.format(NotificationService.EMAIL_BODY_USER_BOOK_PURCHASE_ADDRESS, address);
@@ -198,14 +200,16 @@ public class DefaultNotificationService implements NotificationService{
 
     /**
      * Generates the email body part containing information about purchased books and their quantities, based on the passed template
-     * @param bookPurchase Map of books purchased and their quantities
+     * @param orderItems Set of order items
      * @param template Template to use to generate the body part
      * @return Email body part with book purchase entries
      */
-    private String generateBodyForBooksAndQuantities(Map<BookEntity, Integer> bookPurchase, String template){
+    private String generateBodyForBooksAndQuantities(Set<OrderItemEntity> orderItems, String template){
         StringBuilder emailBody = new StringBuilder();
-        bookPurchase.keySet().forEach(bookEntity -> {
-            int quantity = bookPurchase.get(bookEntity);
+        orderItems.forEach(orderItemEntity ->  {
+            BookEntity bookEntity = orderItemEntity.getBook();
+
+            int quantity = orderItemEntity.getQuantity();
             double priceForBooks = bookEntity.getPrice() * quantity;
 
             String bookEntry = String.format(template, bookEntity.getTitle(),

@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import {Injectable, OnInit} from '@angular/core';
 import {BookPurchase} from "../../shared/model/book-purchase.model";
 import {Book} from "../../shared/model/book.model";
@@ -10,7 +11,7 @@ export class BookPurchasesService implements OnInit{
   private booksForPurchase: Array<BookPurchase> = new Array<BookPurchase>();
   private readonly BOOK_CART_ITEM = 'bookCartItem';
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
@@ -57,6 +58,10 @@ export class BookPurchasesService implements OnInit{
     }
   }
 
+  public purchaseBooksFromCart(): void{
+
+  }
+
   private decreaseBookQuantity(book: Book, quantity: number): void {
     if (book && quantity) {
       book.inStock -= quantity;
@@ -73,5 +78,4 @@ export class BookPurchasesService implements OnInit{
       this.decreaseBookQuantity(bookForPurchase.book, bookForPurchase.quantity);
     }
   }
-
 }

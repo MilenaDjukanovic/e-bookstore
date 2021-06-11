@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -31,8 +32,12 @@ public class OrderEntity implements Serializable {
     @Getter @Setter
     private Date orderDate;
 
-    /** Books that were ordered **/
-    @ManyToMany(targetEntity = BookEntity.class)
+    /** Order Items **/
+    @OneToMany
     @Getter @Setter
-    private Set<BookEntity> books;
+    private Set<OrderItemEntity> orderItems = new HashSet<>();
+
+    @Column
+    @Getter @Setter
+    private String address;
 }

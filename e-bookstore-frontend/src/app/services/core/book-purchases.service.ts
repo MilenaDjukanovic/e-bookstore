@@ -1,29 +1,33 @@
-import { HttpClient } from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Injectable, OnInit} from '@angular/core';
 import {BookPurchase} from "../../shared/model/book-purchase.model";
-import {Book} from "../../shared/model/book.model";
+import {Book} from "../../shared/model/book.model"
+import {CreateOrderItem} from "../../shared/model/order-item.model";
+import {CreateOrder} from "../../shared/model/order.model";
+import {OrdersApi} from "../../configuration/api/orders-api";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class BookPurchasesService implements OnInit{
+export class BookPurchasesService implements OnInit {
 
   private booksForPurchase: Array<BookPurchase> = new Array<BookPurchase>();
-  private readonly BOOK_CART_ITEM = 'bookCartItem';
+  public readonly BOOK_CART_ITEM = 'bookCartItem';
 
   constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
     const bookCart = localStorage.getItem(this.BOOK_CART_ITEM);
-    if(bookCart){
+    if (bookCart) {
       this.booksForPurchase = JSON.parse(bookCart);
     }
   }
 
   public getBooksForPurchase() {
     const bookCart = localStorage.getItem(this.BOOK_CART_ITEM);
-    if(bookCart) {
+    if (bookCart) {
       return JSON.parse(bookCart);
     }
   }
@@ -58,10 +62,6 @@ export class BookPurchasesService implements OnInit{
     }
   }
 
-  public purchaseBooksFromCart(): void{
-
-  }
-
   private decreaseBookQuantity(book: Book, quantity: number): void {
     if (book && quantity) {
       book.inStock -= quantity;
@@ -78,14 +78,25 @@ export class BookPurchasesService implements OnInit{
       this.decreaseBookQuantity(bookForPurchase.book, bookForPurchase.quantity);
     }
   }
-  public reserveBooks() {
-    const bookCart = localStorage.getItem(this.BOOK_CART_ITEM);
-    if(bookCart) {
-      const booksToBuy = JSON.parse(bookCart);
-    }
+
+  public createOrder(address: string): Observable<any>{
+    const orderToCreate = this.createOrderItems(address)
+    const url = OrdersApi.public.purchase;
+    return this.httpClient.post(url, orderToCreate);
   }
 
-  private createBookPurchaseItem(){
-
+  private createOrderItems(address: string): CreateOrder {
+    const bookCart = localStorage.getItem(this.BOOK_CART_ITEM);
+    const order: CreateOrder = new CreateOrder(new Array<CreateOrderItem>(), address);
+    if(bookCart) {
+      const booksToBuy = JSON.parse(bookCart);
+      booksToBuy.forEach((bookToBuy: BookPurchase) => {
+        if (bookToBuy.book?.id && bookToBuy.quantity) {
+          const orderItem = new CreateOrderItem(bookToBuy.book?.id, bookToBuy.quantity);
+          order.orderItems.push(orderItem);
+        }
+      })
+    }
+    return order;
   }
 }

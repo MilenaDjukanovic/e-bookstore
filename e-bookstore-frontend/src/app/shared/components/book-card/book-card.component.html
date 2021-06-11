@@ -2,9 +2,6 @@
   <mat-card-content class="content">
     <div class="book-details">
       <mat-card-title class="title">{{this.book.title}}</mat-card-title>
-      <span class="hint-star star">
-              <mat-icon *ngFor="let i of this.stars" aria-hidden="true">star</mat-icon>
-            </span>
       <img mat-card-image
            src="{{this.book.image}}"
            onerror="this.src = '/assets/default-book.jpeg'"
@@ -13,8 +10,7 @@
       <p>Author: {{this.book.author.firstName}} {{this.book.author.lastName}}</p>
       <p>Publishing house: {{this.book.publishingHouse.companyName}}</p>
       <mat-card-actions class="controls">
-
-        <div *ngIf="!this.representativeLoggedIn" class="quantity-control" fxLayout="row"
+        <div  class="quantity-control" fxLayout="row"
              fxLayoutAlign="space-around center">
           <button (click)="this.reduceQuantity()" class="quantity-buttons" fxLayoutAlign="center center" mat-fab>
             <mat-icon>remove</mat-icon>
@@ -24,21 +20,13 @@
             <mat-icon>add</mat-icon>
           </button>
         </div>
-
-        <button (click)="this.addToCart()" *ngIf="!this.representativeLoggedIn" class="controls-button"
+        <button (click)="this.addToCart()"  class="controls-button"
                 color="accent" mat-flat-button>
           <span class="price">{{this.book.price}}$</span>
           <span aria-hidden="true" class="shopping-cart"><mat-icon>shopping_cart</mat-icon></span>
           <span class="buy">Buy now</span>
         </button>
 
-        <div *ngIf="this.representativeLoggedIn">
-          <p>Books in stock: {{this.book.inStock}}</p>
-          <button (click)="onDeleteBook();" *ngIf="this.representativeLoggedIn" class="controls-button delete-book"
-                  color="warn" mat-flat-button>
-            <span>Delete</span>
-          </button>
-        </div>
       </mat-card-actions>
     </div>
   </mat-card-content>

@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const pageInfo = {pageIndex: 0, pageSize: 1};
+    const pageInfo = {pageIndex: 0, pageSize: 10};
     this.loadBooks(pageInfo);
     this.publishingHouseService.bookToDelete.subscribe((book) => {
       this.publishingHouseService.deleteBook(book.id).subscribe(() => {
@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
   public onSubmit($event: any) {
     this.bookWithFilters = new CreateBook($event.title, "",
       "", 0, 0, 0, $event.categoryId);
-    this.pageable = new Pageable(0, 1);
+    this.pageable = new Pageable(0, 10);
     this.getBooksForFilter(this.bookWithFilters, this.pageable);
   }
 

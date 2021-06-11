@@ -3,6 +3,9 @@ import {BookPurchase} from "../../shared/model/book-purchase.model";
 import {Router} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";
 import {BookPurchasesService} from "../../services/core/book-purchases.service";
+import {MatDialog} from "@angular/material/dialog";
+import {OrderDialogComponent} from "../../shared/components/order-dialog/order-dialog.component";
+import {AuthService} from "../../services/authority/auth.service";
 
 @Component({
   selector: 'app-shopping-cart',
@@ -21,7 +24,8 @@ export class ShoppingCartComponent implements OnInit {
 
   public defaultActions: Array<any> = new Array<any>();
 
-  constructor(private bookPurchaseService: BookPurchasesService, private router: Router) {
+  constructor(private bookPurchaseService: BookPurchasesService, private router: Router,
+              public dialog: MatDialog, private authService: AuthService) {
     // this.refreshDataSource();
   }
 
@@ -80,6 +84,13 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   public reserveBooks(): void {
-
+    if (this.authService.isAuthenticated()) {
+      const dialogRef = this.dialog.open(OrderDialogComponent);
+      dialogRef.afterClosed().subscribe(() => {
+        this.router.navigate(['home']);
+      })
+    } else {
+      this.router.navigate(['login']);
+    }
   }
 }

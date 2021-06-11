@@ -1,0 +1,14 @@
+<div fxLayout="column" fxLayoutAlign="start start" >
+  <h1>
+    Insert address
+  </h1>
+
+  <app-dynamic-form [fields]="this.orderDetailsField" (submit)="this.submit($event)"
+                    [error]="this.error"
+                    *ngIf="this.orderDetailsField.length > 0 && !this.successful"></app-dynamic-form>
+  <div *ngIf="this.successful" fxLayout="column" fxLayoutAlign="space-between center" class="order-success">
+    <p>{{this.message}}</p>
+    <button (click)="this.closeDialRef()" mat-raised-button color="accent">OK</button>
+  </div>
+</div>
+

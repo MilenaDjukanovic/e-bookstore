@@ -14,12 +14,12 @@ import {ManageBookRequestsComponent} from "./pages/manage-book-requests/manage-b
 
 const routes: Routes = [
   {
-    path: '', component: HeaderComponent, canActivate: [AuthGuard], children: [
+    path: '', component: HeaderComponent, children: [
       {path: '', component: HomeComponent},
       {path: 'home', component: HomeComponent},
       {path: 'cart', component: ShoppingCartComponent},
-      {path: 'book-requests', component: CreateBookRequestComponent},
-      {path: 'manage-book-requests', component: ManageBookRequestsComponent}
+      {path: 'book-requests', component: CreateBookRequestComponent, canActivate: [AuthGuard]},
+      {path: 'manage-book-requests', component: ManageBookRequestsComponent, canActivate: [AuthGuard]}
     ]
   },
   {

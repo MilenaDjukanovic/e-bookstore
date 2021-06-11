@@ -47,6 +47,8 @@ import { CategoryDialogComponent } from './shared/components/category-dialog/cat
 import { RestSelectComponent } from './shared/components/form/rest-select/rest-select.component';
 import { UploadImgurComponent } from './shared/components/form/upload-imgur/upload-imgur.component';
 import { ImgurDialogComponent } from './shared/components/imgur-dialog/imgur-dialog.component';
+import {OrderDialogComponent} from "./shared/components/order-dialog/order-dialog.component";
+
 
 
 @NgModule({
@@ -76,6 +78,7 @@ import { ImgurDialogComponent } from './shared/components/imgur-dialog/imgur-dia
     RestSelectComponent,
     UploadImgurComponent,
     ImgurDialogComponent,
+    OrderDialogComponent,
   ],
   imports: [
     BrowserModule,

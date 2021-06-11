@@ -15,17 +15,11 @@ export class BookCardComponent implements OnInit {
   @Input() book!: Book;
   @Output() deleteBook: EventEmitter<any> = new EventEmitter();
 
-  public stars = [1, 2, 3, 4, 5];
   public representativeLoggedIn: boolean = false;
   public quantityToBuy!: number;
 
   constructor(private bookPurchasesService: BookPurchasesService,
               private authService: AuthService, private publishingHouseService: PublishingHouseService) {
-    this.authService.getCurrentUserValue().authorities.forEach((authority: any) => {
-        if(authority.authority === 'ROLE_PUBLISHER_REPRESENTATIVE'){
-          this.representativeLoggedIn = true;
-        }
-    });
   }
 
   ngOnInit(): void {
@@ -59,9 +53,5 @@ export class BookCardComponent implements OnInit {
     } else {
       this.quantityToBuy = 0;
     }
-  }
-
-  public onDeleteBook() {
-    this.publishingHouseService.onDeleteBook(this.book);
   }
 }

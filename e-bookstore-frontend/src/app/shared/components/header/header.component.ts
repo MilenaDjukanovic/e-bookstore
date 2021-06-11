@@ -9,7 +9,13 @@ import {AuthService} from "../../../services/authority/auth.service";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router: Router, private authService: AuthService) { }
+  public isPublishingHouse!: boolean;
+  public isAdmin!: boolean;
+
+  constructor(private router: Router, public authService: AuthService) {
+    this.isPublishingHouse = this.authService.isPublishingHouseRepresentative();
+    this.isAdmin = this.authService.isAdmin();
+  }
 
   ngOnInit(): void {
     this.router.events.subscribe(() => {

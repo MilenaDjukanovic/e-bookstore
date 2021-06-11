@@ -9,19 +9,23 @@
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav mode="over" class="sidenav">
       <mat-nav-list>
+        <a *ngIf="!this.authService.getCurrentUserValue()"
+           mat-list-item routerLink="/login" (click)="sidenav.toggle()">
+          <mat-icon>login</mat-icon><span class="nav-caption">Login</span>
+        </a>
         <a mat-list-item routerLink="/" (click)="sidenav.toggle()">
           <mat-icon>auto_stories</mat-icon><span class="nav-caption">Books</span>
         </a>
         <a routerLink="/cart" mat-list-item (click)="sidenav.toggle()">
           <mat-icon>shopping_cart</mat-icon><span class="nav-caption">Cart</span>
         </a>
-        <a routerLink="/book-requests" mat-list-item (click)="sidenav.toggle()">
+        <a routerLink="/book-requests" *ngIf="this.isPublishingHouse" mat-list-item (click)="sidenav.toggle()">
           <mat-icon>request_page</mat-icon><span class="nav-caption">Create book request</span>
         </a>
-        <a routerLink="/manage-book-requests" mat-list-item (click)="sidenav.toggle()">
+        <a routerLink="/manage-book-requests" *ngIf="this.isAdmin" mat-list-item (click)="sidenav.toggle()">
           <mat-icon>manage_accounts</mat-icon><span class="nav-caption">Manage book request</span>
         </a>
-        <a mat-list-item (click)="sidenav.toggle()">
+        <a mat-list-item (click)="sidenav.toggle()" *ngIf="this.authService.getCurrentUserValue()">
           <mat-icon>logout</mat-icon><span (click)="this.logout()" class="nav-caption">Logout</span>
         </a>
 

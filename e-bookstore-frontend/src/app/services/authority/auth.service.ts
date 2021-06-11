@@ -23,7 +23,9 @@ export class AuthService {
   private currentUser!: Observable<any>;
 
   constructor(private httpClient: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem(this.LOCAL_STORAGE_USER) || '{}'));
+    let user = localStorage.getItem(this.LOCAL_STORAGE_USER);
+    user = user ? JSON.parse(user) : null;
+    this.currentUserSubject = new BehaviorSubject<any>(user);
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -71,4 +73,26 @@ export class AuthService {
     this.currentUserSubject.next(null);
   }
 
+  public isAdmin(): boolean{
+      return this.checkedLoggedInUser("ROLE_ADMIN");
+  }
+
+  public isPublishingHouseRepresentative(): boolean {
+    return this.checkedLoggedInUser("ROLE_PUBLISHER_REPRESENTATIVE");
+  }
+
+  private checkedLoggedInUser(role: string): boolean {
+    const user = this.getCurrentUserValue();
+    if(user){
+      const authorities = user.authorities;
+      if(authorities){
+        for(let authority of authorities){
+          if(authority.authority === role) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
 }

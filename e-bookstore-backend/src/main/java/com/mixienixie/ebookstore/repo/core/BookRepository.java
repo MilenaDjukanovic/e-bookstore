@@ -1,10 +1,12 @@
 package com.mixienixie.ebookstore.repo.core;
 
 import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
+import com.mixienixie.ebookstore.repo.core.entity.CategoryEntity;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.Optional;
 
@@ -59,4 +61,22 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
      * @param id id of the book
      */
     void deleteById(Long id);
+
+    /**
+     * Finds book by its title and category
+     * @param title title of the Book
+     * @param categoryEntity category of the book
+     * @param pageable pageable
+     * @return pageable of Books
+     */
+    Page<BookEntity> findBookEntitiesByTitleAndCategory(String title, CategoryEntity categoryEntity, Pageable pageable);
+
+    /**
+     * Finds book by its category
+     * @param categoryEntity category of the book
+     * @param pageable pageable
+     * @return pageable of books
+     */
+    Page<BookEntity> findBookEntitiesByCategory(CategoryEntity categoryEntity, Pageable pageable);
+
 }

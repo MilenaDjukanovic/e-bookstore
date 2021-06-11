@@ -15,7 +15,8 @@ export const environment = {
           findAllNoLimit: '/authors/all'
         },
         books: {
-          findAll: '/books'
+          findAll: '/books',
+          findByTitleAndCategory: '/books/search'
         },
         category: {
           findAll: '/categories',

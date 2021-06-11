@@ -42,4 +42,4 @@ ebookstore:
       first-name: admin
       last-name: admin
   mail:
-    enabled: true
+    enabled: false

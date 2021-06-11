@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   imgur: {
-    clientId: '',
+    clientId: '032019b17719348',
     clientSecret: '',
     uploadUrl: 'https://api.imgur.com/3/image'
   },
@@ -19,7 +19,8 @@ export const environment = {
           findAllNoLimit: '/authors/all'
         },
         books: {
-          findAll: '/books'
+          findAll: '/books',
+          findByTitleAndCategory: '/books/search'
         },
         category: {
           findAll: '/categories',

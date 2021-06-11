@@ -22,5 +22,5 @@
            [tableColumnDefinition]="this.columnDefinitions"
            [defaultActions]="this.defaultActions"
            (actionClickedEvent)="this.deleteBookPurchase($event)"></app-table>
-<button color="primary" mat-flat-button class="reserve-button">Reserve books</button>
+<button color="primary" mat-flat-button class="reserve-button" (click)="this.reserveBooks()">Reserve books</button>
 </div>

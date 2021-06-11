@@ -21,4 +21,18 @@ export class BookService {
   public createBook(book: CreateBook): Observable<any> {
     return this.httpClient.post(BooksApi.private.create, book);
   }
+
+  public searchBooks(book: CreateBook, pageable: IPageable): Observable<any> {
+    let url: string = "";
+    if (book.categoryId && book.title) {
+      url = "&title=" + book.title + "&categoryId=" + book.categoryId;
+    } else if (book.categoryId && !book.title) {
+      url = "&categoryId=" + book.categoryId;
+    } else if (!book.categoryId && book.title) {
+      url = "&title=" + book.title;
+    }
+    url = BooksApi.public.findByTitleAndCategory  + '?page=' + pageable.page + '&size=' + pageable.size + url;
+    return this.httpClient.get(url);
+  }
+
 }

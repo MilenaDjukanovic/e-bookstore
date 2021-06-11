@@ -8,31 +8,11 @@ import {CategoryDialogComponent} from "../shared/components/category-dialog/cate
 export const defaultBookSearch: FieldConfig[] = [
   {
     type: 'rest-select',
-    name: 'authorId',
-    label: 'Author',
-    showButton: false,
-    optionsUrl: AuthorsApi.public.findAllNoLimit,
-    optionsArrayProperty: 'content',
-    optionsDisplayProperty: 'firstName',
-    optionsValueProperty: 'id'
-  },
-  {
-    type: 'rest-select',
     label: 'Category',
     name: 'categoryId',
     optionsUrl: CategoryApi.public.findAllNoLimit,
     optionsArrayProperty: 'content',
     optionsDisplayProperty: 'name',
-    optionsValueProperty: 'id',
-    showButton: false
-  },
-  {
-    type: 'rest-select',
-    label: 'PublishingHouse',
-    name: 'publishingHouseId',
-    optionsUrl: PublishingHouseApi.public.findAllNoLimit,
-    optionsArrayProperty: 'content',
-    optionsDisplayProperty: 'companyName',
     optionsValueProperty: 'id',
     showButton: false
   },
@@ -45,5 +25,5 @@ export const defaultBookSearch: FieldConfig[] = [
 }, {
   type: 'button',
   name: 'saveBookRequest',
-  label: 'Save'
+  label: 'Search'
 }];

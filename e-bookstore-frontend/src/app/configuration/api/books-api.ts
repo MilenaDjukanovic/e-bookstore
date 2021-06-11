@@ -6,6 +6,7 @@ const BOOKS_API_PRIVATE = environment.bookstore.api.base + environment.bookstore
 export const BooksApi = {
   public: {
     findAll: BOOKS_API_PUBLIC + environment.bookstore.api.public.books.findAll,
+    findByTitleAndCategory: BOOKS_API_PUBLIC + environment.bookstore.api.public.books.findByTitleAndCategory
   },
   private: {
     create: BOOKS_API_PRIVATE + environment.bookstore.api.private.books.create

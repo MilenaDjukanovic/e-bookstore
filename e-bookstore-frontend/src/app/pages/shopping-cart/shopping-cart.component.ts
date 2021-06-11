@@ -14,7 +14,7 @@ export class ShoppingCartComponent implements OnInit {
   public booksForPurchase!: BookPurchase[];
 
   public dataSource = new MatTableDataSource();
-  
+
   public totalCost = 0;
 
   public columnDefinitions: Array<any> = new Array<any>();
@@ -77,6 +77,9 @@ export class ShoppingCartComponent implements OnInit {
       this.totalCost = this.totalCost - bookPurchase.book.price;
       this.booksForPurchase = Object.assign([], this.bookPurchaseService.removeBook($event.index));
     }
+  }
+
+  public reserveBooks(): void {
 
   }
 }

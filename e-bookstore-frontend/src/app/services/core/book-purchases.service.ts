@@ -78,4 +78,14 @@ export class BookPurchasesService implements OnInit{
       this.decreaseBookQuantity(bookForPurchase.book, bookForPurchase.quantity);
     }
   }
+  public reserveBooks() {
+    const bookCart = localStorage.getItem(this.BOOK_CART_ITEM);
+    if(bookCart) {
+      const booksToBuy = JSON.parse(bookCart);
+    }
+  }
+
+  private createBookPurchaseItem(){
+
+  }
 }

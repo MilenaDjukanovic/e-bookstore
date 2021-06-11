@@ -3,13 +3,13 @@ package com.mixienixie.ebookstore.service.core;
 import com.mixienixie.ebookstore.core.requests.CreateBookRequest;
 import com.mixienixie.ebookstore.repo.authority.entity.UserEntity;
 import com.mixienixie.ebookstore.repo.core.BookRepository;
+import com.mixienixie.ebookstore.repo.core.CategoryRepository;
 import com.mixienixie.ebookstore.repo.core.entity.BookDto;
 import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
+import com.mixienixie.ebookstore.repo.core.entity.CategoryEntity;
 import com.mixienixie.ebookstore.repo.core.entity.PublishingHouseEntity;
-import com.mixienixie.ebookstore.service.AuthorizationService;
-import com.mixienixie.ebookstore.service.BookService;
-import com.mixienixie.ebookstore.service.PublishingHouseService;
-import com.mixienixie.ebookstore.service.RoleService;
+import com.mixienixie.ebookstore.search.SpecificationBuilder;
+import com.mixienixie.ebookstore.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,6 +46,12 @@ public class DefaultBookService implements BookService {
 
     /** Role Service */
     private final RoleService roleService;
+
+    /** Specification builder **/
+    private final SpecificationBuilder<BookEntity> builder;
+
+    /** Category repository **/
+    private final CategoryRepository categoryRepository;
 
     /**
      * {@inheritDoc}
@@ -89,4 +95,40 @@ public class DefaultBookService implements BookService {
     public void delete(Long bookId) {
         this.bookRepository.deleteById(bookId);
     }
+
+    @Override
+    public Page<BookDto> searchBooksByTitleAndCategory(Optional<String> title, Optional<Long> categoryId, Pageable pageable) {
+        CreateBookRequest createBookRequest = new CreateBookRequest();
+        createBookRequest.setCategoryId(categoryId.orElse(null));
+        createBookRequest.setTitle(title.orElse(null));
+       if(createBookRequest.getTitle() == null && createBookRequest.getCategoryId() == null) {
+           return this.findAll(pageable);
+        }
+        if(createBookRequest.getTitle() == null) {
+            CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId.orElse(null)).orElse(null);
+            return this.bookRepository.findBookEntitiesByCategory(categoryEntity,pageable)
+                    .map(this.bookViewMapper::toDto);
+        }
+        if(createBookRequest.getCategoryId() == null) {
+            return this.bookRepository.findBookEntitiesByTitle(createBookRequest.getTitle(), pageable)
+                    .map(this.bookViewMapper::toDto);
+        }
+
+        CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId.orElse(null)).orElse(null);
+        return this.bookRepository.findBookEntitiesByTitleAndCategory
+                (createBookRequest.getTitle(), categoryEntity, pageable).map(this.bookViewMapper::toDto);
+    }
+
+    private Page<BookDto> searchBooksByCategory(CategoryEntity categoryEntity, Pageable pageable) {
+        return this.bookRepository.findBookEntitiesByCategory(categoryEntity,pageable)
+                .map(this.bookViewMapper::toDto);
+    }
+
+//    @Override
+//    public List<BookDto> searchBooks(SearchBook searchBook, Pageable pageable) {
+//        var params = new ObjectMapper()
+//                .convertValue(searchBook, new TypeReference<Map<String, Object>>() {});
+//        var specs = this.builder.with(params).build();
+//        return this.bookViewMapper.toDto(this.bookRepository.findAll(specs, pageable).getContent());
+//    }
 }

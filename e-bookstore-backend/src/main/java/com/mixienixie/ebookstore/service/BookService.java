@@ -6,6 +6,8 @@ import com.mixienixie.ebookstore.repo.core.entity.BookEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 /**
  * Service for Book related operations
  *
@@ -15,13 +17,15 @@ public interface BookService {
 
     /**
      * Creates book from the createBookRequest
-     * @param createBookRequest  request for book creation containing book details
+     *
+     * @param createBookRequest request for book creation containing book details
      * @return Book object for viewing if successful
      */
     BookDto create(CreateBookRequest createBookRequest);
 
     /**
      * Finds all books
+     *
      * @param pageable pageable
      * @return pageable of books
      */
@@ -29,6 +33,7 @@ public interface BookService {
 
     /**
      * Finds book by id
+     *
      * @param id id of book
      * @return optional of BookDto
      */
@@ -36,6 +41,7 @@ public interface BookService {
 
     /**
      * Saves book entity
+     *
      * @param bookEntity book for saving
      * @return BookDto
      */
@@ -43,7 +49,19 @@ public interface BookService {
 
     /**
      * Deletes book entity
+     *
      * @param bookId id of the book for deleting
      */
     void delete(Long bookId);
+
+//    List<BookDto> searchBooks(SearchBook searchBook, Pageable pageable);
+
+    /**
+     * Finds books by category and title attributes
+     *
+     * @param
+     * @param pageable          pageable
+     * @return pageable of books
+     */
+    Page<BookDto> searchBooksByTitleAndCategory(Optional<String> title, Optional<Long> categoryId, Pageable pageable);
 }
